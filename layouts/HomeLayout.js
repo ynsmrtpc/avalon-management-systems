@@ -164,7 +164,7 @@ export default function HomeLayout({children}) {
             <div className={classNames("p-4 bg-[#f9fafb] dark:bg-[#131727] min-h-screen transition-all", {
                 "sm:ml-64": contentMargin,
                 "ml-16": !contentMargin,
-                "ml-0":  sidebarToggle,
+                "!ml-0":  sidebarToggle,
             })}>
                 <div className="p-4 rounded-lg dark:border-gray-700 mt-14">
                     {children}
