@@ -3,12 +3,21 @@ import classNames from "classnames";
 import {useEffect, useState} from 'react';
 import Head from 'next/head';
 import axios from "axios";
+import {useRouter} from 'next/router';
 
 export default function HomeLayout({children}) {
+    const router = useRouter();
+
+
     const [profileToggle, setProfileToggle] = useState(false);
     const [sidebarToggle, setSidebarToggle] = useState(false);
     const [sidebarData, setSidebarData] = useState([]);
     const [profileData, setProfileData] = useState([]);
+    const [sidebarWidth, setSidebarWidth] = useState(false);
+    const [sidebarTranslateX, setSidebarTranslateX] = useState(false);
+    const [showTitle, setShowTitle] = useState(false);
+    const [contentMargin, setContentMargin] = useState(false);
+
     const profileHandle = () => {
         setProfileToggle(!profileToggle);
     }
@@ -26,7 +35,20 @@ export default function HomeLayout({children}) {
         axios("/api/profile")
             .then(res => setProfileData(JSON.parse(res.data)[0]))
             .catch(err => console.log(err))
-    },[])
+    }, [])
+
+    const expandSidebar = () => {
+        setSidebarWidth(true);
+        setSidebarTranslateX(true);
+        setShowTitle(true);
+        setContentMargin(true)
+    }
+    const collapseSidebar = () => {
+        setSidebarWidth(false);
+        setSidebarTranslateX(false);
+        setShowTitle(false);
+        setContentMargin(false)
+    }
 
     return (
         <>
@@ -88,7 +110,7 @@ export default function HomeLayout({children}) {
                                     </div>
                                     <ul className="py-1" role="none">
                                         <li>
-                                            <Link href="#"
+                                            <Link href="/profile"
                                                   className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
                                                   role="menuitem">Profile</Link>
                                         </li>
@@ -106,21 +128,32 @@ export default function HomeLayout({children}) {
             </nav>
 
             <aside id="logo-sidebar"
-                   className={classNames("fixed top-0 left-0 sm:-translate-x-0 z-40 w-64 h-screen pt-20 transition-transform  bg-white border-r border-gray-200 dark:bg-gray-800  dark:border-gray-700",
+                   className={classNames("fixed top-0 left-0 h-screen pt-20 bg-white border-r border-gray-200 dark:bg-gray-800  dark:border-gray-700 transition-all",
                        {
-                           "-translate-x-full": sidebarToggle,
+                           "w-64": sidebarWidth,
+                           "w-16" : !sidebarWidth,
+                           "-translate-x-full" : sidebarToggle,
                        })}
-                   aria-label="Sidebar">
-                <div className="h-full px-3 pb-4 overflow-y-auto bg-white dark:bg-gray-800">
+                   aria-label="Sidebar"
+                   onMouseEnter={expandSidebar} // mouse hover olduğunda sidebar'ı genişlet
+                   onMouseLeave={collapseSidebar} // mouse hover bittiğinde sidebar'ı daralt
+                   // style={{width: sidebarWidth, transform: `translateX(${sidebarTranslateX})`}}
+            >
+                <div className="h-full px-3 pb-4 bg-white dark:bg-gray-800 ">
                     <ul className="space-y-2 font-medium">
-                        <li>
+                        <li className="space-y-4 ">
                             {sidebarData.map(item => (
-                                <Link href={item.link}
-                                      className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700"
-                                      key={item.id}
+                                <Link
+                                    className={classNames("flex items-center pl-3 p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-200 dark:hover:bg-gray-600 ",
+                                        {
+                                            "active": router.pathname === item.link,
+                                        })}
+                                    href={item.link}
+                                    key={item.id}
                                 >
                                     <i className={item.icon + ' text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white'}> </i>
-                                    <span className="ml-5">{item.title}</span>
+                                    <span className="ml-5"
+                                          style={{visibility: showTitle ? "visible" : "hidden"}}>{item.title} </span>
                                 </Link>
                             ))}
                         </li>
@@ -128,7 +161,11 @@ export default function HomeLayout({children}) {
                 </div>
             </aside>
 
-            <div className="p-4 sm:ml-64">
+            <div className={classNames("p-4 bg-[#f9fafb] dark:bg-[#131727] min-h-screen transition-all", {
+                "sm:ml-64": contentMargin,
+                "ml-16": !contentMargin,
+                "ml-0":  sidebarToggle,
+            })}>
                 <div className="p-4 rounded-lg dark:border-gray-700 mt-14">
                     {children}
                 </div>

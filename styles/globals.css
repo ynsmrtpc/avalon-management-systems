@@ -22,6 +22,10 @@
   @apply antialiased;
 }
 
+.active{
+@apply bg-[#fdfcd7]  dark:bg-[#9D8050];
+}
+
 body {
   color: rgb(var(--foreground-rgb));
   background: linear-gradient(
