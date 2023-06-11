@@ -17,6 +17,10 @@ export default function HomeLayout({children}) {
     const [sidebarTranslateX, setSidebarTranslateX] = useState(false);
     const [showTitle, setShowTitle] = useState(false);
     const [contentMargin, setContentMargin] = useState(false);
+    const [isDarkMode, setIsDarkMode] = useState("dark");
+    const themeToggle = () => {
+        isDarkMode === "dark" ? setIsDarkMode("light") : setIsDarkMode("dark");
+    }
 
     const profileHandle = () => {
         setProfileToggle(!profileToggle);
@@ -57,7 +61,7 @@ export default function HomeLayout({children}) {
                       content="Avalon Admin Panel, güçlü ve kullanıcı dostu bir yönetim panelidir. Projenizi kolayca yönetebilir, kullanıcıları yönetebilir, veri tabanınızı yönetebilir ve daha fazlasını yapabilirsiniz. Deneyimli bir ekip tarafından geliştirilmiş olan Avalon, size işinizi büyütmeniz ve verimliliğinizi artırmanız için gereken araçları sağlar."/>
             </Head>
             <nav
-                className="fixed top-0 z-50 w-full bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
+                className="fixed top-0 z-50 w-full border-b dark:border-gray-700 dark:bg-gray-800 bg-white border-gray-200">
                 <div className="px-3 py-3 lg:px-5 lg:pl-3">
                     <div className="flex items-center justify-between">
                         <div className="flex items-center justify-center sm:justify-start">
@@ -131,13 +135,13 @@ export default function HomeLayout({children}) {
                    className={classNames("fixed top-0 left-0 h-screen pt-20 bg-white border-r border-gray-200 dark:bg-gray-800  dark:border-gray-700 transition-all",
                        {
                            "w-64": sidebarWidth,
-                           "w-16" : !sidebarWidth,
-                           "-translate-x-full" : sidebarToggle,
+                           "w-16": !sidebarWidth,
+                           "-translate-x-full": sidebarToggle,
                        })}
                    aria-label="Sidebar"
                    onMouseEnter={expandSidebar} // mouse hover olduğunda sidebar'ı genişlet
                    onMouseLeave={collapseSidebar} // mouse hover bittiğinde sidebar'ı daralt
-                   // style={{width: sidebarWidth, transform: `translateX(${sidebarTranslateX})`}}
+                // style={{width: sidebarWidth, transform: `translateX(${sidebarTranslateX})`}}
             >
                 <div className="h-full px-3 pb-4 bg-white dark:bg-gray-800 ">
                     <ul className="space-y-2 font-medium">
@@ -157,14 +161,41 @@ export default function HomeLayout({children}) {
                                 </Link>
                             ))}
                         </li>
+
+                        <li className="mt-auto grid absolute bottom-4 w-[90%]">
+                            <button
+                                onClick={themeToggle}
+                                className="flex items-center pl-3 p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-200 dark:hover:bg-gray-600">
+                                {isDarkMode === "dark" && (
+                                    <>
+                                        <i className="fa fa-moon text-zinc-300"></i>
+                                        <span className={classNames("ml-5", {
+                                            'hidden': !showTitle
+                                        })}>
+                                            Dark
+                                        </span>
+                                    </>
+                                )}
+                                {isDarkMode === "light" && (
+                                    <>
+                                        <i className="fa fa-sun text-amber-300"></i>
+                                        <span className={classNames("ml-5", {
+                                            'hidden': !showTitle
+                                        })}>
+                                            Light
+                                        </span>
+                                    </>
+                                )}
+                            </button>
+                        </li>
                     </ul>
                 </div>
             </aside>
 
-            <div className={classNames("p-4 bg-[#f9fafb] dark:bg-[#131727] min-h-screen transition-all", {
+            <div className={classNames("p-4 bg-primary_bg_light dark:bg-primary_bg_dark min-h-screen transition-all", {
                 "sm:ml-64": contentMargin,
                 "ml-16": !contentMargin,
-                "!ml-0":  sidebarToggle,
+                "!ml-0": sidebarToggle,
             })}>
                 <div className="p-4 rounded-lg dark:border-gray-700 mt-14">
                     {children}

@@ -23,7 +23,7 @@
 }
 
 .active{
-@apply bg-[#fdfcd7]  dark:bg-[#9D8050];
+@apply bg-primary_logo_light  dark:bg-primary_logo_dark;
 }
 
 body {

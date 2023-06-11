@@ -1,5 +1,4 @@
 import {connectToDatabase} from "@/pages/api/database";
-
 export default async function handler(req, res) {
     const db = await connectToDatabase();
     const query = `SELECT * from system_users where id=1`;
