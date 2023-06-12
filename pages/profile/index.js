@@ -16,7 +16,7 @@ export default function Profile() {
     useEffect(() => {
         axios
             .post("/api/profile")
-            .then(res => setProfileData(JSON.parse(res.data)[0]))
+            .then(res => setProfileData((res.data)))
             .catch(err => console.log(err))
 
         const formData = new URLSearchParams();
@@ -55,7 +55,7 @@ export default function Profile() {
            setTimeout(() => {
                setMessage("");
                setSocialMedia("");
-           }, 5000)
+           }, 3000)
             })
     }
 

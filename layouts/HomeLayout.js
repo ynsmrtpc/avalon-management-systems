@@ -31,13 +31,13 @@ export default function HomeLayout({children}) {
 
     useEffect(() => {
         axios("/api/sidebar")
-            .then(res => setSidebarData(JSON.parse(res.data)))
+            .then(res => setSidebarData(res.data))
             .catch(err => console.log(err));
     }, []);
 
     useEffect(() => {
         axios("/api/profile")
-            .then(res => setProfileData(JSON.parse(res.data)[0]))
+            .then(res => setProfileData((res.data)))
             .catch(err => console.log(err))
     }, [])
 

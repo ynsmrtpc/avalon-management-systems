@@ -14,6 +14,7 @@ export default async function handler(req, res) {
         twitter: DataTypes.STRING,
         youtube: DataTypes.STRING,
     }, {
+        tableName: 'users_social_media',
         timestamps: false, // createdAt ve updatedAt sütunlarını devre dışı bırak
     });
     let message = "";
