@@ -14,7 +14,6 @@ export default function HomeLayout({children}) {
     const [sidebarData, setSidebarData] = useState([]);
     const [profileData, setProfileData] = useState([]);
     const [sidebarWidth, setSidebarWidth] = useState(false);
-    const [sidebarTranslateX, setSidebarTranslateX] = useState(false);
     const [showTitle, setShowTitle] = useState(false);
     const [contentMargin, setContentMargin] = useState(false);
     const [isDarkMode, setIsDarkMode] = useState("dark");
@@ -43,13 +42,11 @@ export default function HomeLayout({children}) {
 
     const expandSidebar = () => {
         setSidebarWidth(true);
-        setSidebarTranslateX(true);
         setShowTitle(true);
         setContentMargin(true)
     }
     const collapseSidebar = () => {
         setSidebarWidth(false);
-        setSidebarTranslateX(false);
         setShowTitle(false);
         setContentMargin(false)
     }
