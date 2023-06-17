@@ -74,7 +74,7 @@ export default function HomeLayout({children}) {
                                 </svg>
                             </button>
                             <Link href="/" className="flex ml-2 md:mr-24">
-                                <img src="https://storage.googleapis.com/yunusemretopcu.appspot.com/logo.png"
+                                <img src="https://wxpbrdtmrnvqglioltbm.supabase.co/storage/v1/object/public/avalon/logo.png"
                                      className="h-12 mr-3 sm:h-8"
                                      alt="avalon-logo"/>
                                 <span

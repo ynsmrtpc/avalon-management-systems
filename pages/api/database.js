@@ -1,17 +1,15 @@
-import { Sequelize } from 'sequelize';
+import {Sequelize} from 'sequelize';
+
 export async function connectToDatabase() {
-    const db = new Sequelize({
-        dialect: 'mysql',
-        port: 3306,
-        host: '35.241.215.25',
-        username: 'root',
-        password: '1209',
-        database: 'avalon',
-        // host: 'localhost',
-        // username: 'root',
-        // password: '1234',
-        // database: 'avalon',
+    const db = new Sequelize('postgres', 'postgres', 'nemutluturkumdiyene1907', {
+        host: 'db.wxpbrdtmrnvqglioltbm.supabase.co',
+        dialect: 'postgres',
+        schema: "avalon"
     });
+    // const db = new Sequelize('postgres', 'postgres', 'nemutluturkumdiyene1907**', {
+    //     host: 'db.wxpbrdtmrnvqglioltbm.supabase.co',
+    //     dialect: 'postgres',
+    // });
     try {
         await db.authenticate();
         console.log('Veritabanı bağlantısı başarılı.');
