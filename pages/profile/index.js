@@ -108,6 +108,7 @@ export default function Profile() {
                             className="grid grid-cols-3 lg:grid-cols-4 xl:grid-cols-7 my-8 gap-5 mrd:gap-5 text-center mx-auto">
                             {socialMediaNames.map(social_media => (
                                 <button
+                                    key={social_media}
                                     onClick={() => socialMediaHandle(social_media)}
                                     className={classNames("py-3 px-4 hover:bg-primary_logo_light rounded dark:hover:bg-primary_logo_dark mx-auto", {
                                         "bg-green-400 dark:bg-green-800": socialMediaData[social_media] && socialMedia !== social_media,
