@@ -17,6 +17,7 @@ module.exports = {
                 primary_bg_dark: '#131727',
                 primary_bg_light: '#f9fafb',
                 card_bg_dark: '#212837',
+                card_bg_light: '#ffffff',
                 primary_logo_light: '#fdfcd7',
                 primary_logo_dark: '#9D8050',
             }

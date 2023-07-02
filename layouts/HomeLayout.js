@@ -8,7 +8,6 @@ import {useRouter} from 'next/router';
 export default function HomeLayout({children}) {
     const router = useRouter();
 
-
     const [profileToggle, setProfileToggle] = useState(false);
     const [sidebarToggle, setSidebarToggle] = useState(false);
     const [sidebarData, setSidebarData] = useState([]);

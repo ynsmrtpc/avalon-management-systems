@@ -1,24 +1,8 @@
-import {connectToDatabase} from "@/pages/api/database";
-import {DataTypes} from "sequelize";
-
+import initialize from "@/pages/api/Models/ProfileModel";
 export default async function handler(req, res) {
+    const { UsersSocialMedia } = await initialize();
     const {process} = req.body
-    const db = await connectToDatabase();
-    // users_social_media modelini tanımlıyoruz
-    const UsersSocialMedia = db.define('users_social_media', {
-        facebook: DataTypes.STRING,
-        github: DataTypes.STRING,
-        instagram: DataTypes.STRING,
-        linkedin: DataTypes.STRING,
-        tiktok: DataTypes.STRING,
-        twitter: DataTypes.STRING,
-        youtube: DataTypes.STRING,
-    }, {
-        tableName: 'users_social_media',
-        timestamps: false, // createdAt ve updatedAt sütunlarını devre dışı bırak
-    });
     let message = "";
-
     switch (process) {
         case "social_media_add":
             if (req.method === 'POST') {
