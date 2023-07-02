@@ -1,7 +1,7 @@
 import {Sequelize} from 'sequelize';
 export async function connectToDatabase() {
-    const db = new Sequelize('postgres', 'postgres', 'nemutluturkumdiyene1907', {
-        host: 'db.wxpbrdtmrnvqglioltbm.supabase.co',
+    const db = new Sequelize('postgres', 'postgres', process.env.DB_PASS, {
+        host: process.env.DB_HOST,
         dialect: 'postgres',
         schema: "avalon"
     });
