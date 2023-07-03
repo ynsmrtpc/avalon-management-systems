@@ -1,7 +1,8 @@
 import initialize from "@/pages/api/Models/ProfileModel";
 export default async function handler(req, res) {
     const { UsersSocialMedia } = await initialize();
-    const {process} = req.body
+    let {process, attributes} = req.body
+    attributes = attributes.split(",");
     let message = "";
     switch (process) {
         case "social_media_add":
@@ -23,7 +24,7 @@ export default async function handler(req, res) {
         case "social_media_get":
             try {
                 const data = await UsersSocialMedia.findOne({
-                    attributes: ['instagram', 'facebook', 'twitter', 'tiktok', 'youtube', 'linkedin', 'github'], // alacağımız attribute'ları yazıyoruz
+                    attributes: attributes,
                     where: {
                         user_id: 1
                     }

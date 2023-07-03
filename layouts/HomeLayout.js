@@ -28,13 +28,20 @@ export default function HomeLayout({children}) {
     }
 
     useEffect(() => {
-        axios("/api/sidebar")
+        const formData = new URLSearchParams();
+        formData.append("attributes",['id', 'title', 'icon', 'link']);
+        axios
+            .post("/api/sidebar",formData)
             .then(res => setSidebarData(res.data))
             .catch(err => console.log(err));
     }, []);
 
     useEffect(() => {
-        axios("/api/profile")
+        const formData = new URLSearchParams();
+        formData.append("attributes", ['profile_photo', 'email', 'name_surname'])
+
+        axios
+            .post("/api/profile",formData)
             .then(res => setProfileData((res.data)))
             .catch(err => console.log(err))
     }, [])

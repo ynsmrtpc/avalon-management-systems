@@ -14,15 +14,18 @@ export default function Profile() {
     const socialMediaNames = [];
 
     useEffect(() => {
+        const formData = new URLSearchParams();
+        formData.append("attributes", ['id', 'name_surname', 'username', 'title', 'email', 'phone', 'status',"profile_photo","password"])
         axios
-            .post("/api/profile")
+            .post("/api/profile",formData)
             .then(res => setProfileData((res.data)))
             .catch(err => console.log(err))
+        const social_media_form = new URLSearchParams();
 
-        const formData = new URLSearchParams();
-        formData.append("process", "social_media_get");
+        social_media_form.append("process", "social_media_get");
+        social_media_form.append("attributes", ['instagram', 'facebook', 'twitter', 'tiktok', 'youtube', 'linkedin', 'github'])
         axios
-            .post("/api/profile/social_media", formData)
+            .post("/api/profile/social_media", social_media_form)
             .then(res => setSocialMediaData(res.data))
             .catch(err => console.log(err))
 
@@ -33,7 +36,7 @@ export default function Profile() {
     });
 
     Object.keys(profileData).forEach(item => {
-        if (item !== "id" && item !== "login_token" && item !== "profile_photo") {
+        if (item !== "id" && item !== "profile_photo") {
             numberOfProfile.push(item);
         }
     });

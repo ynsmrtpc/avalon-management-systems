@@ -1,13 +1,13 @@
 import initialize from "@/pages/api/Models/SidebarModel";
 export default async function handler(req, res) {
     const { SidebarMenu } = await initialize();
-
+    let {attributes} = req.body
+    attributes = attributes.split(",");
     try {
         const data = await SidebarMenu.findAll({
-            attributes: ['id', 'title', 'icon', 'link'],
+            attributes: attributes, //['id', 'title', 'icon', 'link'],
             order: [['queue', 'ASC']]
         });
-
         if(data){
             res.status(200).json(data);
         } else {
