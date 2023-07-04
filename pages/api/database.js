@@ -1,4 +1,6 @@
 import {Sequelize} from 'sequelize';
+import pg from 'pg';
+
 export async function connectToDatabase() {
     const db = new Sequelize('postgres', 'postgres', process.env.DB_PASS, {
         host: process.env.DB_HOST,
