@@ -27,7 +27,8 @@ function Home() {
             </button>
             {showModal && (
                 <>
-                    <div className="fixed inset-0 backdrop-filter backdrop-blur-lg" />
+
+
                     <Modal
                         title="Modül Düzenle"
                         content="Bu modal'ın içeriği burada gösterilir. İstediğiniz kadar metin veya başka bir element ekleyebilirsiniz."
@@ -35,7 +36,7 @@ function Home() {
                         overlayBlur={true}
                         size="xl"
                     >
-                        dfsdfsdkjfh
+                        11111
 
                     </Modal>
                 </>

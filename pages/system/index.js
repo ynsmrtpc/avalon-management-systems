@@ -4,6 +4,7 @@ import axios from "axios";
 import CustomInput from "@/components/CustomInput/CustomInput";
 import Table from "@/components/Table/Table";
 import Modal from "@/components/Modal/Modal";
+import ToggleInput from "@/components/ToggleInput/ToggleInput";
 
 export default function System() {
     const [sidebarData, setSidebarData] = useState([]);
@@ -78,23 +79,25 @@ export default function System() {
                         title="Modül Düzenle"
                         onClose={handleCloseModal}
                         overlayBlur={true}
-                        size="xl"
+                        size="lg"
                     >
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-5">
                             <div className="col-span-1">
-                                <CustomInput/>
+                                <CustomInput labelContent="Title"/>
                             </div>
                             <div className="col-span-1">
-                                <CustomInput/>
+                                <CustomInput labelContent="Icon"/>
                             </div>
                             <div className="col-span-1">
-                                <CustomInput/>
+                                <CustomInput labelContent="Link"/>
+                            </div>
+                            <div className="col-span-1">
+                                <CustomInput labelContent="Queue" type="number"/>
+                            </div>
+                            <div className="col-span-2 mx-auto">
+                             <ToggleInput labelContent="Status"/>
                             </div>
                         </div>
-
-
-
-
                     </Modal>
                 </>
             )}

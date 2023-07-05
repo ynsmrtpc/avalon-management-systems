@@ -1,5 +1,6 @@
 import React, {useEffect, useState} from "react";
 import classNames from "classnames";
+import {motion} from "framer-motion";
 
 function Modal({title, children, onClose, overlayBlur, size}) {
     const [modalVisible, setModalVisible] = useState(false);
@@ -15,8 +16,12 @@ function Modal({title, children, onClose, overlayBlur, size}) {
 
     return (
         <>
-            {overlayBlur && <div className="fixed inset-0 backdrop-filter backdrop-blur-sm"/>}
-            <div className="fixed inset-0 flex items-center justify-center ">
+            <motion.div
+                initial={{ backdropFilter: "blur(0px)" }}
+                animate={{ backdropFilter: "blur(10px)" }}
+                className="fixed inset-0 z-50 backdrop-filter backdrop-blur-lg"
+            />
+            <div className="fixed inset-0 z-50 flex items-center justify-center ">
                 <div
                     className={classNames(
                         "rounded-lg shadow-lg h-fit transform transition-all duration-300 bg-primary_bg_light text-zinc-900 dark:text-white dark:bg-card_bg_dark",
