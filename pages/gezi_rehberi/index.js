@@ -1,16 +1,20 @@
 import axios from "axios";
 import {useEffect, useState} from "react";
 import Card from "@/components/Card/Card";
+import Head from "next/head";
 export default function gezi_rehberi() {
 const [locations, setLocations] = useState([]);
 
 useEffect(() => {
-    axios.get(process.env.GEZI_REHBERI_BURSA)
+    axios.get("https://wxpbrdtmrnvqglioltbm.supabase.co/storage/v1/object/public/avalon/bursa.json")
         .then(res => setLocations(res.data))
         .catch(err => console.log(err))
 }, [])
     return(
         <>
+            <Head>
+                <title>Gezi Rehberi</title>
+            </Head>
             {Object.entries(locations).map(([placeName, placeData]) => (
                 <>
                     <Card key={placeName} cardTitle={placeName}>
