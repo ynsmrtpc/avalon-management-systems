@@ -2,9 +2,7 @@ import axios from "axios";
 import {useEffect, useState} from "react";
 import Card from "@/components/Card/Card";
 export default function gezi_rehberi() {
-
 const [locations, setLocations] = useState([]);
-
 
 useEffect(() => {
     axios.get("https://wxpbrdtmrnvqglioltbm.supabase.co/storage/v1/object/public/avalon/bursa.json")
@@ -43,14 +41,6 @@ useEffect(() => {
                     <br/>
                 </>
             ))}
-            {/*<div  className="card">*/}
-            {/*    <img src={placeData.yer_resmi} alt={placeName} />*/}
-            {/*    <h2>{placeName}</h2>*/}
-            {/*    <p>{placeData.yer_adresi}</p>*/}
-            {/*    <p>{placeData.yer_puani}</p>*/}
-            {/*    <p>{placeData.yer_ulasim_imkani}</p>*/}
-            {/*    <p>{placeData.yer_fiyat_bilgisi}</p>*/}
-            {/*</div>*/}
         </>
     )
 }
