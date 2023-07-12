@@ -15,9 +15,9 @@ export default function Profile() {
 
     useEffect(() => {
         const formData = new URLSearchParams();
-        formData.append("attributes", ['id', 'name_surname', 'username', 'title', 'email', 'phone', 'status',"profile_photo","password"])
+        formData.append("attributes", ['id', 'name_surname', 'username', 'title', 'email', 'phone', 'status', "profile_photo", "password"])
         axios
-            .post("/api/profile",formData)
+            .post("/api/profile", formData)
             .then(res => setProfileData((res.data)))
             .catch(err => console.log(err))
         const social_media_form = new URLSearchParams();
@@ -55,10 +55,10 @@ export default function Profile() {
             .then(res => setMessage(res.data))
             .catch(err => console.log(err))
             .finally(() => {
-           setTimeout(() => {
-               setMessage("");
-               setSocialMedia("");
-           }, 3000)
+                setTimeout(() => {
+                    setMessage("");
+                    setSocialMedia("");
+                }, 3000)
             })
     }
 
