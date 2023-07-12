@@ -5,7 +5,7 @@ export default function gezi_rehberi() {
 const [locations, setLocations] = useState([]);
 
 useEffect(() => {
-    axios.get("https://wxpbrdtmrnvqglioltbm.supabase.co/storage/v1/object/public/avalon/bursa.json")
+    axios.get(process.env.GEZI_REHBERI_BURSA)
         .then(res => setLocations(res.data))
         .catch(err => console.log(err))
 }, [])
