@@ -8,22 +8,34 @@ import ToggleInput from "@/components/ToggleInput/ToggleInput";
 
 export default function System() {
     const [sidebarData, setSidebarData] = useState([]);
+    const [modulesData, setModulesData] = useState([]);
 
     useEffect(() => {
         const formData = new URLSearchParams();
         formData.append("attributes", ["id", "title", "icon", "status"])
+        formData.append("process", "get")
         axios
-            .post("/api/sidebar", formData)
+            .post("/api/modules", formData)
             .then(res => setSidebarData(res.data))
             .catch(err => console.log(err));
     }, []);
-    const [showModal, setShowModal] = useState(false);
 
-    const handleOpenModal = () => {
+    const [showModal, setShowModal] = useState(false);
+    const handleOpenModal = (id) => {
+        const formData = new URLSearchParams();
+        formData.append("attributes", ["id", "title", "icon", "status", "link", "queue"])
+        formData.append("process", "get");
+        formData.append("id", id);
+        axios
+            .post("/api/modules", formData)
+            .then(res => setModulesData(res.data))
+            .catch(err => console.log(err))
+
         setShowModal(true);
     };
     const handleCloseModal = () => {
         setShowModal(false);
+        setModulesData([]);
     };
     return (
         <>
@@ -58,7 +70,9 @@ export default function System() {
                                             <button
                                                 type="button"
                                                 title="Edit"
-                                                onClick={handleOpenModal}
+                                                onClick={() => {
+                                                    handleOpenModal(item.id)
+                                                }}
                                             ><i
                                                 className="fa fa-edit text-green-500"></i>
                                             </button>
@@ -83,19 +97,19 @@ export default function System() {
                     >
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-5">
                             <div className="col-span-1">
-                                <CustomInput labelContent="Title"/>
+                                <CustomInput labelContent="Title" inputPlaceholder={modulesData.title}/>
                             </div>
                             <div className="col-span-1">
-                                <CustomInput labelContent="Icon"/>
+                                <CustomInput labelContent="Icon" inputPlaceholder={modulesData.icon}/>
                             </div>
                             <div className="col-span-1">
-                                <CustomInput labelContent="Link"/>
+                                <CustomInput labelContent="Link" inputPlaceholder={modulesData.link}/>
                             </div>
                             <div className="col-span-1">
-                                <CustomInput labelContent="Queue" type="number"/>
+                                <CustomInput labelContent="Queue" type="number" inputPlaceholder={modulesData.queue}/>
                             </div>
                             <div className="col-span-2 mx-auto">
-                             <ToggleInput labelContent="Status"/>
+                                <ToggleInput labelContent="Status" isChecked={modulesData.status}/>
                             </div>
                         </div>
                     </Modal>

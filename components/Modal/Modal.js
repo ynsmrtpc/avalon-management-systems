@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import classNames from "classnames";
 import {motion} from "framer-motion";
 
-function Modal({title, children, onClose, overlayBlur, size}) {
+export default function Modal({title, children, onClose, overlayBlur, size}) {
     const [modalVisible, setModalVisible] = useState(false);
 
     useEffect(() => {
@@ -17,8 +17,8 @@ function Modal({title, children, onClose, overlayBlur, size}) {
     return (
         <>
             <motion.div
-                initial={{ backdropFilter: "blur(0px)" }}
-                animate={{ backdropFilter: "blur(10px)" }}
+                initial={{backdropFilter: "blur(0px)"}}
+                animate={{backdropFilter: "blur(10px)"}}
                 className="fixed inset-0 z-50 backdrop-filter backdrop-blur-lg"
             />
             <div className="fixed inset-0 z-50 flex items-center justify-center ">
@@ -32,7 +32,7 @@ function Modal({title, children, onClose, overlayBlur, size}) {
                             "w-[48rem]": size === "lg",
                             "w-[64rem]": size === "xl",
                             "w-[96rem]": size === "2xl",
-                            "w-full" : size === "full"
+                            "w-full": size === "full"
                         }
                     )}
                 >
@@ -62,5 +62,3 @@ function Modal({title, children, onClose, overlayBlur, size}) {
         </>
     );
 }
-
-export default Modal;

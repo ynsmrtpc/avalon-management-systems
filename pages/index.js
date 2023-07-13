@@ -7,7 +7,6 @@ function Home() {
     const handleOpenModal = () => {
         setShowModal(true);
     };
-
     const handleCloseModal = () => {
         setShowModal(false);
     };

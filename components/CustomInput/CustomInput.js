@@ -4,7 +4,7 @@ export default function CustomInput({children, labelContent, inputID, inputPlace
         <>
             <label htmlFor={inputID}>{labelContent}</label>
             <input
-                className="block rounded py-1.5 w-full bg-[#f9fafb] dark:bg-[#394051] px-3 focus:bg-[#fbfdd8] dark:focus:bg-[#4b5563]
+                className="block rounded py-1.5 w-full bg-[#f1f1f1f1] dark:bg-[#394051] px-3 focus:bg-white dark:focus:bg-card_bg_dark
                                 transition-[background-color] outline-[#4b5563]"
                 type={type}
                 id={inputID}
