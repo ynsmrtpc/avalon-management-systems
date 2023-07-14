@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import classNames from "classnames";
 import {motion} from "framer-motion";
 
-export default function Modal({title, children, onClose, overlayBlur, size}) {
+export default function Modal({title, children, onClose, size, handleModalSubmit}) {
     const [modalVisible, setModalVisible] = useState(false);
 
     useEffect(() => {
@@ -52,7 +52,7 @@ export default function Modal({title, children, onClose, overlayBlur, size}) {
                         </button>
                         <button
                             className="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg"
-                            onClick={() => alert("Kaydedildi")}
+                            onClick={handleModalSubmit}
                         >
                             Kaydet
                         </button>

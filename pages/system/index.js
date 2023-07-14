@@ -8,7 +8,8 @@ import ToggleInput from "@/components/ToggleInput/ToggleInput";
 
 export default function System() {
     const [sidebarData, setSidebarData] = useState([]);
-    const [modulesData, setModulesData] = useState([]);
+    const [modulesData, setModulesData] = useState([{title: "", icon: "", link: "", queue: ""}]);
+    const [showModal, setShowModal] = useState(false);
 
     useEffect(() => {
         const formData = new URLSearchParams();
@@ -20,34 +21,75 @@ export default function System() {
             .catch(err => console.log(err));
     }, []);
 
-    const [showModal, setShowModal] = useState(false);
-    const handleOpenModal = (id) => {
+    const getModules = () => {
         const formData = new URLSearchParams();
-        formData.append("attributes", ["id", "title", "icon", "status", "link", "queue"])
-        formData.append("process", "get");
-        formData.append("id", id);
+        formData.append("attributes", ["id", "title", "icon", "status"])
+        formData.append("process", "get")
         axios
             .post("/api/modules", formData)
-            .then(res => setModulesData(res.data))
-            .catch(err => console.log(err))
+            .then(res => setSidebarData(res.data))
+            .catch(err => console.log(err));
+    }
 
+    const handleOpenModal = (id) => {
+        if (id !== undefined) {
+            const formData = new URLSearchParams();
+            formData.append("attributes", ["id", "title", "icon", "status", "link", "queue"])
+            formData.append("process", "get");
+            formData.append("id", id);
+            axios
+                .post("/api/modules", formData)
+                .then(res => setModulesData(res.data))
+                .catch(err => console.log(err))
+        }
         setShowModal(true);
     };
     const handleCloseModal = () => {
         setShowModal(false);
         setModulesData([]);
     };
+
+    const handleModalSubmit = async () => {
+        const formData = new URLSearchParams();
+        formData.append("moduleData", JSON.stringify(modulesData));
+        formData.append("process", modulesData.id === undefined ? "insert" : "update")
+        await axios
+            .post("/api/modules", formData)
+            .then(res => {
+                !res.data.error ? handleCloseModal() : ""
+            })
+            .catch(err => console.log(err))
+    }
+
+    const handleDeleteModule = async (id) => {
+        const formData = new URLSearchParams();
+        formData.append("id", id);
+        formData.append("process", "delete")
+        await axios
+            .post("/api/modules", formData)
+            .then(res => {
+                !res.data.error ? getModules() : ""
+            })
+            .catch(err => console.log(err))
+    }
     return (
         <>
             <div className="grid">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-5 ">
-                    <Card cardTitle="Modules">
+                    <Card cardTitle={
+                        <div className="flex justify-between">
+                            <span>Modüller</span>
+                            <button className="text-sm px-4 rounded text-white border bg-green-500 hover:bg-green-400"
+                                    onClick={() => handleOpenModal()}>Yeni Ekle
+                            </button>
+                        </div>
+                    }>
                         <Table
                             theadContent={
                                 <>
-                                    <th scope="col" className="px-6 py-3">Module Name</th>
-                                    <th scope="col" className="px-6 py-3">Status</th>
-                                    <th scope="col" className="px-6 py-3">Action</th>
+                                    <th scope="col" className="px-6 py-3">Modül Adı</th>
+                                    <th scope="col" className="px-6 py-3">Durum</th>
+                                    <th scope="col" className="px-6 py-3">İşlem</th>
                                 </>
                             }
                             tbodyContent={
@@ -76,8 +118,13 @@ export default function System() {
                                             ><i
                                                 className="fa fa-edit text-green-500"></i>
                                             </button>
-                                            <button type="button" title="Delete" className="ml-4"><i
-                                                className="fa fa-trash text-red-500"></i></button>
+                                            <button
+                                                type="button"
+                                                title="Delete"
+                                                className="ml-4"
+                                                onClick={() => handleDeleteModule(item.id)}
+                                            >
+                                                <i className="fa fa-trash text-red-500"></i></button>
                                         </td>
                                     </tr>
                                 ))
@@ -92,24 +139,62 @@ export default function System() {
                     <Modal
                         title="Modül Düzenle"
                         onClose={handleCloseModal}
+                        handleModalSubmit={handleModalSubmit}
                         overlayBlur={true}
                         size="lg"
                     >
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-5">
                             <div className="col-span-1">
-                                <CustomInput labelContent="Title" inputPlaceholder={modulesData.title}/>
+                                <CustomInput
+                                    labelContent="Title"
+                                    inputID="title"
+                                    inputPlaceholder={modulesData.title}
+                                    onInputChange={(e) => setModulesData((prevState) => ({
+                                        ...prevState,
+                                        title: e.target.value
+                                    }))}
+                                />
                             </div>
                             <div className="col-span-1">
-                                <CustomInput labelContent="Icon" inputPlaceholder={modulesData.icon}/>
+                                <CustomInput
+                                    labelContent="Icon"
+                                    inputID="icon"
+                                    inputPlaceholder={modulesData.icon}
+                                    onInputChange={(e) => setModulesData((prevState) => ({
+                                        ...prevState,
+                                        icon: e.target.value
+                                    }))}
+                                />
+
                             </div>
                             <div className="col-span-1">
-                                <CustomInput labelContent="Link" inputPlaceholder={modulesData.link}/>
+                                <CustomInput
+                                    labelContent="Link"
+                                    inputID="link"
+                                    inputPlaceholder={modulesData.link}
+                                    onInputChange={(e) => setModulesData((prevState) => ({
+                                        ...prevState,
+                                        link: e.target.value
+                                    }))}
+                                />
+
                             </div>
                             <div className="col-span-1">
-                                <CustomInput labelContent="Queue" type="number" inputPlaceholder={modulesData.queue}/>
+                                <CustomInput
+                                    labelContent="Queue"
+                                    inputID="queue"
+                                    type="number"
+                                    inputPlaceholder={modulesData.queue}
+                                    onInputChange={(e) => setModulesData((prevState) => ({
+                                        ...prevState,
+                                        queue: e.target.value
+                                    }))}
+                                />
                             </div>
                             <div className="col-span-2 mx-auto">
-                                <ToggleInput labelContent="Status" isChecked={modulesData.status}/>
+                                <ToggleInput
+                                    labelContent="Status"
+                                    isChecked={modulesData.status}/>
                             </div>
                         </div>
                     </Modal>

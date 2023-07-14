@@ -3,8 +3,10 @@ import {Op, where} from "sequelize";
 
 export default async function modules(req, res) {
     const {SidebarMenu} = await initialize();
-    let {id, status, process, attributes} = req.body;
-    attributes = attributes.split(",");
+    let {id, moduleData, process, attributes} = req.body;
+    moduleData = moduleData !== undefined ? JSON.parse(moduleData) : "";
+    attributes = attributes !== undefined ? attributes.split(",") : "";
+
     switch (process) {
         case "get":
             if (id === undefined) {
@@ -36,31 +38,31 @@ export default async function modules(req, res) {
 
         case "insert":
             SidebarMenu.create({
-                title: title,
-                icon: icon,
-                link: link,
-                queue: queue,
-                status: status
+                title: moduleData.title,
+                icon: moduleData.icon,
+                link: moduleData.link,
+                queue: moduleData.queue,
+                status: moduleData.status
             })
                 .then(() => {
-                    res.status(200).json({error: 0, message: "Kayıt başarılı"});
+                    res.status(200).json({error: 0, message: "Kayıt başarılı", location: moduleData.link});
                 })
                 .catch(error => {
-                    res.status(500).json({error: 0, message: `Kayıt eklenirken hata oluştu! ${error}`});
+                    res.status(500).json({error: 1, message: `Kayıt eklenirken hata oluştu! ${error}`});
                 });
             break;
 
         case "update":
             SidebarMenu.update({
-                    title: title,
-                    icon: icon,
-                    link: link,
-                    queue: queue,
-                    status: status
+                    title: moduleData.title,
+                    icon: moduleData.icon,
+                    link: moduleData.link,
+                    queue: moduleData.queue,
+                    status: moduleData.status
                 },
                 {
                     where: {
-                        id: id
+                        id: moduleData.id
                     }
                 }
             )
