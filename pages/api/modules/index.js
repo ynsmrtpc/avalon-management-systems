@@ -1,5 +1,4 @@
 import initialize from "@/pages/api/Models/SidebarModel";
-import {Op, where} from "sequelize";
 
 export default async function modules(req, res) {
     const {SidebarMenu} = await initialize();
