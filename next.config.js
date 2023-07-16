@@ -1,13 +1,26 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: false,
-  async rewrites() {
+  async headers() {
     return [
       {
-        source: '/api/certification*',
-        destination: 'https://api.yunusemretopcu.com/:path*',
+        source: '/api/certification/:path*', // API rotasını doğru şekilde güncelleyin
+        headers: [
+          {
+            key: 'Access-Control-Allow-Origin',
+            value: '*', // Tüm kaynaklardan erişime izin vermek için '*' kullanabilirsiniz
+          },
+          {
+            key: 'Access-Control-Allow-Methods',
+            value: 'GET, POST, PUT, DELETE, OPTIONS',
+          },
+          {
+            key: 'Access-Control-Allow-Headers',
+            value: 'X-Requested-With, Content-Type, Authorization',
+          },
+        ],
       },
-    ]
+    ];
   },
 }
 
