@@ -32,9 +32,8 @@ export default function System() {
             .then(res => setSidebarData(res.data))
             .catch(err => console.log(err));
     }
-
-    const handleOpenModal = (id) => {
-        if (id !== undefined) {
+    const handleOpenModal = (id, islem = "") => {
+        if (id !== undefined && islem !== "submodule") {
             const formData = new URLSearchParams();
             formData.append("attributes", ["id", "title", "icon", "status", "link", "queue"])
             formData.append("process", "get");
@@ -50,7 +49,6 @@ export default function System() {
         setShowModal(false);
         setModulesData([]);
     };
-
     const handleModalSubmit = async () => {
         const formData = new URLSearchParams();
         formData.append("moduleData", JSON.stringify(modulesData));
@@ -101,7 +99,7 @@ export default function System() {
         }
     }
     const handleToggleChange = (newStatus) => {
-      setModulesData((prevState) => ({
+        setModulesData((prevState) => ({
             ...prevState,
             status: newStatus ? 1 : 0
         }))
@@ -125,7 +123,7 @@ export default function System() {
                                 <>
                                     <th scope="col" className="px-6 py-3">Modül Adı</th>
                                     <th scope="col" className="px-6 py-3">Durum</th>
-                                    <th scope="col" className="px-6 py-3">İşlem</th>
+                                    <th scope="col" className="text-center">İşlem</th>
                                 </>
                             }
                             tbodyContent={
@@ -144,10 +142,21 @@ export default function System() {
                                                 <span className="text-red-400">Passive</span>
                                             )}
                                         </td>
-                                        <td className="px-4 py-">
+                                        <td className="pl-5">
+                                            <button
+                                                type="button"
+                                                title="Add Submodule"
+                                                className="ml-4"
+                                                onClick={() => {
+                                                    handleOpenModal(item.id, "submodule")
+                                                }}
+                                            ><i
+                                                className="fa fa-angles-down text-indigo-500"></i>
+                                            </button>
                                             <button
                                                 type="button"
                                                 title="Edit"
+                                                className="ml-4"
                                                 onClick={() => {
                                                     handleOpenModal(item.id)
                                                 }}

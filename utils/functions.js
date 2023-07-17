@@ -14,8 +14,8 @@ export async function fn_delete(title = "Emin misiniz?", text = "Bunu geri alama
         text: text,
         icon: 'warning',
         showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
+        confirmButtonColor: '#547bf3',
+        cancelButtonColor: '#ec4747',
         confirmButtonText: confirmButton,
         cancelButtonText: cancelButton
     }).then((result) => {
