@@ -1,12 +1,23 @@
-import { DataTypes } from "sequelize";
-import { connectToDatabase } from "@/pages/api/database";
+import {DataTypes} from "sequelize";
+import {connectToDatabase} from "@/pages/api/database";
+
 async function initialize() {
     const db = await connectToDatabase();
     const SidebarMenu = db.define('modules', {
-        title: DataTypes.STRING,
-        icon: DataTypes.STRING,
-        link: DataTypes.STRING,
+        title: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
+        icon: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
+        link: {
+            type: DataTypes.STRING,
+            allowNull: false
+        },
         queue: DataTypes.INTEGER,
+        status: DataTypes.INTEGER
     }, {
         tableName: 'modules',
         timestamps: false, // createdAt ve updatedAt sütunlarını devre dışı bırak
@@ -15,4 +26,5 @@ async function initialize() {
         SidebarMenu,
     };
 }
+
 export default initialize;

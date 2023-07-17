@@ -5,7 +5,8 @@ export default async function modules(req, res) {
     let {id, moduleData, process, attributes} = req.body;
     moduleData = moduleData !== undefined ? JSON.parse(moduleData) : "";
     attributes = attributes !== undefined ? attributes.split(",") : "";
-
+    let error = 0;
+    let message = "";
     switch (process) {
         case "get":
             if (id === undefined) {
@@ -49,6 +50,7 @@ export default async function modules(req, res) {
                 .catch(error => {
                     res.status(500).json({error: 1, message: `Kayıt eklenirken hata oluştu! ${error}`});
                 });
+
             break;
 
         case "update":
@@ -66,11 +68,12 @@ export default async function modules(req, res) {
                 }
             )
                 .then(() => {
-                    res.status(200).json({error: 0, message: 'Güncelleme Başarılı'});
+                    res.status(200).json({error: error, message: message});
                 })
                 .catch(error => {
                     res.status(500).json({error: 1, message: `Güncelleme işlemi sırasında hata oluştu! ${error}`});
                 });
+
             break;
 
         case "delete":

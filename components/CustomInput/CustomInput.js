@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-export default function CustomInput({children, labelContent, inputID, inputPlaceholder,inputValue, onInputChange, type }) {
+export default function CustomInput({children, labelContent, inputID, inputPlaceholder,inputValue, onInputChange, type, isRequired }) {
     return (
         <>
             <label htmlFor={inputID}>{labelContent}</label>
@@ -11,6 +11,7 @@ export default function CustomInput({children, labelContent, inputID, inputPlace
                 placeholder={inputPlaceholder}
                 value={inputValue}
                 onChange={onInputChange}
+                required={isRequired}
             />
             {children}
         </>

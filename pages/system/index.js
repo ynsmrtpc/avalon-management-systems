@@ -5,10 +5,11 @@ import CustomInput from "@/components/CustomInput/CustomInput";
 import Table from "@/components/Table/Table";
 import Modal from "@/components/Modal/Modal";
 import ToggleInput from "@/components/ToggleInput/ToggleInput";
+import {fn_delete} from "@/utils/functions";
 
 export default function System() {
     const [sidebarData, setSidebarData] = useState([]);
-    const [modulesData, setModulesData] = useState([{title: "", icon: "", link: "", queue: ""}]);
+    const [modulesData, setModulesData] = useState([{title: "", icon: "", link: "", status: 1, queue: ""}]);
     const [showModal, setShowModal] = useState(false);
     const [buttonText, setButtonText] = useState("Kaydet");
 
@@ -85,18 +86,27 @@ export default function System() {
                 setButtonText("Kaydet");
             })
     }
-
     const handleDeleteModule = async (id) => {
-        const formData = new URLSearchParams();
-        formData.append("id", id);
-        formData.append("process", "delete")
-        await axios
-            .post("/api/modules", formData)
-            .then(res => {
-                !res.data.error ? getModules() : ""
-            })
-            .catch(err => console.log(err))
+        const result = await fn_delete();
+        if (result) {
+            const formData = new URLSearchParams();
+            formData.append("id", id);
+            formData.append("process", "delete")
+            await axios
+                .post("/api/modules", formData)
+                .then(res => {
+                    !res.data.error ? getModules() : ""
+                })
+                .catch(err => console.log(err))
+        }
     }
+    const handleToggleChange = (newStatus) => {
+      setModulesData((prevState) => ({
+            ...prevState,
+            status: newStatus ? 1 : 0
+        }))
+    };
+
     return (
         <>
             <div
@@ -134,7 +144,7 @@ export default function System() {
                                                 <span className="text-red-400">Passive</span>
                                             )}
                                         </td>
-                                        <td className="px-6 py-4">
+                                        <td className="px-4 py-">
                                             <button
                                                 type="button"
                                                 title="Edit"
@@ -180,6 +190,7 @@ export default function System() {
                                         ...prevState,
                                         title: e.target.value
                                     }))}
+                                    isRequired="true"
                                 />
                             </div>
                             <div className="col-span-1">
@@ -191,6 +202,8 @@ export default function System() {
                                         ...prevState,
                                         icon: e.target.value
                                     }))}
+                                    isRequired="true"
+
                                 />
 
                             </div>
@@ -203,6 +216,7 @@ export default function System() {
                                         ...prevState,
                                         link: e.target.value
                                     }))}
+                                    isRequired="true"
                                 />
 
                             </div>
@@ -216,12 +230,15 @@ export default function System() {
                                         ...prevState,
                                         queue: e.target.value
                                     }))}
+
                                 />
                             </div>
                             <div className="col-span-2 mx-auto">
                                 <ToggleInput
                                     labelContent="Status"
-                                    isChecked={modulesData.status}/>
+                                    isChecked={modulesData.status}
+                                    onChange={handleToggleChange}
+                                />
                             </div>
                         </div>
                     </Modal>

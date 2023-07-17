@@ -1,12 +1,14 @@
-import React, {useState,useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 
-export default function ToggleInput({labelContent, isChecked}) {
-    const [checked, setChecked] = useState(isChecked);
+export default function ToggleInput({  labelContent, isChecked, onChange  }) {
+    const [checked, setChecked] = useState(null);
     useEffect(() => {
-        setChecked(isChecked);
-    }, [isChecked]);
-    const handleChange = () => {
-        setChecked(!checked);
+        setChecked(isChecked)
+    },[isChecked])
+    const handleToggleChange = () => {
+        const newChecked = !checked;
+        setChecked(newChecked);
+        onChange(newChecked);
     };
     return (
         <>
@@ -22,7 +24,7 @@ export default function ToggleInput({labelContent, isChecked}) {
                 type="checkbox"
                 role="switch"
                 id={labelContent}
-                onChange={handleChange}
+                onChange={handleToggleChange}
             />
         </>
     );
