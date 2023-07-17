@@ -4,7 +4,7 @@ const nextConfig = {
   async headers() {
     return [
       {
-        source: '/api/certification/:path*', // API rotasını doğru şekilde güncelleyin
+        source: '/api/yunusemretopcu/:path*', // API rotasını doğru şekilde güncelleyin
         headers: [
           {
             key: 'Access-Control-Allow-Origin',

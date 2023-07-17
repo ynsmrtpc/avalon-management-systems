@@ -13,8 +13,19 @@ async function initialize() {
         timestamps: false, // createdAt ve updatedAt sütunlarını devre dışı bırak
     });
 
+    const ProjectsModel = db.define("projects", {
+        title: DataTypes.STRING,
+        description: DataTypes.STRING,
+        image_url: DataTypes.INTEGER,
+        link: DataTypes.INTEGER
+    }, {
+        tableName: 'projects',
+        timestamps: false, // createdAt ve updatedAt sütunlarını devre dışı bırak
+    });
+
     return {
         CertificateModel,
+        ProjectsModel
     };
 }
 export default initialize;
