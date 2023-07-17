@@ -16,16 +16,29 @@ async function initialize() {
     const ProjectsModel = db.define("projects", {
         title: DataTypes.STRING,
         description: DataTypes.STRING,
-        image_url: DataTypes.INTEGER,
-        link: DataTypes.INTEGER
+        image_url: DataTypes.STRING,
+        link: DataTypes.STRING
     }, {
         tableName: 'projects',
         timestamps: false, // createdAt ve updatedAt sütunlarını devre dışı bırak
     });
 
+    const BlogsModel = db.define("medium_blogs", {
+        title: DataTypes.STRING,
+        readTime: DataTypes.STRING,
+        imageURL: DataTypes.STRING,
+        spot: DataTypes.STRING,
+        url: DataTypes.STRING,
+        user_id: DataTypes.INTEGER
+    }, {
+        tableName: 'medium_blogs',
+        timestamps: false, // createdAt ve updatedAt sütunlarını devre dışı bırak
+    });
+
     return {
         CertificateModel,
-        ProjectsModel
+        ProjectsModel,
+        BlogsModel
     };
 }
 export default initialize;
