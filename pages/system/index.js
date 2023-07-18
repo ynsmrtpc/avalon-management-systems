@@ -2,11 +2,9 @@ import Card from "@/components/Card/Card";
 import React, {useEffect, useState} from "react";
 import axios from "axios";
 import CustomInput from "@/components/CustomInput/CustomInput";
-import Table from "@/components/Table/Table";
 import Modal from "@/components/Modal/Modal";
 import ToggleInput from "@/components/ToggleInput/ToggleInput";
 import {fn_delete} from "@/utils/functions";
-import Nestable from 'react-nestable';
 
 export default function System() {
     const [sidebarData, setSidebarData] = useState([]);
@@ -118,13 +116,10 @@ export default function System() {
         }))
     };
 
-    const handleUpdate = (newData) => {
-        setSidebarData(newData);
-    };
-
     // Parent_id'si 0 olanları parent eleman, diğerlerini child eleman olarak ayır
     const parentItems = sidebarData.filter(item => item.parent_id === 0);
     const childItems = sidebarData.filter(item => item.parent_id !== 0);
+
     return (
         <>
             <div className="grid">
