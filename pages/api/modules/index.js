@@ -99,7 +99,7 @@ export default async function modules(req, res) {
                     res.status(200).json({error: 0, message: "Silme işlemi başarılı"});
                 })
                 .catch(error => {
-                    res.status(500).json({error: 1, message: "Silme işlemi sırasında hata oluştu!"});
+                    res.status(500).json({error: 1, message: `Silme işlemi sırasında hata oluştu! : ${error}` });
                 });
             break;
     }
