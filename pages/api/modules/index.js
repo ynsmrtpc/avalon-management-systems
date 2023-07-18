@@ -7,6 +7,7 @@ export default async function modules(req, res) {
     attributes = attributes !== undefined ? attributes.split(",") : "";
     let error = 0;
     let message = "";
+
     switch (process) {
         case "get":
             if (id === undefined) {
@@ -35,7 +36,6 @@ export default async function modules(req, res) {
                     });
             }
             break;
-
         case "insert":
             SidebarMenu.create({
                 title: moduleData.title,
@@ -50,9 +50,7 @@ export default async function modules(req, res) {
                 .catch(error => {
                     res.status(500).json({error: 1, message: `Kayıt eklenirken hata oluştu! ${error}`});
                 });
-
             break;
-
         case "update":
             SidebarMenu.update({
                     title: moduleData.title,
@@ -75,7 +73,22 @@ export default async function modules(req, res) {
                 });
 
             break;
-
+        case "submodule":
+            SidebarMenu.create({
+                title: moduleData.title,
+                icon: moduleData.icon,
+                link: moduleData.link,
+                queue: moduleData.queue,
+                status: moduleData.status,
+                parent_id: moduleData.id
+            })
+                .then(() => {
+                    res.status(200).json({error: 0, message: "Kayıt başarılı", location: moduleData.link});
+                })
+                .catch(error => {
+                    res.status(500).json({error: 1, message: `Kayıt eklenirken hata oluştu! ${error}`});
+                });
+            break;
         case "delete":
             SidebarMenu.destroy({
                 where: {

@@ -7,6 +7,9 @@ export default async function handler(req, res) {
         const data = await SidebarMenu.findAll({
             attributes: attributes, //['id', 'title', 'icon', 'link'],
             order: [['queue', 'ASC']],
+            where: {
+                parent_id: 0,
+            }
         });
         if(data){
             res.status(200).json(data);

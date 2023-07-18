@@ -6,23 +6,23 @@ import Table from "@/components/Table/Table";
 import Modal from "@/components/Modal/Modal";
 import ToggleInput from "@/components/ToggleInput/ToggleInput";
 import {fn_delete} from "@/utils/functions";
+import Nestable from 'react-nestable';
 
 export default function System() {
     const [sidebarData, setSidebarData] = useState([]);
-    const [modulesData, setModulesData] = useState([{title: "", icon: "", link: "", status: 1, queue: ""}]);
+    const [modulesData, setModulesData] = useState([{id: "", title: "", icon: "", link: "", status: 1, queue: ""}]);
     const [showModal, setShowModal] = useState(false);
     const [buttonText, setButtonText] = useState("Kaydet");
 
     useEffect(() => {
         const formData = new URLSearchParams();
-        formData.append("attributes", ["id", "title", "icon", "status"])
+        formData.append("attributes", ["id", "title", "icon", "status", "parent_id"])
         formData.append("process", "get")
         axios
             .post("/api/modules", formData)
             .then(res => setSidebarData(res.data))
             .catch(err => console.log(err));
     }, []);
-
     const getModules = () => {
         const formData = new URLSearchParams();
         formData.append("attributes", ["id", "title", "icon", "status"])
@@ -32,8 +32,14 @@ export default function System() {
             .then(res => setSidebarData(res.data))
             .catch(err => console.log(err));
     }
-    const handleOpenModal = (id, islem = "") => {
-        if (id !== undefined && islem !== "submodule") {
+    const handleOpenModal = (id, process = "") => {
+        if (process === "submodule") {
+            setModulesData((prevState) => ({
+                ...prevState,
+                id: id
+            }))
+        }
+        if (id !== undefined && process !== "submodule") {
             const formData = new URLSearchParams();
             formData.append("attributes", ["id", "title", "icon", "status", "link", "queue"])
             formData.append("process", "get");
@@ -49,10 +55,10 @@ export default function System() {
         setShowModal(false);
         setModulesData([]);
     };
-    const handleModalSubmit = async () => {
+    const handleSubmit = async (process) => {
         const formData = new URLSearchParams();
         formData.append("moduleData", JSON.stringify(modulesData));
-        formData.append("process", modulesData.id === undefined ? "insert" : "update")
+        formData.append("process", process)
         setButtonText(
             <>
                 <div role="status" className="flex">
@@ -84,6 +90,13 @@ export default function System() {
                 setButtonText("Kaydet");
             })
     }
+    const handleModalSubmit = async () => {
+        if (modulesData.id) {
+            await handleSubmit("submodule")
+        } else {
+            await handleSubmit(modulesData.id === undefined ? "insert" : "update")
+        }
+    }
     const handleDeleteModule = async (id) => {
         const result = await fn_delete();
         if (result) {
@@ -105,50 +118,42 @@ export default function System() {
         }))
     };
 
+    const handleUpdate = (newData) => {
+        setSidebarData(newData);
+    };
+
+    // Parent_id'si 0 olanları parent eleman, diğerlerini child eleman olarak ayır
+    const parentItems = sidebarData.filter(item => item.parent_id === 0);
+    const childItems = sidebarData.filter(item => item.parent_id !== 0);
     return (
         <>
-            <div
-                className="grid">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-5 ">
-                    <Card cardTitle={
-                        <div className="flex justify-between">
-                            <span>Modüller</span>
-                            <button className="text-sm px-4 rounded text-white border bg-green-500 hover:bg-green-400"
-                                    onClick={() => handleOpenModal()}>Yeni Ekle
-                            </button>
-                        </div>
-                    }>
-                        <Table
-                            theadContent={
-                                <>
-                                    <th scope="col" className="px-6 py-3">Modül Adı</th>
-                                    <th scope="col" className="px-6 py-3">Durum</th>
-                                    <th scope="col" className="text-center">İşlem</th>
-                                </>
-                            }
-                            tbodyContent={
-                                sidebarData.map(item => (
-                                    <tr key={item.id}
-                                        className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                                        <th scope="row"
-                                            className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                            <i className={item.icon + " mr-3"}></i>
-                                            {item.title}
-                                        </th>
-                                        <td className="px-6 py-4 flex justify-between w-1/2">
-                                            {item.status === 1 ? (
-                                                <span className="text-green-400">Active</span>
-                                            ) : (
-                                                <span className="text-red-400">Passive</span>
-                                            )}
-                                        </td>
-                                        <td className="pl-5">
+            <div className="grid">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+                    <Card
+                        cardTitle={
+                            <div className="flex justify-between items-center mb-3">
+                                <span className="font-bold text-xxl">Modüller</span>
+                                <button className="text-sm px-4 rounded text-white bg-green-500 hover:bg-green-400"
+                                        onClick={() => handleOpenModal()}>
+                                    Yeni Ekle
+                                </button>
+                            </div>
+                        }
+                    >
+                        <div className="p-2">
+                            {parentItems.map((parentItem, index) => (
+                                <details key={parentItem.id}
+                                         className={`${index > 0 ? 'mt-4 border-t border-gray-300 pt-4' : ''}`}>
+                                    <summary className="flex items-center relative mb-2 cursor-pointer select-none">
+                                        <i className={`${parentItem.icon} mr-2`}></i>
+                                        <span className="text-md font-medium">{parentItem.title}</span>
+                                        <div className="absolute right-0">
                                             <button
                                                 type="button"
                                                 title="Add Submodule"
-                                                className="ml-4"
+                                                className="ml-2 border px-1.5 py-0.5 rounded hover:bg-gray-200"
                                                 onClick={() => {
-                                                    handleOpenModal(item.id, "submodule")
+                                                    handleOpenModal(parentItem.id, "submodule")
                                                 }}
                                             ><i
                                                 className="fa fa-angles-down text-indigo-500"></i>
@@ -156,9 +161,9 @@ export default function System() {
                                             <button
                                                 type="button"
                                                 title="Edit"
-                                                className="ml-4"
+                                                className="ml-2 border px-1.5 py-0.5 rounded hover:bg-gray-200"
                                                 onClick={() => {
-                                                    handleOpenModal(item.id)
+                                                    handleOpenModal(parentItem.id)
                                                 }}
                                             ><i
                                                 className="fa fa-edit text-green-500"></i>
@@ -166,23 +171,60 @@ export default function System() {
                                             <button
                                                 type="button"
                                                 title="Delete"
-                                                className="ml-4"
-                                                onClick={() => handleDeleteModule(item.id)}
+                                                className="ml-2 border px-1.5 py-0.5 rounded hover:bg-gray-200"
+                                                onClick={() => handleDeleteModule(parentItem.id)}
                                             >
-                                                <i className="fa fa-trash text-red-500"></i></button>
-                                        </td>
-                                    </tr>
-                                ))
-                            }
-                        />
+                                                <i className="fa fa-trash text-red-500"></i>
+                                            </button>
+                                        </div>
+
+                                    </summary>
+                                    {childItems
+                                        .filter(childItem => childItem.parent_id === parentItem.id)
+                                        .map(childItem => (
+                                            <div key={childItem.id} className="p-3 rounded relative mb-0 pb-0 ml-4">
+                                                <div className="flex items-center  cursor-default select-none">
+                                                    <i className={`${childItem.icon} mr-2`}></i>
+                                                    <span>{childItem.title}</span>
+                                                </div>
+
+                                                <div className="absolute right-0 top-0">
+
+                                                    <button
+                                                        type="button"
+                                                        title="Edit"
+                                                        className="ml-2 border px-1.5 py-0.5 rounded hover:bg-gray-200"
+                                                        onClick={() => {
+                                                            handleOpenModal(childItem.id)
+                                                        }}
+                                                    ><i
+                                                        className="fa fa-edit text-green-500"></i>
+                                                    </button>
+                                                    <button
+                                                        type="button"
+                                                        title="Delete"
+                                                        className="ml-2 border px-1.5 py-0.5 rounded hover:bg-gray-200"
+                                                        onClick={() => handleDeleteModule(childItem.id)}
+                                                    >
+                                                        <i className="fa fa-trash text-red-500"></i>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        ))}
+
+                                </details>
+                            ))}
+
+                        </div>
+
                     </Card>
                 </div>
             </div>
+
             {showModal && (
                 <>
-                    <div className="fixed inset-0 backdrop-filter backdrop-blur-lg"/>
                     <Modal
-                        title="Modül Düzenle"
+                        title="Modül Ekle / Düzenle"
                         onClose={handleCloseModal}
                         handleModalSubmit={handleModalSubmit}
                         overlayBlur={true}
@@ -212,7 +254,6 @@ export default function System() {
                                         icon: e.target.value
                                     }))}
                                     isRequired="true"
-
                                 />
 
                             </div>

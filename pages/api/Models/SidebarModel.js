@@ -17,7 +17,8 @@ async function initialize() {
             allowNull: false
         },
         queue: DataTypes.INTEGER,
-        status: DataTypes.INTEGER
+        status: DataTypes.INTEGER,
+        parent_id: DataTypes.INTEGER
     }, {
         tableName: 'modules',
         timestamps: false, // createdAt ve updatedAt sütunlarını devre dışı bırak
