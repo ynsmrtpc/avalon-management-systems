@@ -19,19 +19,17 @@ export default function HomeLayout({children}) {
     const themeToggle = () => {
         isDarkMode === "dark" ? setIsDarkMode("light") : setIsDarkMode("dark");
     }
-
     const profileHandle = () => {
         setProfileToggle(!profileToggle);
     }
     const sidebarHandle = () => {
         setSidebarToggle(!sidebarToggle);
     }
-
     useEffect(() => {
         const formData = new URLSearchParams();
-        formData.append("attributes",['id', 'title', 'icon', 'link']);
+        formData.append("attributes", ['id', 'title', 'icon', 'link', 'parent_id']);
         axios
-            .post("/api/sidebar",formData)
+            .post("/api/sidebar", formData)
             .then(res => setSidebarData(res.data))
             .catch(err => console.log(err));
     }, []);
@@ -41,7 +39,7 @@ export default function HomeLayout({children}) {
         formData.append("attributes", ['profile_photo', 'email', 'name_surname'])
 
         axios
-            .post("/api/profile",formData)
+            .post("/api/profile", formData)
             .then(res => setProfileData((res.data)))
             .catch(err => console.log(err))
     }, [])
@@ -56,6 +54,11 @@ export default function HomeLayout({children}) {
         setShowTitle(false);
         setContentMargin(false)
     }
+
+
+    // Parent_id'si 0 olanları parent eleman, diğerlerini child eleman olarak ayır
+    const parentItems = sidebarData.filter(item => item.parent_id === 0);
+    const childItems = sidebarData.filter(item => item.parent_id !== 0);
 
     return (
         <>
@@ -80,9 +83,10 @@ export default function HomeLayout({children}) {
                                 </svg>
                             </button>
                             <Link href="/" className="flex ml-2 md:mr-24">
-                                <img src="https://wxpbrdtmrnvqglioltbm.supabase.co/storage/v1/object/public/avalon/logo.png"
-                                     className="h-12 mr-3 sm:h-8"
-                                     alt="avalon-logo"/>
+                                <img
+                                    src="https://wxpbrdtmrnvqglioltbm.supabase.co/storage/v1/object/public/avalon/logo.png"
+                                    className="h-12 mr-3 sm:h-8"
+                                    alt="avalon-logo"/>
                                 <span
                                     className="self-center text-xl  font-semibold  hidden sm:block whitespace-nowrap dark:text-white">Avalon Management Systems</span>
                             </Link>
@@ -148,22 +152,57 @@ export default function HomeLayout({children}) {
             >
                 <div className="h-full px-3 pb-4 bg-white dark:bg-gray-800 ">
                     <ul className="space-y-2 font-medium">
-                        <li className="space-y-4 ">
-                            {sidebarData.map(item => (
-                                <Link
-                                    className={classNames("flex items-center pl-3 p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-200 dark:hover:bg-gray-600 ",
+
+                        {parentItems.map((parentItem, index) => (
+                            <details key={parentItem.id}
+                                     className={`${index > 0 ? ' space-y-4 ' : ''}`}>
+                                <summary
+                                    className={classNames("flex items-center relative mb-2 cursor-pointer select-none hover:bg-gray-200 dark:hover:bg-gray-600 rounded-lg",
                                         {
-                                            "active": router.pathname === item.link,
+                                            "active": router.pathname === parentItem.link,
                                         })}
-                                    href={item.link}
-                                    key={item.id}
                                 >
-                                    <i className={item.icon + ' text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white'}> </i>
-                                    <span className="ml-5 whitespace-nowrap"
-                                          style={{visibility: showTitle ? "visible" : "hidden"}}>{item.title} </span>
-                                </Link>
-                            ))}
-                        </li>
+                                    <Link
+                                        className="flex items-center pl-3 p-2 text-gray-900 dark:text-white "
+                                        href={parentItem.link}
+                                        key={parentItem.id}
+                                    >
+                                        <i className={parentItem.icon + ' text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white'}> </i>
+                                        <span className="relative ml-5 whitespace-nowrap"
+                                              style={{visibility: showTitle ? "visible" : "hidden"}}> {parentItem.title}
+                                        </span>
+                                    </Link>
+
+                                    {childItems
+                                        .filter(childItem => childItem.parent_id === parentItem.id)
+                                        .map(childItem => (
+                                            <i
+                                                style={{visibility: showTitle ? "visible" : "hidden"}}
+                                                className="fa-solid fa-caret-down absolute right-3"></i>
+                                        ))}
+                                    </summary>
+
+                                {childItems
+                                    .filter(childItem => childItem.parent_id === parentItem.id)
+                                    .map(childItem => (
+                                        <Link
+                                            style={{visibility: showTitle ? "visible" : "hidden"}}
+                                            className={classNames(" flex items-center pl-3 py-1 text-gray-900 rounded-lg dark:text-white hover:bg-gray-200 dark:hover:bg-gray-600 ",
+                                                {
+                                                    "active": router.pathname === childItem.link,
+                                                })}
+                                            href={childItem.link}
+                                            key={childItem.id}
+                                        >
+                                            <i className={childItem.icon + ' text-gray-500 ml-10  transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white'}> </i>
+                                            <span className="relative ml-5 whitespace-nowrap"
+                                                  style={{visibility: showTitle ? "visible" : "hidden"}}
+                                            > {childItem.title}
+                                        </span>
+                                        </Link>
+                                    ))}
+                            </details>
+                        ))}
 
                         <li className="mt-auto grid absolute bottom-4 w-[90%]">
                             <button
