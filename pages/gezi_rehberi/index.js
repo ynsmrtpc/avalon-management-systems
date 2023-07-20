@@ -2,6 +2,7 @@ import axios from "axios";
 import {useEffect, useState} from "react";
 import Card from "@/components/Card/Card";
 import Head from "next/head";
+import HomeLayout from "@/layouts/HomeLayout";
 export default function gezi_rehberi() {
 const [locations, setLocations] = useState([]);
 
@@ -11,7 +12,7 @@ useEffect(() => {
         .catch(err => console.log(err))
 }, [])
     return(
-        <>
+        <HomeLayout>
             <Head>
                 <title>Gezi Rehberi</title>
             </Head>
@@ -45,6 +46,6 @@ useEffect(() => {
                     <br/>
                 </>
             ))}
-        </>
+        </HomeLayout>
     )
 }

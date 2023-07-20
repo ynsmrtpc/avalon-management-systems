@@ -3,6 +3,7 @@ import {useEffect, useState} from "react";
 import axios from "axios";
 import {fn_make_label} from "@/utils/functions";
 import classNames from "classnames";
+import HomeLayout from "@/layouts/HomeLayout";
 
 export default function Profile() {
     const [profileData, setProfileData] = useState({});
@@ -63,7 +64,7 @@ export default function Profile() {
     }
 
     return (
-        <>
+        <HomeLayout>
             <div className="grid mx-auto">
                 <div className="grid grid-cols-1 md:grid-cols-12 mx-auto gap-5">
                     <div
@@ -138,6 +139,6 @@ export default function Profile() {
                     </div>
                 </div>
             </div>
-        </>
+        </HomeLayout>
     )
 }

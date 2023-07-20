@@ -5,6 +5,7 @@ import CustomInput from "@/components/CustomInput/CustomInput";
 import Modal from "@/components/Modal/Modal";
 import ToggleInput from "@/components/ToggleInput/ToggleInput";
 import {fn_delete} from "@/utils/functions";
+import HomeLayout from "@/layouts/HomeLayout";
 
 export default function System() {
     const [sidebarData, setSidebarData] = useState([]);
@@ -121,7 +122,7 @@ export default function System() {
     const childItems = sidebarData.filter(item => item.parent_id !== 0);
 
     return (
-        <>
+        <HomeLayout>
             <div className="grid">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
                     <Card
@@ -289,6 +290,6 @@ export default function System() {
                     </Modal>
                 </>
             )}
-        </>
+        </HomeLayout>
     )
 }

@@ -55,7 +55,6 @@ export default function HomeLayout({children}) {
         setContentMargin(false)
     }
 
-
     // Parent_id'si 0 olanları parent eleman, diğerlerini child eleman olarak ayır
     const parentItems = sidebarData.filter(item => item.parent_id === 0);
     const childItems = sidebarData.filter(item => item.parent_id !== 0);
@@ -72,8 +71,8 @@ export default function HomeLayout({children}) {
                     <div className="flex items-center justify-between">
                         <div className="flex items-center justify-center sm:justify-start">
                             <button data-drawer-target="logo-sidebar" data-drawer-toggle="logo-sidebar"
-                                    onClick={sidebarHandle}
                                     aria-controls="logo-sidebar" type="button"
+                                    onClick={sidebarHandle}
                                     className="inline-flex items-center p-2 text-sm text-gray-500 rounded-lg sm:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600">
                                 <span className="sr-only">Open sidebar</span>
                                 <svg className="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20"
@@ -239,7 +238,9 @@ export default function HomeLayout({children}) {
                 "ml-16": !contentMargin,
                 "!ml-0": sidebarToggle,
             })}>
-                <div className="p-4 rounded-lg dark:border-gray-700 mt-14">
+                <div className="p-4 rounded-lg dark:border-gray-700 mt-14"
+                     onClick={() => setProfileToggle(false)}
+                >
                     {children}
                 </div>
             </div>
