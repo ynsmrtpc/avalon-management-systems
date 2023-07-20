@@ -176,6 +176,7 @@ export default function HomeLayout({children}) {
                                         .filter(childItem => childItem.parent_id === parentItem.id)
                                         .map(childItem => (
                                             <i
+                                                key={childItem.id}
                                                 style={{visibility: showTitle ? "visible" : "hidden"}}
                                                 className="fa-solid fa-caret-down absolute right-3"></i>
                                         ))}
