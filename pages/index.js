@@ -9,9 +9,9 @@ export default function Login() {
 
     return (
         <EmptyLayout>
-            <div className="grid h-screen">
-                <div className="m-auto border-2 px-16 py-20 rounded-lg">
-                    <div>
+            <div className="grid mt-12">
+                <div className="m-auto border-2 px-16 pt-8 pb-20 rounded-lg shadow-primary_logo_dark/30 dark:shadow-primary_logo_dark/30 shadow-2xl">
+                    <div className="mb-10 pb-10 border-b-2">
                         <img src="https://wxpbrdtmrnvqglioltbm.supabase.co/storage/v1/object/public/avalon/logo.png"
                              className="w-12 mx-auto" alt="logo"/>
                         <p className="mt-2">Avalon Management System</p>
@@ -38,7 +38,7 @@ export default function Login() {
                     </div>
                     <div className="mt-8 grid mx-auto">
                         <button
-                            className="border-2 p-2 rounded-lg hover:bg-primary_logo_dark transition-all duration-500">Sign
+                            className="border-2 p-2 rounded-lg hover:bg-primary_logo_light dark:hover:bg-primary_logo_dark transition-all duration-500">Sign
                             In
                         </button>
                     </div>
