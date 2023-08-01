@@ -21,3 +21,4 @@ export default async function handler(req, res) {
         res.status(500).json({message: 'Veri çekme hatası:' + error});
     }
 }
+

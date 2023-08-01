@@ -4,8 +4,12 @@ import axios from "axios";
 import {fn_make_label} from "@/utils/functions";
 import classNames from "classnames";
 import HomeLayout from "@/layouts/HomeLayout";
+import { useRouter } from 'next/router';
+import jwt from "jsonwebtoken";
 
-export default function Profile() {
+export default function Profile({ username }) {
+    const router = useRouter();
+
     const [profileData, setProfileData] = useState({});
     const [socialMediaData, setSocialMediaData] = useState({});
     const [socialMedia, setSocialMedia] = useState("");
@@ -15,18 +19,26 @@ export default function Profile() {
     const socialMediaNames = [];
 
     useEffect(() => {
-        const formData = new URLSearchParams();
+        const formData = new FormData();
         formData.append("attributes", ['id', 'name_surname', 'username', 'title', 'email', 'phone', 'status', "profile_photo", "password"])
         axios
-            .post("/api/profile", formData)
+            .post("/api/profile", formData, {
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            })
             .then(res => setProfileData((res.data)))
             .catch(err => console.log(err))
-        const social_media_form = new URLSearchParams();
+        const social_media_form = new FormData();
 
         social_media_form.append("process", "social_media_get");
         social_media_form.append("attributes", ['instagram', 'facebook', 'twitter', 'tiktok', 'youtube', 'linkedin', 'github'])
         axios
-            .post("/api/profile/social_media", social_media_form)
+            .post("/api/profile/social_media", social_media_form, {
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            })
             .then(res => setSocialMediaData(res.data))
             .catch(err => console.log(err))
 
@@ -46,13 +58,17 @@ export default function Profile() {
         setSocialMediaURL(socialMediaData[social_media] === null ? "" : socialMediaData[social_media]);
     }
     const socialButtonHandle = async () => {
-        const formData = new URLSearchParams();
+        const formData = new FormData();
         formData.append("url", socialMediaURL);
         formData.append("socialMedia", socialMedia);
         formData.append("process", "social_media_add");
 
         await axios
-            .post("/api/profile/social_media", formData)
+            .post("/api/profile/social_media", formData, {
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            })
             .then(res => setMessage(res.data))
             .catch(err => console.log(err))
             .finally(() => {
@@ -142,3 +158,23 @@ export default function Profile() {
         </HomeLayout>
     )
 }
+
+
+// export async function getServerSideProps(context) {
+//     const token = await context.req.headers.cookie?.replace('login_token=', '');
+//     console.log(token)
+//     const secretKey = '"' + process.env.SECRET_KEY + '"';
+//     try {
+//         const decodedToken = jwt.verify(token, secretKey);
+//         const { username } = decodedToken;
+//         return {
+//             props: { username },
+//         };
+//     } catch (error) {
+//         return {
+//             redirect: {
+//
+//             },
+//         };
+//     }
+// }

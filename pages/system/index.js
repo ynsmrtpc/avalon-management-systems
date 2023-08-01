@@ -14,20 +14,28 @@ export default function System() {
     const [buttonText, setButtonText] = useState("Kaydet");
 
     useEffect(() => {
-        const formData = new URLSearchParams();
+        const formData = new FormData();
         formData.append("attributes", ["id", "title", "icon", "status", "parent_id"])
         formData.append("process", "get")
         axios
-            .post("/api/modules", formData)
+            .post("/api/modules", formData, {
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            })
             .then(res => setSidebarData(res.data))
             .catch(err => console.log(err));
     }, []);
     const getModules = () => {
-        const formData = new URLSearchParams();
+        const formData = new FormData();
         formData.append("attributes", ["id", "title", "icon", "status"])
         formData.append("process", "get")
         axios
-            .post("/api/modules", formData)
+            .post("/api/modules", formData, {
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            })
             .then(res => setSidebarData(res.data))
             .catch(err => console.log(err));
     }
@@ -39,12 +47,16 @@ export default function System() {
             }))
         }
         if (id !== undefined && process !== "submodule") {
-            const formData = new URLSearchParams();
+            const formData = new formData();
             formData.append("attributes", ["id", "title", "icon", "status", "link", "queue"])
             formData.append("process", "get");
             formData.append("id", id);
             axios
-                .post("/api/modules", formData)
+                .post("/api/modules", formData, {
+                    headers: {
+                        "Content-Type": "application/json"
+                    }
+                })
                 .then(res => setModulesData(res.data))
                 .catch(err => console.log(err))
         }
@@ -55,7 +67,7 @@ export default function System() {
         setModulesData([]);
     };
     const handleSubmit = async (process) => {
-        const formData = new URLSearchParams();
+        const formData = new FormData();
         formData.append("moduleData", JSON.stringify(modulesData));
         formData.append("process", process)
         setButtonText(
@@ -77,7 +89,11 @@ export default function System() {
             </>
         );
         await axios
-            .post("/api/modules", formData)
+            .post("/api/modules", formData, {
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            })
             .then(res => {
                 if (res.data.error === 0) {
                     handleCloseModal();
@@ -99,11 +115,15 @@ export default function System() {
     const handleDeleteModule = async (id) => {
         const result = await fn_delete();
         if (result) {
-            const formData = new URLSearchParams();
+            const formData = new FormData();
             formData.append("id", id);
             formData.append("process", "delete")
             await axios
-                .post("/api/modules", formData)
+                .post("/api/modules", formData, {
+                    headers: {
+                        "Content-Type": "application/json"
+                    }
+                })
                 .then(res => {
                     !res.data.error ? getModules() : ""
                 })

@@ -1,7 +1,7 @@
 import { DataTypes } from "sequelize";
 import { connectToDatabase } from "@/pages/api/database";
 
-async function initialize() {
+export default async function initialize() {
     const db = await connectToDatabase();
 
     const UserInfo = db.define("system_users", {
@@ -37,4 +37,3 @@ async function initialize() {
         UsersSocialMedia,
     };
 }
-export default initialize;
