@@ -5,8 +5,6 @@ export default async function login(req, res) {
     const {username, password} = req.body;
     const {UserInfo} = await initialize();
 
-    let error = 0;
-    let message = "";
     let token = "";
 
     const result = await authenticateUser(username, password);

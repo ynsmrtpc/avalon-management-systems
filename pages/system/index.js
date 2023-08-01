@@ -47,7 +47,7 @@ export default function System() {
             }))
         }
         if (id !== undefined && process !== "submodule") {
-            const formData = new formData();
+            const formData = new FormData();
             formData.append("attributes", ["id", "title", "icon", "status", "link", "queue"])
             formData.append("process", "get");
             formData.append("id", id);

@@ -1,4 +1,3 @@
-import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import initialize from "@/pages/api/Models/ProfileModel";
 
