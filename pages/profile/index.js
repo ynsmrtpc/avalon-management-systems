@@ -6,7 +6,7 @@ import classNames from "classnames";
 import HomeLayout from "@/layouts/HomeLayout";
 import getUserData from "@/utils/getUserData";
 
-export default function Profile({ username }) {
+export default function Profile() {
 
     const [profileData, setProfileData] = useState({});
     const [socialMediaData, setSocialMediaData] = useState({});
@@ -79,7 +79,6 @@ export default function Profile({ username }) {
 
     return (
         <HomeLayout>
-            { username }
             <div className="grid mx-auto">
                 <div className="grid grid-cols-1 md:grid-cols-12 mx-auto gap-5">
                     <div
@@ -159,17 +158,16 @@ export default function Profile({ username }) {
 }
 
 export async function getServerSideProps(context) {
-const userData = await getUserData(context.req);
-if (!userData) {
+    const userData = await getUserData(context.req);
+    if (!userData) {
+        return {
+            redirect: {
+                destination: '/login',
+                permanent: false,
+            },
+        };
+    }
     return {
-        redirect: {
-            destination: '/login',
-            permanent: false,
-        },
+        props: {userData},
     };
-}
-
-return {
-    props: userData,
-};
 }

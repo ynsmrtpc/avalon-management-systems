@@ -4,10 +4,10 @@ import {useState} from "react";
 import classNames from "classnames";
 import axios from "axios";
 import Alert from "@/components/Alert/Alert";
-// import {authenticateUser} from "@/utils/auth";
-
+import {useRouter} from "next/router";
 
 export default function Login() {
+    const router = useRouter();
 
     const [showPassword, setShowPassword] = useState(true);
     const [loading, setLoading] = useState(false);
@@ -28,10 +28,9 @@ export default function Login() {
             })
             .finally(() => {
                 setLoading(false);
+                router.push('/profile')
             })
-        setLoginResult(result.data)
-
-        loginResult.error === 0 ? location.href = `/profile` : null;
+        await setLoginResult(result.data)
     }
 
     return (
@@ -39,9 +38,11 @@ export default function Login() {
             <div className="grid mt-12">
                 <div
                     className="m-auto border-2 px-16 pt-8 pb-20 rounded-lg shadow-primary_logo_dark/30 dark:shadow-primary_logo_dark/30 shadow-2xl">
-                    <div className="mb-10 pb-10 border-b-2">
+                    <div className="mb-10 pb-10 border-b-2 ">
                         <img src="https://wxpbrdtmrnvqglioltbm.supabase.co/storage/v1/object/public/avalon/logo.png"
-                             className="w-12 mx-auto" alt="logo"/>
+                             className={classNames("w-12 mx-auto", {
+                                 "animate-spin": loading
+                             })} alt="logo"/>
                         <p className="mt-2">Avalon Management System</p>
                     </div>
                     <div className="my-6">
@@ -92,22 +93,10 @@ export default function Login() {
                     <div className="mt-6 grid mx-auto">
                         <button
                             onClick={handleSubmit}
-                            className="border-2 p-2 rounded-lg hover:bg-primary_logo_light dark:hover:bg-primary_logo_dark transition-all duration-500">
-
-                            {loading && (
-                                <>
-                                    <div className="flex justify-center items-center py-2">
-                                        <div className="grid gap-2">
-                                            <div className="flex items-center justify-center space-x-2 animate-pulse">
-                                                <div className="w-2 h-2 bg-primary_bg_light rounded-full"></div>
-                                                <div className="w-2 h-2 bg-primary_bg_light rounded-full"></div>
-                                                <div className="w-2 h-2 bg-primary_bg_light rounded-full"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </>
-                            )}
-                            {!loading && "Giriş Yap"}
+                            className="border-2 p-2 rounded-lg hover:bg-primary_logo_light dark:hover:bg-primary_logo_dark transition-all duration-500 disabled:bg-zinc-400 disabled:cursor-not-allowed"
+                            disabled={loading ?? true}
+                        >
+                            Giriş Yap
                         </button>
                     </div>
                 </div>

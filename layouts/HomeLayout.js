@@ -4,6 +4,7 @@ import {useEffect, useState} from 'react';
 import Head from 'next/head';
 import axios from "axios";
 import {useRouter} from 'next/router';
+import getUserData from "@/utils/getUserData";
 
 export default function HomeLayout({children}) {
     const router = useRouter();
@@ -241,10 +242,11 @@ export default function HomeLayout({children}) {
             })}>
                 <div className="p-4 rounded-lg dark:border-gray-700 mt-14"
                      onClick={() => setProfileToggle(false)}
-                >
+                    >
                     {children}
                 </div>
             </div>
         </>
     )
 }
+
