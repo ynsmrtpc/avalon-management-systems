@@ -57,13 +57,12 @@ export default function Profile() {
             .then((res) => setSocialMediaData(res.data))
             .catch((err) => console.log(err));
     }, []);
-
+    
     Object.keys(socialMediaData).forEach((item) => {
         socialMediaNames.push(item);
     });
-
     Object.keys(profileData).forEach((item) => {
-        if (item !== "id" && item !== "profile_photo") {
+        if (item !== "id" && item !== "profile_photo" && item !== "password") {
             numberOfProfile.push(item);
         }
     });
@@ -207,7 +206,6 @@ export default function Profile() {
         </HomeLayout>
     );
 }
-
 export async function getServerSideProps(context) {
     const userData = await getUserData(context.req);
     if (!userData) {
