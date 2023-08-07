@@ -4,7 +4,6 @@ import {useEffect, useState} from 'react';
 import Head from 'next/head';
 import axios from "axios";
 import {useRouter} from 'next/router';
-import getUserData from "@/utils/getUserData";
 
 export default function HomeLayout({children}) {
     const router = useRouter();
@@ -54,6 +53,19 @@ export default function HomeLayout({children}) {
         setSidebarWidth(false);
         setShowTitle(false);
         setContentMargin(false)
+    }
+
+    const handleLogout = async () => {
+        try {
+            const response = await axios.delete("/api/logout");
+            if (response.status === 200) {
+                await router.push('/login');
+            } else {
+                console.error("Logout failed");
+            }
+        } catch (error) {
+            console.error("Error during logout:", error);
+        }
     }
 
     // Parent_id'si 0 olanları parent eleman, diğerlerini child eleman olarak ayır
@@ -128,7 +140,7 @@ export default function HomeLayout({children}) {
                                         <li>
                                             <Link href="#"
                                                   className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
-                                                  role="menuitem">Sign out</Link>
+                                                  role="menuitem" onClick={handleLogout}>Sign out</Link>
                                         </li>
                                     </ul>
                                 </div>
@@ -181,7 +193,7 @@ export default function HomeLayout({children}) {
                                                 style={{visibility: showTitle ? "visible" : "hidden"}}
                                                 className="fa-solid fa-caret-down absolute right-3"></i>
                                         ))}
-                                    </summary>
+                                </summary>
 
                                 {childItems
                                     .filter(childItem => childItem.parent_id === parentItem.id)
@@ -242,7 +254,7 @@ export default function HomeLayout({children}) {
             })}>
                 <div className="p-4 rounded-lg dark:border-gray-700 mt-14"
                      onClick={() => setProfileToggle(false)}
-                    >
+                >
                     {children}
                 </div>
             </div>

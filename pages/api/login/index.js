@@ -22,14 +22,14 @@ export default async function login(req, res) {
             }
         );
 
-        // Cookie'yi oluşturun
+        // Cookie'yi oluşturuyoruz
         const cookie = serialize('login_token', token, {
             httpOnly: true,
-            maxAge: 60 * 60 * 24, // Örnek olarak 1 gün (saniye cinsinden)
+            maxAge: 60 * 60 * 24,
             path: '/',
         });
 
-        // Cookie'yi cevap başlığına ekleyin
+        // Cookie'yi cevap başlığına ekliyoruz
         res.setHeader('Set-Cookie', cookie);
     }
     // oluşturduğumuz token'ı veritabanında kişiye basacağız ve aynı zamanda cookie'ye ekleyeceğiz.
