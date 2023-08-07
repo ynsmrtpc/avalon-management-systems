@@ -23,11 +23,11 @@ export default function CustomInput({
                 value={inputValue}
                 onChange={onInputChange}
                 required={isRequired}
-                />
-                {children}
-            </>
-            )
-            }
+            />
+            {children}
+        </>
+    )
+}
 
 CustomInput.propTypes = {
     labelContent: PropTypes.string,
