@@ -1,9 +1,12 @@
 import initialize from "@/pages/api/Models/ProfileModel";
+import {getUserInfo} from "@/utils/getUserInfo";
 export default async function handler(req, res) {
     const { UsersSocialMedia } = await initialize();
     let {process, attributes} = req.body
     attributes = attributes.split(",");
     let message = "";
+    const user_id = await getUserInfo(req, res);
+
     switch (process) {
         case "social_media_add":
             if (req.method === 'POST') {
@@ -11,7 +14,7 @@ export default async function handler(req, res) {
 
                 try {
                     await UsersSocialMedia.update({[socialMedia]: url}, {
-                        where: {user_id: 1},
+                        where: {user_id: user_id},
                     });
                     message = "Kayıt Başarılı";
                 } catch (error) {
@@ -26,7 +29,7 @@ export default async function handler(req, res) {
                 const data = await UsersSocialMedia.findOne({
                     attributes: attributes,
                     where: {
-                        user_id: 1
+                        user_id: user_id
                     }
                 });
                 if (data) {

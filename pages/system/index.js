@@ -6,6 +6,7 @@ import Modal from "@/components/Modal/Modal";
 import ToggleInput from "@/components/ToggleInput/ToggleInput";
 import {fn_delete} from "@/utils/functions";
 import HomeLayout from "@/layouts/HomeLayout";
+import getUserData from "@/utils/getUserData";
 
 export default function System() {
     const [sidebarData, setSidebarData] = useState([]);
@@ -312,4 +313,19 @@ export default function System() {
             )}
         </HomeLayout>
     )
+}
+
+export async function getServerSideProps(context) {
+    const userData = await getUserData(context.req);
+    if (!userData) {
+        return {
+            redirect: {
+                destination: "/login",
+                permanent: false,
+            },
+        };
+    }
+    return {
+        props: {userData},
+    };
 }

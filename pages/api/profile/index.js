@@ -1,15 +1,16 @@
 import initialize from "@/pages/api/Models/ProfileModel";
+import {getUserInfo} from "@/utils/getUserInfo";
 
 export default async function handler(req, res) {
     const {UserInfo} = await initialize();
     let {attributes} = req.body
     attributes = attributes.split(",");
-
+    const user_id = await getUserInfo(req, res);
     try {
         const data = await UserInfo.findOne({
             attributes: attributes,
             where: {
-                id: 1,
+                id: user_id,
             }
         });
         if (data) {
