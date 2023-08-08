@@ -206,7 +206,6 @@ export default function System() {
                                                 </div>
 
                                                 <div className="absolute right-0 top-0">
-
                                                     <button
                                                         type="button"
                                                         title="Edit"
