@@ -50,7 +50,6 @@ export default function Projects() {
 
     return (
         <HomeLayout>
-            <div className="mx-auto md:mx-24">
                 <div className="block md:flex justify-between items-center mb-10">
                     <BreadCrumb path={router.pathname}/>
                     <button
@@ -59,7 +58,6 @@ export default function Projects() {
                         Yeni Ekle
                     </button>
                 </div>
-
 
                 <Table
                     theadContent={(
@@ -103,7 +101,6 @@ export default function Projects() {
                         )))}
                 />
 
-            </div>
 
             {showModal && (
                 <>

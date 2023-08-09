@@ -252,7 +252,7 @@ export default function HomeLayout({children}) {
                 "ml-16": !contentMargin,
                 "!ml-0": sidebarToggle,
             })}>
-                <div className="p-4 rounded-lg dark:border-gray-700 mt-14"
+                <div className="p-4 rounded-lg dark:border-gray-700 mt-14 mx-auto md:mx-24"
                      onClick={() => setProfileToggle(false)}
                 >
                     {children}

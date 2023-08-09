@@ -7,8 +7,12 @@ import ToggleInput from "@/components/ToggleInput/ToggleInput";
 import {fn_delete} from "@/utils/functions";
 import HomeLayout from "@/layouts/HomeLayout";
 import getUserData from "@/utils/getUserData";
+import {useRouter} from "next/router";
+import BreadCrumb from "@/components/BreadCrumb/BreadCrumb";
 
 export default function System() {
+    const router = useRouter()
+
     const [sidebarData, setSidebarData] = useState([]);
     const [modulesData, setModulesData] = useState([{id: "", title: "", icon: "", link: "", status: 1, queue: ""}]);
     const [showModal, setShowModal] = useState(false);
@@ -144,6 +148,10 @@ export default function System() {
 
     return (
         <HomeLayout>
+            <div className="block md:flex justify-between items-center mb-10">
+                <BreadCrumb path={router.pathname}/>
+            </div>
+
             <div className="grid">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
                     <Card
