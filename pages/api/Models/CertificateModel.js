@@ -17,7 +17,8 @@ async function initialize() {
         title: DataTypes.STRING,
         description: DataTypes.STRING,
         image_url: DataTypes.STRING,
-        link: DataTypes.STRING
+        link: DataTypes.STRING,
+        status: DataTypes.INTEGER
     }, {
         tableName: 'projects',
         timestamps: false, // createdAt ve updatedAt sütunlarını devre dışı bırak

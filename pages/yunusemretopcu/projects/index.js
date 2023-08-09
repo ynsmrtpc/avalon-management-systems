@@ -18,19 +18,29 @@ export default function Projects() {
     const [buttonText, setButtonText] = useState("Kaydet");
 
     useEffect(() => {
+        getProjects();
+    }, [])
+    const getProjects = () => {
+        const formData = new FormData();
+        formData.append("process", "get");
         axios
-            .get("/api/yunusemretopcu/projects")
+            .post(`/api/yunusemretopcu/projects`, formData, {
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            })
             .then(res => setProjects(res.data))
             .catch(err => console.log("error: " + err))
-    }, [])
-    const handleOpenModal = (id, process = "") => {
+    }
+    const handleOpenModal = (id) => {
         if (id !== undefined) {
             const formData = new FormData();
-            formData.append("id",id);
+            formData.append("id", id);
+            formData.append("process", "get");
 
             axios
-                .post(`/api/yunusemretopcu/projects`,formData, {
-                    headers:{
+                .post(`/api/yunusemretopcu/projects`, formData, {
+                    headers: {
                         "Content-Type": "application/json"
                     }
                 })
@@ -38,68 +48,115 @@ export default function Projects() {
                 .catch(err => console.log("error: " + err))
         }
         setShowModal(true);
-    };
 
+    };
     const handleCloseModal = () => {
         setShowModal(false);
+        setModalData([]);
     };
-    const handleDeleteModule = () => {
+    const handleDelete = async (id) => {
+        const result = await fn_delete();
+        if (result) {
+            const formData = new FormData();
+            formData.append("id", id);
+            formData.append("process", "delete");
+
+            axios.post("/api/yunusemretopcu/projects", formData, {
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            })
+                .then(res => console.log(res))
+                .catch(err => console.log(err))
+                .finally(() => {
+                    getProjects();
+                })
+        }
     }
     const handleModalSubmit = () => {
+        const formData = new FormData();
+
+        formData.append("process", modalData.id !== undefined ? "update" : "insert");
+        formData.append("data", JSON.stringify(modalData));
+
+        axios.post("/api/yunusemretopcu/projects", formData, {
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+            .then(res => console.log(res))
+            .catch(err => console.log(err))
+            .finally(()=> {
+                getProjects();
+                setButtonText("Kaydet");
+                handleCloseModal();
+            })
     }
+    const handleToggleChange = (newStatus) => {
+        setModalData((prevState) => ({
+            ...prevState,
+            status: newStatus ? 1 : 0
+        }))
+    };
 
     return (
         <HomeLayout>
-                <div className="block md:flex justify-between items-center mb-10">
-                    <BreadCrumb path={router.pathname}/>
-                    <button
-                        className="grid ml-auto mt-5 md:mt-auto text-md px-5 py-3 rounded text-white bg-green-500 hover:bg-green-400"
-                        onClick={() => handleOpenModal()}>
-                        Yeni Ekle
-                    </button>
-                </div>
+            <div className="block md:flex justify-between items-center mb-10">
+                <BreadCrumb path={router.pathname}/>
+                <button
+                    className="grid ml-auto mt-5 md:mt-auto text-md px-5 py-3 rounded text-white bg-green-500 hover:bg-green-400"
+                    onClick={() => handleOpenModal()}>
+                    Yeni Ekle
+                </button>
+            </div>
 
-                <Table
-                    theadContent={(
-                        <>
-                            <th className="border-b-2 pb-2">#</th>
-                            <th className="border-b-2 pb-2">Resim</th>
-                            <th className="border-b-2 pb-2">Proje Adı</th>
-                            <th className="border-b-2 pb-2">Açıklama</th>
-                            <th className="text-right pr-4 border-b-2 pb-2">İşlem</th>
-                        </>
-                    )}
-                    tbodyContent={(
-                        projects.map((project, key) => (
-                            <tr key={project.id}>
-                                <td className="pt-3">{++key}</td>
-                                <td className="pt-3"><img className="w-12 rounded-lg" src={project.image_url}
-                                                          alt={`project-resim-${project.id}`}/></td>
-                                <td className="pt-3">{project.title}</td>
-                                <td className="pt-3">{project.description}</td>
-                                <td className="text-right pt-3">
-                                    <button
-                                        type="button"
-                                        title="Edit"
-                                        className="ml-2 border px-1.5 py-0.5 rounded hover:bg-gray-200"
-                                        onClick={() => {
-                                            handleOpenModal(project.id)
-                                        }}
-                                    ><i
-                                        className="fa fa-edit text-green-500"></i>
-                                    </button>
-                                    <button
-                                        type="button"
-                                        title="Delete"
-                                        className="ml-2 border px-1.5 py-0.5 rounded hover:bg-gray-200"
-                                        onClick={() => handleDeleteModule(project.id)}
-                                    >
-                                        <i className="fa fa-trash text-red-500"></i>
-                                    </button>
-                                </td>
-                            </tr>
-                        )))}
-                />
+            <Table
+                theadContent={(
+                    <>
+                        <th className="border-b-2 pb-2 text-left">#</th>
+                        <th className="border-b-2 pb-2 text-center">Resim</th>
+                        <th className="border-b-2 pb-2 text-center">Proje Adı</th>
+                        <th className="border-b-2 pb-2">Açıklama</th>
+                        <th className="border-b-2 pb-2 text-center">Durum</th>
+                        <th className="text-right pr-4 border-b-2 pb-2">İşlem</th>
+                    </>
+                )}
+                tbodyContent={(
+                    projects.map((project, key) => (
+                        <tr key={project.id}>
+                            <td className="pt-3 text-left">{++key}</td>
+                            <td className="pt-3 text-center">
+                                <img className="w-12 rounded-lg" src={project.image_url}
+                                     alt={`project-resim-${project.id}`}/>
+                            </td>
+                            <td className="pt-3 w-[10%] text-center">{project.title}</td>
+                            <td className="pt-3 w-[70%]">{project.description}</td>
+                            <td className="pt-3 w-[10%] text-center "><i
+                                className={`text-xl fa-solid ${project.status ? `fa-heart text-green-500` : `fa-heart-crack text-red-500`}`}></i>
+                            </td>
+                            <td className="text-right pt-3">
+                                <button
+                                    type="button"
+                                    title="Edit"
+                                    className="ml-2 border px-1.5 py-0.5 rounded hover:bg-gray-200"
+                                    onClick={() => {
+                                        handleOpenModal(project.id)
+                                    }}
+                                ><i
+                                    className="fa fa-edit text-green-500"></i>
+                                </button>
+                                <button
+                                    type="button"
+                                    title="Delete"
+                                    className="ml-2 border px-1.5 py-0.5 rounded hover:bg-gray-200"
+                                    onClick={() => handleDelete(project.id)}
+                                >
+                                    <i className="fa fa-trash text-red-500"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    )))}
+            />
 
 
             {showModal && (
@@ -122,7 +179,6 @@ export default function Projects() {
                                         ...prevState,
                                         title: e.target.value
                                     }))}
-                                    isRequired="true"
                                 />
                             </div>
 
@@ -133,9 +189,28 @@ export default function Projects() {
                                     inputPlaceholder={modalData.image_url}
                                     onInputChange={(e) => setModalData((prevState) => ({
                                         ...prevState,
-                                        title: e.target.value
+                                        image_url: e.target.value
                                     }))}
-                                    isRequired="true"
+                                />
+                            </div>
+
+                            <div className="col-span-1">
+                                <CustomInput
+                                    labelContent="Link"
+                                    inputID="link"
+                                    inputPlaceholder={modalData.link}
+                                    onInputChange={(e) => setModalData((prevState) => ({
+                                        ...prevState,
+                                        link: e.target.value
+                                    }))}
+                                />
+                            </div>
+
+                            <div className="col-span-1 mx-auto">
+                                <ToggleInput
+                                    labelContent="Status"
+                                    isChecked={modalData.status}
+                                    onChange={handleToggleChange}
                                 />
                             </div>
 
@@ -144,17 +219,15 @@ export default function Projects() {
                                     className={"block rounded py-1.5 w-full bg-[#f1f1f1f1] dark:bg-[#394051] px-3 focus:bg-white dark:focus:bg-card_bg_dark transition-[background-color] outline-[#4b5563]"}
                                     rows="4"
                                     placeholder={modalData.description}
+                                    onChange={(e) => setModalData((prevState) => ({
+                                        ...prevState,
+                                        description: e.target.value
+                                    }))}
                                 ></textarea>
                             </div>
 
 
-                            <div className="col-span-2 mx-auto">
-                                <ToggleInput
-                                    labelContent="Status"
-                                    // isChecked={modulesData.status}
-                                    // onChange={handleToggleChange}
-                                />
-                            </div>
+
                         </div>
                     </Modal>
                 </>
