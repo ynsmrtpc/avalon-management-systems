@@ -30,7 +30,8 @@ async function initialize() {
         imageURL: DataTypes.STRING,
         spot: DataTypes.STRING,
         url: DataTypes.STRING,
-        user_id: DataTypes.INTEGER
+        user_id: DataTypes.INTEGER,
+        status: DataTypes.INTEGER
     }, {
         tableName: 'medium_blogs',
         timestamps: false, // createdAt ve updatedAt sütunlarını devre dışı bırak
