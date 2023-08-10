@@ -86,7 +86,7 @@ export default function Projects() {
         })
             .then(res => console.log(res))
             .catch(err => console.log(err))
-            .finally(()=> {
+            .finally(() => {
                 getProjects();
                 setButtonText("Kaydet");
                 handleCloseModal();
@@ -116,22 +116,22 @@ export default function Projects() {
                         <th className="border-b-2 pb-2 text-left">#</th>
                         <th className="border-b-2 pb-2 text-center">Resim</th>
                         <th className="border-b-2 pb-2 text-center">Proje Adı</th>
-                        <th className="border-b-2 pb-2">Açıklama</th>
+                        <th className="border-b-2 hidden sm:block pb-2">Açıklama</th>
                         <th className="border-b-2 pb-2 text-center">Durum</th>
                         <th className="text-right pr-4 border-b-2 pb-2">İşlem</th>
                     </>
                 )}
                 tbodyContent={(
                     projects.map((project, key) => (
-                        <tr key={project.id}>
-                            <td className="pt-3 text-left">{++key}</td>
-                            <td className="pt-3 text-center">
+                        <tr key={project.id} className="hover:bg-card_bg_dark">
+                            <td className="p-4 text-left">{++key}</td>
+                            <td className="p-4 text-center">
                                 <img className="w-12 rounded-lg" src={project.image_url}
                                      alt={`project-resim-${project.id}`}/>
                             </td>
-                            <td className="pt-3 w-[10%] text-center">{project.title}</td>
-                            <td className="pt-3 w-[70%]">{project.description}</td>
-                            <td className="pt-3 w-[10%] text-center "><i
+                            <td className="p-4 text-center">{project.title}</td>
+                            <td className="p-4 hidden sm:block max-w-4xl ">{project.description}</td>
+                            <td className="p-4 text-center"><i
                                 className={`text-xl fa-solid ${project.status ? `fa-heart text-green-500` : `fa-heart-crack text-red-500`}`}></i>
                             </td>
                             <td className="text-right pt-3">
@@ -225,7 +225,6 @@ export default function Projects() {
                                     }))}
                                 ></textarea>
                             </div>
-
 
 
                         </div>

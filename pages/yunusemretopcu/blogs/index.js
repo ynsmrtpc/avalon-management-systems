@@ -124,16 +124,16 @@ export default function Projects() {
                 )}
                 tbodyContent={(
                     blogs.map((blog, key) => (
-                        <tr key={blog.id}>
-                            <td className="pt-3 text-left">{++key}</td>
-                            <td className="pt-3 text-center">
+                        <tr key={blog.id} className="hover:bg-card_bg_dark">
+                            <td className="p-4 text-left">{++key}</td>
+                            <td className="p-4 text-center">
                                 <img className="w-12 rounded-lg" src={blog.imageURL}
                                      alt={`project-resim-${blog.id}`}/>
                             </td>
-                            <td className="pt-3 ">{blog.title}</td>
-                            <td className="pt-3">{blog.readTime}</td>
-                            <td className="pt-3">{blog.author}</td>
-                            <td className="pt-3 text-center">
+                            <td className="p-4 ">{blog.title}</td>
+                            <td className="p-4">{blog.readTime}</td>
+                            <td className="p-4 text-center">{blog.user.name_surname}</td>
+                            <td className="p-4 text-center">
                                 <i className={`text-xl fa-solid ${blog.status ? `fa-heart text-green-500` : `fa-heart-crack text-red-500`}`}></i>
                             </td>
                             <td className="text-right pt-3">
@@ -244,8 +244,6 @@ export default function Projects() {
                     </Modal>
                 </>
             )}
-
-
         </HomeLayout>
     )
 }

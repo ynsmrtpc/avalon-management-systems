@@ -38,24 +38,10 @@ async function init_yet() {
         timestamps: false, // createdAt ve updatedAt sütunlarını devre dışı bırak
     });
 
-    // init_profile fonksiyonundan UserInfo modelini alın
-    const { UserInfo } = await init_profile();
-
-    // Diğer model tanımlamaları...
-
-    // BlogsModel ile UserInfo arasındaki ilişkiyi tanımlama
-    BlogsModel.associate = models => {
-        BlogsModel.belongsTo(models.UserInfo, { // UserInfo modelini doğru şekilde kullanın
-            foreignKey: 'user_id'
-        });
-    };
-
-
     return {
         CertificateModel,
         ProjectsModel,
-        BlogsModel,
-        UserInfo
+        BlogsModel
     };
 }
 export default init_yet;
