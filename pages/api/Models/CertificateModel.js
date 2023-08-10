@@ -1,6 +1,5 @@
 import { DataTypes } from "sequelize";
 import { connectToDatabase } from "@/pages/api/database";
-import init_profile from "@/pages/api/Models/ProfileModel";
 
 async function init_yet() {
     const db = await connectToDatabase();
