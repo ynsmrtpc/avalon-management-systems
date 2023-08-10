@@ -1,8 +1,17 @@
-import initialize from "@/pages/api/Models/CertificateModel";
+import init_profile from "@/pages/api/Models/ProfileModel";
+import init_yet from "@/pages/api/Models/CertificateModel";
 export default async function handler(req, res) {
-    const {BlogsModel} = await initialize();
+    const { BlogsModel } = await init_yet();
+    const { UserInfo } = await init_profile();
+
     BlogsModel.findAll({
         order: [['title', 'ASC']],
+        include: [
+            {
+                model: UserInfo,
+                attributes:["name_surname"]
+            }
+        ]
     })
         .then(data => {
             res.status(200).json(data);

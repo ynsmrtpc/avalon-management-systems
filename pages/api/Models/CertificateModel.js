@@ -1,7 +1,8 @@
 import { DataTypes } from "sequelize";
 import { connectToDatabase } from "@/pages/api/database";
+import init_profile from "@/pages/api/Models/ProfileModel";
 
-async function initialize() {
+async function init_yet() {
     const db = await connectToDatabase();
 
     const CertificateModel = db.define("certifications", {
@@ -37,10 +38,24 @@ async function initialize() {
         timestamps: false, // createdAt ve updatedAt sütunlarını devre dışı bırak
     });
 
+    // init_profile fonksiyonundan UserInfo modelini alın
+    const { UserInfo } = await init_profile();
+
+    // Diğer model tanımlamaları...
+
+    // BlogsModel ile UserInfo arasındaki ilişkiyi tanımlama
+    BlogsModel.associate = models => {
+        BlogsModel.belongsTo(models.UserInfo, { // UserInfo modelini doğru şekilde kullanın
+            foreignKey: 'user_id'
+        });
+    };
+
+
     return {
         CertificateModel,
         ProjectsModel,
-        BlogsModel
+        BlogsModel,
+        UserInfo
     };
 }
-export default initialize;
+export default init_yet;
