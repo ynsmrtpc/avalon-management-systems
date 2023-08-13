@@ -9,7 +9,6 @@ import Modal from "@/components/Modal/Modal";
 import CustomInput from "@/components/CustomInput/CustomInput";
 import ToggleInput from "@/components/ToggleInput/ToggleInput";
 import {fn_delete} from "@/utils/functions";
-import Select from 'react-select'
 
 export default function Blogs() {
     const router = useRouter()
@@ -110,11 +109,7 @@ export default function Blogs() {
                 "Content-Type": "application/json"
             }
         });
-        const newAuthors = authors_result.data.map((author) => {
-            return {"value": author.id, "label": author.name_surname};
-        });
-
-        setAuthors(newAuthors);
+       setAuthors(authors_result.data);
     }
 
     return (
@@ -239,12 +234,22 @@ export default function Blogs() {
 
                             <div className="col-span-1">
                                 <label htmlFor="authors">Yazar Seçin </label>
-                                <Select
-                                    id="authors"
-                                    options={authors}
-                                    className="text-black"
-                                />
-
+                                <select name="authors"
+                                        id="authors"
+                                        className="block rounded py-1.5 w-full bg-[#f1f1f1f1] dark:bg-[#394051] px-3 focus:bg-white
+                dark:focus:bg-card_bg_dark transition-[background-color] outline-[#4b5563]"
+                                        onChange={(e) => setModalData((prevState) => ({
+                                            ...prevState,
+                                            user_id: e.target.value
+                                        }))}
+                                >
+                                    <option value="-1">Seçiniz</option>
+                                    {authors.map(author => (
+                                        <>
+                                            <option selected={modalData.user_id === author.id} value={author.id}>{author.name_surname}</option>
+                                        </>
+                                    ))}
+                                </select>
                             </div>
 
                             <div className="col-span-1 mx-auto">
