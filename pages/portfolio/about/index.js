@@ -47,6 +47,7 @@ export default function About() {
                  <Card cardTitle={(
                      <>
                      <span className="flex justify-between">
+
                          <span>Sosyal Medya</span>
                          {/*<button*/}
                          {/*      className="grid ml-auto mt-1 mb-2 my-auto text-xs p-2 rounded text-white bg-indigo-500 hover:bg-indigo-400"*/}
