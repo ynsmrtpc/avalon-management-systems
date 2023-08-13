@@ -10,7 +10,7 @@ import CustomInput from "@/components/CustomInput/CustomInput";
 import ToggleInput from "@/components/ToggleInput/ToggleInput";
 import {fn_delete} from "@/utils/functions";
 
-export default function Projects() {
+export default function Blogs() {
     const router = useRouter()
     const [blogs, setBlogs] = useState([]);
     const [modalData, setModalData] = useState([]);
