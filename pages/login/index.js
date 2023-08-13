@@ -5,6 +5,7 @@ import classNames from "classnames";
 import axios from "axios";
 import Alert from "@/components/Alert/Alert";
 import {useRouter} from "next/router";
+import Head from "next/head";
 
 export default function Login() {
     const router = useRouter();
@@ -50,7 +51,11 @@ export default function Login() {
 
     return (
         <EmptyLayout>
-            <div className="grid mt-12">
+            <Head>
+                <title>Avalon | Login</title>
+            </Head>
+            <div className="grid mt-12"
+            >
                 <div
                     className="m-auto border-2 px-16 pt-8 pb-20 rounded-lg shadow-primary_logo_dark/30 dark:shadow-primary_logo_dark/30 shadow-2xl  max-w-sm">
                     <div className="mb-10 pb-10 border-b-2 ">
@@ -62,6 +67,7 @@ export default function Login() {
                     </div>
                     <div className="my-6">
                         <CustomInput
+                            handleSubmit={(event) => event.key === 'Enter' ? handleSubmit(): null}
                             labelContent="Username"
                             inputID="username"
                             inputPlaceholder="Username"
@@ -74,6 +80,7 @@ export default function Login() {
                     <div className="my-6">
                         <div className="relative">
                             <CustomInput
+                                handleSubmit={(event) => event.key === 'Enter' ? handleSubmit(): null}
                                 className="pr-8"
                                 labelContent="Password"
                                 inputID="password"

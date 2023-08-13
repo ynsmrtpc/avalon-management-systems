@@ -12,24 +12,24 @@ import {fn_delete} from "@/utils/functions";
 
 export default function Projects() {
     const router = useRouter()
-    const [blogs, setBlogs] = useState([]);
+    const [projects, setProjects] = useState([]);
     const [modalData, setModalData] = useState([]);
     const [showModal, setShowModal] = useState(false);
     const [buttonText, setButtonText] = useState("Kaydet");
 
     useEffect(() => {
-        getBlogs();
+        getProjects();
     }, [])
-    const getBlogs = () => {
+    const getProjects = () => {
         const formData = new FormData();
         formData.append("process", "get");
         axios
-            .post(`/api/yunusemretopcu/blogs`, formData, {
+            .post(`/api/portfolio/projects`, formData, {
                 headers: {
                     "Content-Type": "application/json"
                 }
             })
-            .then(res => setBlogs(res.data))
+            .then(res => setProjects(res.data))
             .catch(err => console.log("error: " + err))
     }
     const handleOpenModal = (id) => {
@@ -39,7 +39,7 @@ export default function Projects() {
             formData.append("process", "get");
 
             axios
-                .post(`/api/yunusemretopcu/blogs`, formData, {
+                .post(`/api/portfolio/projects`, formData, {
                     headers: {
                         "Content-Type": "application/json"
                     }
@@ -61,7 +61,7 @@ export default function Projects() {
             formData.append("id", id);
             formData.append("process", "delete");
 
-            axios.post("/api/yunusemretopcu/blogs", formData, {
+            axios.post("/api/portfolio/projects", formData, {
                 headers: {
                     "Content-Type": "application/json"
                 }
@@ -69,7 +69,7 @@ export default function Projects() {
                 .then(res => console.log(res))
                 .catch(err => console.log(err))
                 .finally(() => {
-                    getBlogs();
+                    getProjects();
                 })
         }
     }
@@ -79,7 +79,7 @@ export default function Projects() {
         formData.append("process", modalData.id !== undefined ? "update" : "insert");
         formData.append("data", JSON.stringify(modalData));
 
-        axios.post("/api/yunusemretopcu/blogs", formData, {
+        axios.post("/api/portfolio/projects", formData, {
             headers: {
                 "Content-Type": "application/json"
             }
@@ -87,7 +87,7 @@ export default function Projects() {
             .then(res => console.log(res))
             .catch(err => console.log(err))
             .finally(() => {
-                getBlogs();
+                getProjects();
                 setButtonText("Kaydet");
                 handleCloseModal();
             })
@@ -115,26 +115,24 @@ export default function Projects() {
                     <>
                         <th className="border-b-2 pb-2 text-left">#</th>
                         <th className="border-b-2 pb-2 text-center">Resim</th>
-                        <th className="border-b-2 pb-2 ">Başlık</th>
-                        <th className="border-b-2 pb-2">Okuma Süresi</th>
-                        <th className="border-b-2 pb-2 text-center">Yazar</th>
+                        <th className="border-b-2 pb-2 text-center">Proje Adı</th>
+                        <th className="border-b-2 hidden sm:block pb-2">Açıklama</th>
                         <th className="border-b-2 pb-2 text-center">Durum</th>
                         <th className="text-right pr-4 border-b-2 pb-2">İşlem</th>
                     </>
                 )}
                 tbodyContent={(
-                    blogs.map((blog, key) => (
-                        <tr key={blog.id} className="hover:bg-card_bg_dark">
+                    projects.map((project, key) => (
+                        <tr key={project.id} className="hover:bg-card_bg_dark">
                             <td className="p-4 text-left">{++key}</td>
                             <td className="p-4 text-center">
-                                <img className="w-12 rounded-lg" src={blog.imageURL}
-                                     alt={`project-resim-${blog.id}`}/>
+                                <img className="w-12 rounded-lg" src={project.image_url}
+                                     alt={`project-resim-${project.id}`}/>
                             </td>
-                            <td className="p-4 ">{blog.title}</td>
-                            <td className="p-4">{blog.readTime}</td>
-                            <td className="p-4 text-center">{blog.user.name_surname}</td>
-                            <td className="p-4 text-center">
-                                <i className={`text-xl fa-solid ${blog.status ? `fa-heart text-green-500` : `fa-heart-crack text-red-500`}`}></i>
+                            <td className="p-4 text-center">{project.title}</td>
+                            <td className="p-4 hidden sm:block max-w-4xl ">{project.description}</td>
+                            <td className="p-4 text-center"><i
+                                className={`text-xl fa-solid ${project.status ? `fa-heart text-green-500` : `fa-heart-crack text-red-500`}`}></i>
                             </td>
                             <td className="text-right pt-3">
                                 <button
@@ -142,7 +140,7 @@ export default function Projects() {
                                     title="Edit"
                                     className="ml-2 border px-1.5 py-0.5 rounded hover:bg-gray-200"
                                     onClick={() => {
-                                        handleOpenModal(blog.id)
+                                        handleOpenModal(project.id)
                                     }}
                                 ><i
                                     className="fa fa-edit text-green-500"></i>
@@ -151,7 +149,7 @@ export default function Projects() {
                                     type="button"
                                     title="Delete"
                                     className="ml-2 border px-1.5 py-0.5 rounded hover:bg-gray-200"
-                                    onClick={() => handleDelete(blog.id)}
+                                    onClick={() => handleDelete(project.id)}
                                 >
                                     <i className="fa fa-trash text-red-500"></i>
                                 </button>
@@ -188,10 +186,10 @@ export default function Projects() {
                                 <CustomInput
                                     labelContent="Resim URL"
                                     inputID="image"
-                                    inputPlaceholder={modalData.imageURL}
+                                    inputPlaceholder={modalData.image_url}
                                     onInputChange={(e) => setModalData((prevState) => ({
                                         ...prevState,
-                                        imageURL: e.target.value
+                                        image_url: e.target.value
                                     }))}
                                 />
                             </div>
@@ -200,39 +198,15 @@ export default function Projects() {
                                 <CustomInput
                                     labelContent="Link"
                                     inputID="link"
-                                    inputPlaceholder={modalData.url}
+                                    inputPlaceholder={modalData.link}
                                     onInputChange={(e) => setModalData((prevState) => ({
                                         ...prevState,
-                                        url: e.target.value
+                                        link: e.target.value
                                     }))}
                                 />
                             </div>
 
-                            <div className="col-span-1">
-                                <CustomInput
-                                    labelContent="Okuma Süresi"
-                                    inputID="read_time"
-                                    inputPlaceholder={modalData.readTime}
-                                    onInputChange={(e) => setModalData((prevState) => ({
-                                        ...prevState,
-                                        readTime: e.target.value
-                                    }))}
-                                />
-                            </div>
-
-                            <div className="col-span-2">
-                                <textarea
-                                    className={"block rounded py-1.5 w-full bg-[#f1f1f1f1] dark:bg-[#394051] px-3 focus:bg-white dark:focus:bg-card_bg_dark transition-[background-color] outline-[#4b5563]"}
-                                    rows="7"
-                                    placeholder={modalData.spot}
-                                    onChange={(e) => setModalData((prevState) => ({
-                                        ...prevState,
-                                        spot: e.target.value
-                                    }))}
-                                ></textarea>
-                            </div>
-
-                            <div className="col-span-2 mx-auto">
+                            <div className="col-span-1 mx-auto">
                                 <ToggleInput
                                     labelContent="Status"
                                     isChecked={modalData.status}
@@ -240,10 +214,25 @@ export default function Projects() {
                                 />
                             </div>
 
+                            <div className="col-span-2">
+                                <textarea
+                                    className={"block rounded py-1.5 w-full bg-[#f1f1f1f1] dark:bg-[#394051] px-3 focus:bg-white dark:focus:bg-card_bg_dark transition-[background-color] outline-[#4b5563]"}
+                                    rows="4"
+                                    placeholder={modalData.description}
+                                    onChange={(e) => setModalData((prevState) => ({
+                                        ...prevState,
+                                        description: e.target.value
+                                    }))}
+                                ></textarea>
+                            </div>
+
+
                         </div>
                     </Modal>
                 </>
             )}
+
+
         </HomeLayout>
     )
 }

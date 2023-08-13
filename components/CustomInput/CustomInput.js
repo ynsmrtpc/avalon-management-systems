@@ -9,7 +9,8 @@ export default function CustomInput({
                                         onInputChange,
                                         type,
                                         isRequired,
-                                        className
+                                        className,
+                                        handleSubmit
                                     }) {
     return (
         <>
@@ -23,6 +24,7 @@ export default function CustomInput({
                 value={inputValue}
                 onChange={onInputChange}
                 required={isRequired}
+                onKeyDown={handleSubmit}
             />
             {children}
         </>

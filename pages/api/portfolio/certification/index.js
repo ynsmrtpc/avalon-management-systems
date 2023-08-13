@@ -1,4 +1,4 @@
-import initialize from "@/pages/api/Models/CertificateModel";
+import initialize from "@/pages/api/Models/PortfolioModel";
 export default async function handler(req, res) {
     const {CertificateModel} = await initialize();
     CertificateModel.findAll({
