@@ -24,7 +24,7 @@ export default function Projects() {
         const formData = new FormData();
         formData.append("process", "get");
         axios
-            .post(`/api/yunusemretopcu/projects`, formData, {
+            .post(`/api/portfolio/projects`, formData, {
                 headers: {
                     "Content-Type": "application/json"
                 }
@@ -39,7 +39,7 @@ export default function Projects() {
             formData.append("process", "get");
 
             axios
-                .post(`/api/yunusemretopcu/projects`, formData, {
+                .post(`/api/portfolio/projects`, formData, {
                     headers: {
                         "Content-Type": "application/json"
                     }
@@ -61,7 +61,7 @@ export default function Projects() {
             formData.append("id", id);
             formData.append("process", "delete");
 
-            axios.post("/api/yunusemretopcu/projects", formData, {
+            axios.post("/api/portfolio/projects", formData, {
                 headers: {
                     "Content-Type": "application/json"
                 }
@@ -79,7 +79,7 @@ export default function Projects() {
         formData.append("process", modalData.id !== undefined ? "update" : "insert");
         formData.append("data", JSON.stringify(modalData));
 
-        axios.post("/api/yunusemretopcu/projects", formData, {
+        axios.post("/api/portfolio/projects", formData, {
             headers: {
                 "Content-Type": "application/json"
             }

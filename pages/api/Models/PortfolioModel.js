@@ -1,7 +1,7 @@
 import { DataTypes } from "sequelize";
 import { connectToDatabase } from "@/pages/api/database";
 
-async function init_yet() {
+async function init_portfolio() {
     const db = await connectToDatabase();
 
     const CertificateModel = db.define("certifications", {
@@ -43,4 +43,4 @@ async function init_yet() {
         BlogsModel
     };
 }
-export default init_yet;
+export default init_portfolio;

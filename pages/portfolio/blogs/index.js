@@ -9,10 +9,12 @@ import Modal from "@/components/Modal/Modal";
 import CustomInput from "@/components/CustomInput/CustomInput";
 import ToggleInput from "@/components/ToggleInput/ToggleInput";
 import {fn_delete} from "@/utils/functions";
+import Select from 'react-select'
 
 export default function Blogs() {
     const router = useRouter()
     const [blogs, setBlogs] = useState([]);
+    const [authors, setAuthors] = useState([]);
     const [modalData, setModalData] = useState([]);
     const [showModal, setShowModal] = useState(false);
     const [buttonText, setButtonText] = useState("Kaydet");
@@ -20,11 +22,12 @@ export default function Blogs() {
     useEffect(() => {
         getBlogs();
     }, [])
+
     const getBlogs = () => {
         const formData = new FormData();
         formData.append("process", "get");
         axios
-            .post(`/api/yunusemretopcu/blogs`, formData, {
+            .post(`/api/portfolio/blogs`, formData, {
                 headers: {
                     "Content-Type": "application/json"
                 }
@@ -32,14 +35,14 @@ export default function Blogs() {
             .then(res => setBlogs(res.data))
             .catch(err => console.log("error: " + err))
     }
-    const handleOpenModal = (id) => {
+    const handleOpenModal = async (id) => {
         if (id !== undefined) {
             const formData = new FormData();
             formData.append("id", id);
             formData.append("process", "get");
 
             axios
-                .post(`/api/yunusemretopcu/blogs`, formData, {
+                .post(`/api/portfolio/blogs`, formData, {
                     headers: {
                         "Content-Type": "application/json"
                     }
@@ -48,7 +51,7 @@ export default function Blogs() {
                 .catch(err => console.log("error: " + err))
         }
         setShowModal(true);
-
+        await getAuthors();
     };
     const handleCloseModal = () => {
         setShowModal(false);
@@ -61,7 +64,7 @@ export default function Blogs() {
             formData.append("id", id);
             formData.append("process", "delete");
 
-            axios.post("/api/yunusemretopcu/blogs", formData, {
+            axios.post("/api/portfolio/blogs", formData, {
                 headers: {
                     "Content-Type": "application/json"
                 }
@@ -79,7 +82,7 @@ export default function Blogs() {
         formData.append("process", modalData.id !== undefined ? "update" : "insert");
         formData.append("data", JSON.stringify(modalData));
 
-        axios.post("/api/yunusemretopcu/blogs", formData, {
+        axios.post("/api/portfolio/blogs", formData, {
             headers: {
                 "Content-Type": "application/json"
             }
@@ -98,6 +101,21 @@ export default function Blogs() {
             status: newStatus ? 1 : 0
         }))
     };
+    const getAuthors = async () => {
+        const formData = new FormData();
+        formData.append("process", "get_authors");
+
+        const authors_result = await axios.post("/api/portfolio/blogs", formData, {
+            headers: {
+                "Content-Type": "application/json"
+            }
+        });
+        const newAuthors = authors_result.data.map((author) => {
+            return {"value": author.id, "label": author.name_surname};
+        });
+
+        setAuthors(newAuthors);
+    }
 
     return (
         <HomeLayout>
@@ -124,7 +142,7 @@ export default function Blogs() {
                 )}
                 tbodyContent={(
                     blogs.map((blog, key) => (
-                        <tr key={blog.id} className="hover:bg-card_bg_dark">
+                        <tr key={key} className="hover:bg-card_bg_dark">
                             <td className="p-4 text-left">{++key}</td>
                             <td className="p-4 text-center">
                                 <img className="w-12 rounded-lg" src={blog.imageURL}
@@ -159,7 +177,6 @@ export default function Blogs() {
                         </tr>
                     )))}
             />
-
 
             {showModal && (
                 <>
@@ -220,6 +237,24 @@ export default function Blogs() {
                                 />
                             </div>
 
+                            <div className="col-span-1">
+                                <label htmlFor="authors">Yazar Seçin </label>
+                                <Select
+                                    id="authors"
+                                    options={authors}
+                                    className="text-black"
+                                />
+
+                            </div>
+
+                            <div className="col-span-1 mx-auto">
+                                <ToggleInput
+                                    labelContent="Status"
+                                    isChecked={modalData.status}
+                                    onChange={handleToggleChange}
+                                />
+                            </div>
+
                             <div className="col-span-2">
                                 <textarea
                                     className={"block rounded py-1.5 w-full bg-[#f1f1f1f1] dark:bg-[#394051] px-3 focus:bg-white dark:focus:bg-card_bg_dark transition-[background-color] outline-[#4b5563]"}
@@ -231,15 +266,6 @@ export default function Blogs() {
                                     }))}
                                 ></textarea>
                             </div>
-
-                            <div className="col-span-2 mx-auto">
-                                <ToggleInput
-                                    labelContent="Status"
-                                    isChecked={modalData.status}
-                                    onChange={handleToggleChange}
-                                />
-                            </div>
-
                         </div>
                     </Modal>
                 </>
