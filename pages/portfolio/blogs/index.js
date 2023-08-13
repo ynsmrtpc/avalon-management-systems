@@ -18,8 +18,6 @@ export default function Projects() {
     const [modalData, setModalData] = useState([]);
     const [showModal, setShowModal] = useState(false);
     const [buttonText, setButtonText] = useState("Kaydet");
-    const [selectedOption, setSelectedOption] = useState(null);
-
 
     useEffect(() => {
         getBlogs();
@@ -240,7 +238,7 @@ export default function Projects() {
                             </div>
 
                             <div className="col-span-1">
-                                <label htmlFor="authors">Yazar Seçin {selectedOption}</label>
+                                <label htmlFor="authors">Yazar Seçin </label>
                                 <Select
                                     id="authors"
                                     options={authors}
