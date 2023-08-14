@@ -3,7 +3,7 @@ import {getUserInfo} from "@/utils/getUserInfo";
 export default async function handler(req, res) {
     const { UsersSocialMedia } = await initialize();
     let {process, attributes} = req.body
-    attributes = attributes.split(",");
+    attributes = attributes ? attributes.split(",") : null;
     let message = "";
     const user_id = await getUserInfo(req, res);
 
@@ -31,6 +31,21 @@ export default async function handler(req, res) {
                     where: {
                         user_id: user_id
                     }
+                });
+                if (data) {
+                    res.status(200).json(data);
+                } else {
+                    res.status(404).json({message: 'Veri bulunamadı'});
+                }
+            } catch (error) {
+                res.status(500).json({message: 'Veri çekme hatası:' + error});
+            }
+            break;
+
+        case "all_social_media":
+            try {
+                const data = await UsersSocialMedia.findAll({
+                        order: [['id', 'ASC']]
                 });
                 if (data) {
                     res.status(200).json(data);

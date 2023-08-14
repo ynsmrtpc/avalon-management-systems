@@ -6,11 +6,11 @@ function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
 }
 
-export default function Dropdown({buttonText, items}) {
+export default function Dropdown({buttonText, items, classes}) {
     return (
         <Menu as="div" className="relative inline-block text-left">
             <div>
-                <Menu.Button className="inline-flex w-full justify-center gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
+                <Menu.Button className={`inline-flex w-full justify-center gap-x-1.5 rounded-md  px-3 py-2 text-sm font-semibold text-gray-900 ${classes}`}>
                     {buttonText}
                     <ChevronDownIcon className="-mr-1 h-5 w-5 text-gray-400" aria-hidden="true" />
                 </Menu.Button>
@@ -27,18 +27,16 @@ export default function Dropdown({buttonText, items}) {
             >
                 <Menu.Items className="absolute right-0 text-black z-10 mt-2 w-56 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
                     <div className="py-1">
-                                {items.map(item => (
-                                    <Menu.Item>
-
+                                {items.map((item,key) => (
+                                    <Menu.Item
+                                        key={key}
+                                    >
                                     {({ active }) => (
-                                            <button
-                                                className={classNames(
-                                                    active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
-                                                    'block px-4 py-2 text-sm select-none text-left w-full'
-                                                )}
+                                            <div
+                                                className='text-gray-700 block p-2 text-sm select-none text-left w-'
                                             >
                                                 {item}
-                                            </button>
+                                            </div>
                                         )}
                                     </Menu.Item>
                                 ))}

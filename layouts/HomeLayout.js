@@ -4,11 +4,12 @@ import {useEffect, useState} from 'react';
 import Head from 'next/head';
 import axios from "axios";
 import {useRouter} from 'next/router';
+import Dropdown from "@/components/Dropdown/Dropdown";
 
 export default function HomeLayout({children}) {
     const router = useRouter();
 
-    const [profileToggle, setProfileToggle] = useState(false);
+    // const [profileToggle, setProfileToggle] = useState(false);
     const [sidebarToggle, setSidebarToggle] = useState(false);
     const [sidebarData, setSidebarData] = useState([]);
     const [profileData, setProfileData] = useState([]);
@@ -19,9 +20,9 @@ export default function HomeLayout({children}) {
     const themeToggle = () => {
         isDarkMode === "dark" ? setIsDarkMode("light") : setIsDarkMode("dark");
     }
-    const profileHandle = () => {
-        setProfileToggle(!profileToggle);
-    }
+    // const profileHandle = () => {
+    //     setProfileToggle(!profileToggle);
+    // }
     const sidebarHandle = () => {
         setSidebarToggle(!sidebarToggle);
     }
@@ -103,49 +104,67 @@ export default function HomeLayout({children}) {
                                     className="self-center text-xl  font-semibold  hidden sm:block whitespace-nowrap dark:text-white">Avalon Management Systems</span>
                             </Link>
                         </div>
-                        <div className="flex items-center">
-                            <div className="flex items-center ml-3">
-                                <div>
-                                    <button type="button"
-                                            onClick={profileHandle}
-                                            className="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
-                                            aria-expanded="false" data-dropdown-toggle="dropdown-user">
-                                        <span className="sr-only">Open user menu</span>
-                                        <img className="w-8 h-8 rounded-full"
-                                             src={profileData.profile_photo}
-                                             alt="user photo"/>
+                        {/*<div className="flex items-center">*/}
+                        {/*    <div className="flex items-center ml-3">*/}
+                        {/*        <div>*/}
+                        {/*            <button type="button"*/}
+                        {/*                    onClick={profileHandle}*/}
+                        {/*                    className="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"*/}
+                        {/*                    aria-expanded="false" data-dropdown-toggle="dropdown-user">*/}
+                        {/*                <span className="sr-only">Open user menu</span>*/}
+                        {/*                <img className="w-8 h-8 rounded-full"*/}
+                        {/*                     src={profileData.profile_photo}*/}
+                        {/*                     alt="user photo"/>*/}
+                        {/*            </button>*/}
+                        {/*        </div>*/}
+                        {/*        <div*/}
+                        {/*            className={classNames("z-50 text-base list-none bg-white divide-y divide-gray-100 rounded shadow dark:bg-gray-700 dark:divide-gray-600", {*/}
+                        {/*                "hidden": !profileToggle,*/}
+                        {/*                "fixed top-12 right-0": profileToggle*/}
+                        {/*            })}*/}
+                        {/*            id="dropdown-user">*/}
+                        {/*            <div className="px-4 py-3" role="none">*/}
+                        {/*                <p className="text-sm text-gray-900 dark:text-white" role="none">*/}
+                        {/*                    {profileData.name_surname}*/}
+                        {/*                </p>*/}
+                        {/*                <p className="text-sm font-medium text-gray-900 truncate dark:text-gray-300"*/}
+                        {/*                   role="none">*/}
+                        {/*                    {profileData.email}*/}
+                        {/*                </p>*/}
+                        {/*            </div>*/}
+                        {/*            <ul className="py-1" role="none">*/}
+                        {/*                <li>*/}
+                        {/*                    <Link href="/profile"*/}
+                        {/*                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"*/}
+                        {/*                          role="menuitem">Profile</Link>*/}
+                        {/*                </li>*/}
+                        {/*                <li>*/}
+                        {/*                    <Link href="#"*/}
+                        {/*                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"*/}
+                        {/*                          role="menuitem" onClick={handleLogout}>Sign out</Link>*/}
+                        {/*                </li>*/}
+                        {/*            </ul>*/}
+                        {/*        </div>*/}
+                        {/*    </div>*/}
+                        {/*</div>*/}
+
+                        <Dropdown buttonText={(
+                            <span className="flex text-center">
+                                <img className="h-6 h-6 rounded-full"
+                                     src={profileData.profile_photo} />
+                                {/*<span className="ml-2 mt-0.5">{profileData.name_surname}</span>*/}
+                            </span>
+                        )}
+                            items={[profileData.email,(
+                                <>
+                                    <button
+                                        className="text-red-500"
+                                        onClick={handleLogout}>
+                                        Çıkış Yap
                                     </button>
-                                </div>
-                                <div
-                                    className={classNames("z-50 text-base list-none bg-white divide-y divide-gray-100 rounded shadow dark:bg-gray-700 dark:divide-gray-600", {
-                                        "hidden": !profileToggle,
-                                        "fixed top-12 right-0": profileToggle
-                                    })}
-                                    id="dropdown-user">
-                                    <div className="px-4 py-3" role="none">
-                                        <p className="text-sm text-gray-900 dark:text-white" role="none">
-                                            {profileData.name_surname}
-                                        </p>
-                                        <p className="text-sm font-medium text-gray-900 truncate dark:text-gray-300"
-                                           role="none">
-                                            {profileData.email}
-                                        </p>
-                                    </div>
-                                    <ul className="py-1" role="none">
-                                        <li>
-                                            <Link href="/profile"
-                                                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
-                                                  role="menuitem">Profile</Link>
-                                        </li>
-                                        <li>
-                                            <Link href="#"
-                                                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"
-                                                  role="menuitem" onClick={handleLogout}>Sign out</Link>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
+                                </>
+                            )]}
+                        />
                     </div>
                 </div>
             </nav>
@@ -253,7 +272,7 @@ export default function HomeLayout({children}) {
                 "!ml-0": sidebarToggle,
             })}>
                 <div className="p-4 rounded-lg dark:border-gray-700 mt-14 mx-auto md:mx-24"
-                     onClick={() => setProfileToggle(false)}
+                     // onClick={() => setProfileToggle(false)}
                 >
                     {children}
                 </div>

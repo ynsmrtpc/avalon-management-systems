@@ -1,22 +1,48 @@
 import HomeLayout from "@/layouts/HomeLayout";
 import {useRouter} from "next/router";
 import BreadCrumb from "@/components/BreadCrumb/BreadCrumb";
-import React from "react";
+import React, {useEffect, useState} from "react";
 import Card from "@/components/Card/Card";
 import Dropdown from "@/components/Dropdown/Dropdown";
-
-
+import axios from "axios";
 
 export default function About() {
     const router = useRouter()
+    const [socialMedias, setSocialMedias] = useState([]);
+
+    // useEffect(async() => {
+    //     const formData = new FormData();
+    //     formData.append("process", "all_social_media");
+    //
+    //     const social_medias = await axios.post("/api/profile/social_media", formData,
+    //             {
+    //                 headers: {
+    //                     "Content-Type": "application/json"
+    //                 }
+    //             });
+    //     setSocialMedias(social_medias.data);
+    //
+    //     console.log(socialMedias)
+    // }, []);
 
     const handleAbout = () => {
 
     }
 
-    const handleSocial = () => {
+    const handleSocial = async () => {
 
     }
+
+    const formData = new FormData();
+    formData.append("process", "all_social_media");
+
+     axios.post("/api/profile/social_media", formData,
+        {
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+         .then(res => console.log(res.data))
 
     return (
         <HomeLayout>
@@ -57,6 +83,7 @@ export default function About() {
                          <Dropdown
                              buttonText="Sosyal Medya Ekle"
                              items={["Github","Linkedin","X (Twitter)","Facebook","Instagram", "Youtube"]}
+                             classes=" bg-white shadow-sm ring-1 ring-inset ring-gray-300"
                          />
                      </span>
                      </>
