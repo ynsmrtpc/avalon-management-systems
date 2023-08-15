@@ -22,5 +22,4 @@ export async function getUserInfo(req) {
     } catch (error) {
         return error;
     }
-
 }

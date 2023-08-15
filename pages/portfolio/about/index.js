@@ -33,16 +33,16 @@ export default function About() {
 
     }
 
-    const formData = new FormData();
-    formData.append("process", "all_social_media");
-
-     axios.post("/api/profile/social_media", formData,
-        {
-            headers: {
-                "Content-Type": "application/json"
-            }
-        })
-         .then(res => console.log(res.data))
+    // const formData = new FormData();
+    // formData.append("process", "all_social_media");
+    //
+    //  axios.post("/api/profile/social_media", formData,
+    //     {
+    //         headers: {
+    //             "Content-Type": "application/json"
+    //         }
+    //     })
+    //      .then(res => console.log(res.data))
 
     return (
         <HomeLayout>
