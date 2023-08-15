@@ -1,38 +1,65 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Avalon Management Systems
 
-## Getting Started
+![Avalon Logo]([link-to-logo.png](https://wxpbrdtmrnvqglioltbm.supabase.co/storage/v1/object/public/avalon/logo.png))
 
-First, run the development server:
+Avalon Management Systems, işinizi büyütmeniz ve verimliliğinizi artırmanız için gereken güçlü ve kullanıcı dostu bir yönetim panelidir. Deneyimli bir ekip tarafından geliştirilen Avalon, projenizi kolayca yönetmenize, kullanıcıları yönetmenize, veritabanınızı yönetmenize ve daha fazlasını yapmanıza olanak tanır.
 
-```bash
+## Özellikler
+
+- Kullanıcı Dostu Arayüz: Avalon, sezgisel bir arayüzle projenizi yönetmeyi kolaylaştırır.
+- Kullanıcı Yönetimi: Kullanıcıları eklemek, güncellemek veya silmek için kolay bir yönetim paneli sunar.
+- Veritabanı Yönetimi: PostgreSQL ve Supabase kullanarak veritabanınızı etkili bir şekilde yönetebilirsiniz.
+
+## Kullanılan Teknolojiler
+
+- Next.js: Modern ve hızlı bir web uygulaması geliştirme çerçevesi.
+- Axios: HTTP istekleri göndermek ve almak için kullanılır.
+- PostgreSQL: Güçlü açık kaynaklı ilişkisel veritabanı yönetim sistemi.
+- Supabase: Veritabanı yönetimi ve geliştirme platformu.
+- Sequelize: SQL tabanlı veritabanı işlemlerini yönetmek için kullanılır.
+
+## Nasıl Çalışır
+
+1. Projenin ana dizininde `.env.local` adında bir dosya oluşturun.
+2. Dosyanın içine aşağıdaki değerleri ekleyin:
+
+DB_HOST=your-database-host
+DB_PASS=your-database-password
+SECRET_KEY=your-jwt-secret-key
+
+3. Gereksinimleri yüklemek için terminalde aşağıdaki komutlardan birini çalıştırın:
+
+npm install
+
+veya
+yarn install
+
+veya
+pnpm install
+
+4. Proje üzerinde yerel sunucuyu başlatmak için terminalde aşağıdaki komutu çalıştırın:
+
 npm run dev
-# or
+
+veya
 yarn dev
-# or
+
+veya
 pnpm dev
-```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+5. Sunucuda çalıştırmak için aşağıdaki komutları kullanabilirsiniz:
 
-You can start editing the page by modifying `pages/index_eski.js`. The page auto-updates as you edit the file.
+npm run build
+npm start
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+veya
+yarn build
+yarn start
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
+veya
+pnpm build
+pnpm start
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## İletişim
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+Herhangi bir sorunuz veya geri bildiriminiz mi var? Bize [yunusemre_topcu@outlook.com](yunusemre_topcu@outlook.com) adresinden ulaşabilirsiniz.
