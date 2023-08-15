@@ -1,6 +1,6 @@
 # Avalon Management Systems
 
-<img src="https://wxpbrdtmrnvqglioltbm.supabase.co/storage/v1/object/public/avalon/logo.png" alt="Avalon Logo" width="200" align="center">
+<img src="https://wxpbrdtmrnvqglioltbm.supabase.co/storage/v1/object/public/avalon/logo.png" alt="Avalon Logo" width="200" style="text-align:center">
 
 Avalon Management Systems, işinizi büyütmeniz ve verimliliğinizi artırmanız için gereken güçlü ve kullanıcı dostu bir yönetim panelidir. Avalon, projenizi kolayca yönetmenize, kullanıcıları yönetmenize, veritabanınızı yönetmenize ve daha fazlasını yapmanıza olanak tanır.
 
