@@ -25,7 +25,7 @@ import { connectToDatabase } from "@/pages/api/database";
         instagram: DataTypes.STRING,
         linkedin: DataTypes.STRING,
         tiktok: DataTypes.STRING,
-        twitter: DataTypes.STRING,
+        "x (twitter)": DataTypes.STRING,
         youtube: DataTypes.STRING,
     }, {
         tableName: 'users_social_media',

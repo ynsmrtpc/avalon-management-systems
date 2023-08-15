@@ -151,19 +151,22 @@ export default function HomeLayout({children}) {
                         <Dropdown buttonText={(
                             <span className="flex text-center">
                                 <img className="h-6 h-6 rounded-full"
-                                     src={profileData.profile_photo} />
+                                     src={profileData.profile_photo} alt=""/>
                                 {/*<span className="ml-2 mt-0.5">{profileData.name_surname}</span>*/}
                             </span>
                         )}
-                            items={[profileData.email,(
-                                <>
-                                    <button
-                                        className="text-red-500"
-                                        onClick={handleLogout}>
-                                        Çıkış Yap
-                                    </button>
-                                </>
-                            )]}
+                                  items={[profileData.email, (
+                                      <>
+                                          <input
+                                              type="button"
+                                              className="text-red-500"
+                                              onClick={handleLogout}
+                                              value="Çıkış Yap"
+                                              id="Logout"
+                                          />
+                                      </>
+                                  )]}
+                                  labels={["","logout"]}
                         />
                     </div>
                 </div>
@@ -272,7 +275,7 @@ export default function HomeLayout({children}) {
                 "!ml-0": sidebarToggle,
             })}>
                 <div className="p-4 rounded-lg dark:border-gray-700 mt-14 mx-auto md:mx-24"
-                     // onClick={() => setProfileToggle(false)}
+                    // onClick={() => setProfileToggle(false)}
                 >
                     {children}
                 </div>
