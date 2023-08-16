@@ -9,6 +9,7 @@ import Modal from "@/components/Modal/Modal";
 import CustomInput from "@/components/CustomInput/CustomInput";
 import ToggleInput from "@/components/ToggleInput/ToggleInput";
 import {fn_delete} from "@/utils/functions";
+import Loading from "@/components/Loading/Loading";
 
 export default function Blogs() {
     const router = useRouter()
@@ -17,6 +18,7 @@ export default function Blogs() {
     const [modalData, setModalData] = useState([]);
     const [showModal, setShowModal] = useState(false);
     const [buttonText, setButtonText] = useState("Kaydet");
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         getBlogs();
@@ -31,7 +33,10 @@ export default function Blogs() {
                     "Content-Type": "application/json"
                 }
             })
-            .then(res => setBlogs(res.data))
+            .then(res => {
+                setBlogs(res.data);
+                setLoading(false);
+            })
             .catch(err => console.log("error: " + err))
     }
     const handleOpenModal = async (id) => {
@@ -109,158 +114,167 @@ export default function Blogs() {
                 "Content-Type": "application/json"
             }
         });
-       setAuthors(authors_result.data);
+        setAuthors(authors_result.data);
     }
 
     return (
         <HomeLayout>
-            <div className="block md:flex justify-between items-center mb-10">
-                <BreadCrumb path={router.pathname}/>
-                <button
-                    className="grid ml-auto mt-5 md:mt-auto text-md px-5 py-3 rounded text-white bg-green-500 hover:bg-green-400"
-                    onClick={() => handleOpenModal()}>
-                    Yeni Ekle
-                </button>
-            </div>
-
-            <Table
-                theadContent={(
-                    <>
-                        <th className="border-b-2 pb-2 text-left">#</th>
-                        <th className="border-b-2 pb-2 text-center">Resim</th>
-                        <th className="border-b-2 pb-2 ">Başlık</th>
-                        <th className="border-b-2 pb-2">Okuma Süresi</th>
-                        <th className="border-b-2 pb-2 text-center">Yazar</th>
-                        <th className="border-b-2 pb-2 text-center">Durum</th>
-                        <th className="text-right pr-4 border-b-2 pb-2">İşlem</th>
-                    </>
-                )}
-                tbodyContent={(
-                    blogs.map((blog, key) => (
-                        <tr key={key} className="hover:bg-card_bg_dark">
-                            <td className="p-4 text-left">{++key}</td>
-                            <td className="p-4 text-center">
-                                <img className="w-12 rounded-lg" src={blog.imageURL}
-                                     alt={`project-resim-${blog.id}`}/>
-                            </td>
-                            <td className="p-4 ">{blog.title}</td>
-                            <td className="p-4">{blog.readTime}</td>
-                            <td className="p-4 text-center">{blog.user.name_surname}</td>
-                            <td className="p-4 text-center">
-                                <i className={`text-xl fa-solid ${blog.status ? `fa-heart text-green-500` : `fa-heart-crack text-red-500`}`}></i>
-                            </td>
-                            <td className="text-right pt-3">
-                                <button
-                                    type="button"
-                                    title="Edit"
-                                    className="ml-2 border px-1.5 py-0.5 rounded hover:bg-gray-200"
-                                    onClick={() => {
-                                        handleOpenModal(blog.id)
-                                    }}
-                                ><i
-                                    className="fa fa-edit text-green-500"></i>
-                                </button>
-                                <button
-                                    type="button"
-                                    title="Delete"
-                                    className="ml-2 border px-1.5 py-0.5 rounded hover:bg-gray-200"
-                                    onClick={() => handleDelete(blog.id)}
-                                >
-                                    <i className="fa fa-trash text-red-500"></i>
-                                </button>
-                            </td>
-                        </tr>
-                    )))}
-            />
-
-            {showModal && (
+            {loading ? (
                 <>
-                    <Modal
-                        title="Proje Ekle / Düzenle"
-                        onClose={handleCloseModal}
-                        handleModalSubmit={handleModalSubmit}
-                        overlayBlur={true}
-                        size="lg"
-                        buttonText={buttonText}
-                    >
-                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-5">
-                            <div className="col-span-1">
-                                <CustomInput
-                                    labelContent="Proje Adı"
-                                    inputID="project_name"
-                                    inputPlaceholder={modalData.title}
-                                    onInputChange={(e) => setModalData((prevState) => ({
-                                        ...prevState,
-                                        title: e.target.value
-                                    }))}
-                                />
-                            </div>
+                    <Loading />
+                </>
+            ) : (
+                <>
 
-                            <div className="col-span-1">
-                                <CustomInput
-                                    labelContent="Resim URL"
-                                    inputID="image"
-                                    inputPlaceholder={modalData.imageURL}
-                                    onInputChange={(e) => setModalData((prevState) => ({
-                                        ...prevState,
-                                        imageURL: e.target.value
-                                    }))}
-                                />
-                            </div>
+                    <div className="block md:flex justify-between items-center mb-10">
+                        <BreadCrumb path={router.pathname}/>
+                        <button
+                            className="grid ml-auto mt-5 md:mt-auto text-md px-5 py-3 rounded text-white bg-green-500 hover:bg-green-400"
+                            onClick={() => handleOpenModal()}>
+                            Yeni Ekle
+                        </button>
+                    </div>
 
-                            <div className="col-span-1">
-                                <CustomInput
-                                    labelContent="Link"
-                                    inputID="link"
-                                    inputPlaceholder={modalData.url}
-                                    onInputChange={(e) => setModalData((prevState) => ({
-                                        ...prevState,
-                                        url: e.target.value
-                                    }))}
-                                />
-                            </div>
+                    <Table
+                        theadContent={(
+                            <>
+                                <th className="border-b-2 pb-2 text-left">#</th>
+                                <th className="border-b-2 pb-2 text-center">Resim</th>
+                                <th className="border-b-2 pb-2 ">Başlık</th>
+                                <th className="border-b-2 pb-2">Okuma Süresi</th>
+                                <th className="border-b-2 pb-2 text-center">Yazar</th>
+                                <th className="border-b-2 pb-2 text-center">Durum</th>
+                                <th className="text-right pr-4 border-b-2 pb-2">İşlem</th>
+                            </>
+                        )}
+                        tbodyContent={(
+                            blogs.map((blog, key) => (
+                                <tr key={key} className="hover:bg-card_bg_dark">
+                                    <td className="p-4 text-left">{++key}</td>
+                                    <td className="p-4 text-center">
+                                        <img className="w-12 rounded-lg" src={blog.imageURL}
+                                             alt={`project-resim-${blog.id}`}/>
+                                    </td>
+                                    <td className="p-4 ">{blog.title}</td>
+                                    <td className="p-4">{blog.readTime}</td>
+                                    <td className="p-4 text-center">{blog.user.name_surname}</td>
+                                    <td className="p-4 text-center">
+                                        <i className={`text-xl fa-solid ${blog.status ? `fa-heart text-green-500` : `fa-heart-crack text-red-500`}`}></i>
+                                    </td>
+                                    <td className="text-right pt-3">
+                                        <button
+                                            type="button"
+                                            title="Edit"
+                                            className="ml-2 border px-1.5 py-0.5 rounded hover:bg-gray-200"
+                                            onClick={() => {
+                                                handleOpenModal(blog.id)
+                                            }}
+                                        ><i
+                                            className="fa fa-edit text-green-500"></i>
+                                        </button>
+                                        <button
+                                            type="button"
+                                            title="Delete"
+                                            className="ml-2 border px-1.5 py-0.5 rounded hover:bg-gray-200"
+                                            onClick={() => handleDelete(blog.id)}
+                                        >
+                                            <i className="fa fa-trash text-red-500"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            )))}
+                    />
 
-                            <div className="col-span-1">
-                                <CustomInput
-                                    labelContent="Okuma Süresi"
-                                    inputID="read_time"
-                                    inputPlaceholder={modalData.readTime}
-                                    onInputChange={(e) => setModalData((prevState) => ({
-                                        ...prevState,
-                                        readTime: e.target.value
-                                    }))}
-                                />
-                            </div>
-
-                            <div className="col-span-1">
-                                <label htmlFor="authors">Yazar Seçin </label>
-                                <select name="authors"
-                                        id="authors"
-                                        className="block rounded py-1.5 w-full bg-[#f1f1f1f1] dark:bg-[#394051] px-3 focus:bg-white
-                dark:focus:bg-card_bg_dark transition-[background-color] outline-[#4b5563]"
-                                        onChange={(e) => setModalData((prevState) => ({
-                                            ...prevState,
-                                            user_id: e.target.value
-                                        }))}
+                    {
+                        showModal && (
+                            <>
+                                <Modal
+                                    title="Proje Ekle / Düzenle"
+                                    onClose={handleCloseModal}
+                                    handleModalSubmit={handleModalSubmit}
+                                    overlayBlur={true}
+                                    size="lg"
+                                    buttonText={buttonText}
                                 >
-                                    <option value="-1">Seçiniz</option>
-                                    {authors.map(author => (
-                                        <>
-                                            <option selected={modalData.user_id === author.id} value={author.id}>{author.name_surname}</option>
-                                        </>
-                                    ))}
-                                </select>
-                            </div>
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-5">
+                                        <div className="col-span-1">
+                                            <CustomInput
+                                                labelContent="Proje Adı"
+                                                inputID="project_name"
+                                                inputPlaceholder={modalData.title}
+                                                onInputChange={(e) => setModalData((prevState) => ({
+                                                    ...prevState,
+                                                    title: e.target.value
+                                                }))}
+                                            />
+                                        </div>
 
-                            <div className="col-span-1 mx-auto">
-                                <ToggleInput
-                                    labelContent="Status"
-                                    isChecked={modalData.status}
-                                    onChange={handleToggleChange}
-                                />
-                            </div>
+                                        <div className="col-span-1">
+                                            <CustomInput
+                                                labelContent="Resim URL"
+                                                inputID="image"
+                                                inputPlaceholder={modalData.imageURL}
+                                                onInputChange={(e) => setModalData((prevState) => ({
+                                                    ...prevState,
+                                                    imageURL: e.target.value
+                                                }))}
+                                            />
+                                        </div>
 
-                            <div className="col-span-2">
+                                        <div className="col-span-1">
+                                            <CustomInput
+                                                labelContent="Link"
+                                                inputID="link"
+                                                inputPlaceholder={modalData.url}
+                                                onInputChange={(e) => setModalData((prevState) => ({
+                                                    ...prevState,
+                                                    url: e.target.value
+                                                }))}
+                                            />
+                                        </div>
+
+                                        <div className="col-span-1">
+                                            <CustomInput
+                                                labelContent="Okuma Süresi"
+                                                inputID="read_time"
+                                                inputPlaceholder={modalData.readTime}
+                                                onInputChange={(e) => setModalData((prevState) => ({
+                                                    ...prevState,
+                                                    readTime: e.target.value
+                                                }))}
+                                            />
+                                        </div>
+
+                                        <div className="col-span-1">
+                                            <label htmlFor="authors">Yazar Seçin </label>
+                                            <select name="authors"
+                                                    id="authors"
+                                                    className="block rounded py-1.5 w-full bg-[#f1f1f1f1] dark:bg-[#394051] px-3 focus:bg-white
+                dark:focus:bg-card_bg_dark transition-[background-color] outline-[#4b5563]"
+                                                    onChange={(e) => setModalData((prevState) => ({
+                                                        ...prevState,
+                                                        user_id: e.target.value
+                                                    }))}
+                                            >
+                                                <option value="-1">Seçiniz</option>
+                                                {authors.map(author => (
+                                                    <>
+                                                        <option selected={modalData.user_id === author.id}
+                                                                value={author.id}>{author.name_surname}</option>
+                                                    </>
+                                                ))}
+                                            </select>
+                                        </div>
+
+                                        <div className="col-span-1 mx-auto">
+                                            <ToggleInput
+                                                labelContent="Status"
+                                                isChecked={modalData.status}
+                                                onChange={handleToggleChange}
+                                            />
+                                        </div>
+
+                                        <div className="col-span-2">
                                 <textarea
                                     className={"block rounded py-1.5 w-full bg-[#f1f1f1f1] dark:bg-[#394051] px-3 focus:bg-white dark:focus:bg-card_bg_dark transition-[background-color] outline-[#4b5563]"}
                                     rows="7"
@@ -270,9 +284,12 @@ export default function Blogs() {
                                         spot: e.target.value
                                     }))}
                                 ></textarea>
-                            </div>
-                        </div>
-                    </Modal>
+                                        </div>
+                                    </div>
+                                </Modal>
+                            </>
+                        )
+                    }
                 </>
             )}
         </HomeLayout>

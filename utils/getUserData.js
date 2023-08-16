@@ -1,8 +1,8 @@
 import jwt from "jsonwebtoken";
 export default async function getUserData(req) {
   const cookies = req.headers.cookie;
-
-  const token = cookies.trim().startsWith("login_token=")
+console.log(cookies);
+  const token = cookies
     ? cookies
         .split(";")
         .find((cookie) => cookie.trim().startsWith("login_token="))

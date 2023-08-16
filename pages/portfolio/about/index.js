@@ -13,7 +13,6 @@ export default function About() {
     const router = useRouter()
     const [socialMediaNames, setSocialMediaNames] = useState([]);
     const [loading, setLoading] = useState(true);
-    const [result, setResult] = useState(null);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -32,7 +31,6 @@ export default function About() {
                 ]);
                 const updatedResult = { socialData: socialData.data[0] };
 
-                setResult(updatedResult);
                 setLoading(false);
 
                 // Sosyal medya isimlerini almak için "data" objesini dolaşıyoruz
@@ -44,7 +42,6 @@ export default function About() {
                 console.error('Hata:', error);
             }
         };
-
         fetchData();
     }, []);
 
@@ -78,6 +75,7 @@ export default function About() {
     const addSocialMedia = (social_media) => {
         console.log(social_media)
     }
+
 
     return (
         <HomeLayout>
