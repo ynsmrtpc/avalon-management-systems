@@ -53,13 +53,11 @@ export default function About() {
 
     const addSocialMedia = () => {
         const foundSocialMedia = socialMediaNames.find(social => socialMedia.includes(social));
-
         if (foundSocialMedia) {
-            return {socialMediaName: foundSocialMedia, socialMediaURL: socialMedia}
+            const result = {socialMediaName: foundSocialMedia, socialMediaURL: socialMedia}
         }
         return 0;
     }
-
 
     return (
         <HomeLayout>
@@ -121,14 +119,14 @@ export default function About() {
                                 burada veritabanından çektiğin sosyal medya isimleri o inputun içinde varsa direkt o alana kayıt at
                                 mesela twitter varsa eğer inputun içinde kaydı oraya at
                                 */}
-                                <div key={key} className="my-2">
-                                    <small className="font-xs font-thin">Sosyal Medya linkinizi aşağıya yapıştırın ve
+                                <div className="my-2">
+                                    <small className="text-xs font-thin block">* Sosyal Medya linkinizi aşağıya yapıştırın ve
                                         'Enter' tuşuna basın</small>
-                                    <small className="font-xs font-thin">Birden fazla ekleme yapmak için aralara virgül
+                                    <small className="text-xs font-thin block">* Birden fazla ekleme yapmak için aralara virgül
                                         koyunuz</small>
                                     <CustomInput
+                                        className="mt-2"
                                         inputID="social_media"
-                                        labelContent="Sosyal Medya"
                                         inputPlaceholder="Sosyal Medya Linkinizi Buraya Yapıştırın..."
                                         onInputChange={(e) => setSocialMedia(e.target.value)}
                                         handleSubmit={(event) => event.key === 'Enter' ? addSocialMedia() : null}

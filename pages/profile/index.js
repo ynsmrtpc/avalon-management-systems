@@ -7,6 +7,7 @@ import HomeLayout from "@/layouts/HomeLayout";
 import getUserData from "@/utils/getUserData";
 import BreadCrumb from "@/components/BreadCrumb/BreadCrumb";
 import {useRouter} from "next/router";
+import Loading from "@/components/Loading/Loading";
 
 export default function Profile() {
     const router = useRouter();
@@ -20,7 +21,6 @@ export default function Profile() {
     const socialMediaNames = [];
 
     useEffect(() => {
-
         const fetchData = async () => {
             try {
                 const formData = new FormData();
@@ -29,7 +29,6 @@ export default function Profile() {
                 const social_media_form = new FormData();
                 social_media_form.append("process", "social_media_get");
                 social_media_form.append("attributes", ["instagram", "facebook", "twitter", "tiktok", "youtube", "linkedin", "github"]);
-
 
                 const [profileData, socialData] = await Promise.all([
                     axios.post("/api/profile", formData,
@@ -45,7 +44,8 @@ export default function Profile() {
                             }
                         }),
                 ]);
-                setProfileData({setProfileData: profileData.data, setSocialMediaData: socialData.data})
+                setProfileData(profileData.data)
+                setSocialMediaData(socialData.data)
                 // const updatedResult = { socialData: socialData.data[0] };
 
                 setLoading(false);
@@ -100,7 +100,7 @@ export default function Profile() {
 
             {loading ? (
                     <>
-                        <Loading />
+                        <Loading/>
                     </>
                 ) :
                 (
