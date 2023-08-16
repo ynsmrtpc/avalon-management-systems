@@ -13,6 +13,7 @@ export default function About() {
     const router = useRouter()
     const [socialMediaNames, setSocialMediaNames] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [socialMedia, setSocialMedia] = useState("");
 
     useEffect(() => {
         const fetchData = async () => {
@@ -29,7 +30,7 @@ export default function About() {
                         }),
                     // axios.get('url2')
                 ]);
-                const updatedResult = { socialData: socialData.data[0] };
+                const updatedResult = {socialData: socialData.data[0]};
 
                 setLoading(false);
 
@@ -46,34 +47,17 @@ export default function About() {
     }, []);
 
 
-    // useEffect(() => {
-    //     const fetchSocialData = async () => {
-    //         const formData = new FormData();
-    //         formData.append("process", "all_social_media");
-    //
-    //         const result = await axios.post("/api/profile/social_media", formData,
-    //             {
-    //                 headers: {
-    //                     "Content-Type": "application/json"
-    //                 }
-    //             });
-    //         const data = await result.data[0];
-    //
-    //         // Sosyal medya isimlerini almak için "data" objesini dolaşıyoruz
-    //         const names = Object.keys(data)
-    //             .filter(key => key !== "id");
-    //         setSocialMediaNames(names);
-    //     }
-    //
-    //     fetchSocialData();
-    // }, []);
-
     const handleAbout = () => {
 
     }
 
-    const addSocialMedia = (social_media) => {
-        console.log(social_media)
+    const addSocialMedia = () => {
+        const foundSocialMedia = socialMediaNames.find(social => socialMedia.includes(social));
+
+        if (foundSocialMedia) {
+            return {socialMediaName: foundSocialMedia, socialMediaURL: socialMedia}
+        }
+        return 0;
     }
 
 
@@ -136,13 +120,20 @@ export default function About() {
                                 tek bir input yap ve girilen text'i socialMediaControl fonksiyonuna gönder
                                 burada veritabanından çektiğin sosyal medya isimleri o inputun içinde varsa direkt o alana kayıt at
                                 mesela twitter varsa eğer inputun içinde kaydı oraya at
-
                                 */}
-                                {socialMediaNames.map((social,key) => (
-                                    <div key={key} className="my-2">
-                                        <CustomInput inputID={social} inputPlaceholder={fn_make_label(social)}  />
-                                    </div>
-                                ))}
+                                <div key={key} className="my-2">
+                                    <small className="font-xs font-thin">Sosyal Medya linkinizi aşağıya yapıştırın ve
+                                        'Enter' tuşuna basın</small>
+                                    <small className="font-xs font-thin">Birden fazla ekleme yapmak için aralara virgül
+                                        koyunuz</small>
+                                    <CustomInput
+                                        inputID="social_media"
+                                        labelContent="Sosyal Medya"
+                                        inputPlaceholder="Sosyal Medya Linkinizi Buraya Yapıştırın..."
+                                        onInputChange={(e) => setSocialMedia(e.target.value)}
+                                        handleSubmit={(event) => event.key === 'Enter' ? addSocialMedia() : null}
+                                    />
+                                </div>
                             </Card>
                         </div>
                     </div>

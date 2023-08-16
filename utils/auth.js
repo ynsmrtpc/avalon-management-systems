@@ -2,7 +2,7 @@ import jwt from 'jsonwebtoken';
 import initialize from "@/pages/api/Models/ProfileModel";
 
 export async function authenticateUser(username, password) {
-    const {UserInfo} = await initialize();
+    const { UserInfo } = await initialize();
 
     try {
         const data = await UserInfo.findOne({
@@ -14,9 +14,9 @@ export async function authenticateUser(username, password) {
         });
 
         if (data) {
-            return {error: 0, message: "Giriş Yapıldı", id:data.id};
+            return { error: 0, message: "Giriş Yapıldı", id: data.id };
         } else {
-            return {error: 1, message: "Kullanıcı adı veya şifre hatalı!"};
+            return { error: 1, message: "Kullanıcı adı veya şifre hatalı!" };
         }
     } catch (error) {
         return "Veritabanı hatası"
@@ -24,5 +24,5 @@ export async function authenticateUser(username, password) {
 }
 
 export function generateToken(username, role) {
-    return jwt.sign({username, role},`${process.env.SECRET_KEY}`, {expiresIn: '1h'});
+    return jwt.sign({ username, role }, `${process.env.SECRET_KEY}`, { expiresIn: '1h' });
 }
