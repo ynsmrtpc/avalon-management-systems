@@ -12,13 +12,13 @@ import Loading from "@/components/Loading/Loading";
 export default function Profile() {
     const router = useRouter();
     const [profileData, setProfileData] = useState({});
+    const [profileNames, setProfileNames] = useState({});
     const [socialMediaData, setSocialMediaData] = useState({});
+    const [socialMediaNames, setSocialMediaNames] = useState({});
     const [socialMedia, setSocialMedia] = useState("");
     const [socialMediaURL, setSocialMediaURL] = useState("");
     const [message, setMessage] = useState("");
     const [loading, setLoading] = useState(true);
-    const numberOfProfile = [];
-    const socialMediaNames = [];
 
     useEffect(() => {
         const fetchData = async () => {
@@ -44,34 +44,36 @@ export default function Profile() {
                             }
                         }),
                 ]);
-                setProfileData(profileData.data)
-                setSocialMediaData(socialData.data)
-                // const updatedResult = { socialData: socialData.data[0] };
+
+                // setSocialMediaData(socialData.data)
+                const updatedResult = {profileData: profileData.data, socialData: socialData.data};
 
                 setLoading(false);
+                // setProfileData(updatedResult.profileData)
+
+                const profile = Object.keys(updatedResult.profileData)
+                    .filter(key => key === "id" && key === "password");
+                setProfileNames(profile);
+                setProfileData(updatedResult.profileData);
+
+                // Sosyal medya isimlerini almak için "data" objesini dolaşıyoruz
+                const names = Object.keys(updatedResult.socialData)
+                    .filter(key => key !== "id");
+                setSocialMediaNames(names);
+                setSocialMediaData(updatedResult.socialData);
 
             } catch (error) {
                 console.error('Hata:', error);
             }
         };
         fetchData();
+
     }, []);
 
-    Object.keys(socialMediaData).forEach((item) => {
-        socialMediaNames.push(item);
-    });
-    Object.keys(profileData).forEach((item) => {
-        if (item !== "id" && item !== "profile_photo" && item !== "password") {
-            numberOfProfile.push(item);
-        }
-    });
+
     const socialMediaHandle = (social_media) => {
-        setSocialMedia(social_media);
-        setSocialMediaURL(
-            socialMediaData[social_media] === null
-                ? ""
-                : socialMediaData[social_media]
-        );
+        const result = socialMediaData[social_media];
+        setSocialMediaURL(result === null ? " " : result);
     };
     const socialButtonHandle = async () => {
         const formData = new FormData();
@@ -161,7 +163,7 @@ export default function Profile() {
                                 </h4>
                                 <div className="mt-4 flex">
 
-                                    {socialMedia && (
+                                    {socialMediaURL && (
                                         <CustomInput
                                             inputPlaceholder={
                                                 "Your " + fn_make_label(socialMedia) + " profile URL"
@@ -191,12 +193,6 @@ export default function Profile() {
                                             className={classNames(
                                                 "py-3 px-4 hover:bg-primary_logo_light rounded dark:hover:bg-primary_logo_dark mx-auto",
                                                 {
-                                                    "bg-green-400 dark:bg-green-800":
-                                                        socialMediaData[social_media] &&
-                                                        socialMedia !== social_media,
-                                                    "bg-red-400 dark:bg-red-800":
-                                                        !socialMediaData[social_media] &&
-                                                        socialMedia !== social_media,
                                                     "dark:bg-primary_logo_dark": socialMedia === social_media,
                                                 }
                                             )}
@@ -213,12 +209,12 @@ export default function Profile() {
                                 <h4 className="text-2xl"> General Information </h4>
                                 <div className="grid grid-cols-1 md:grid-cols-12 gap-5 mt-4">
 
-                                    {numberOfProfile.map((user) => (
+                                    {profileNames.map((user) => (
                                         <fieldset className="col-span-6" key={user}>
                                             <CustomInput
                                                 inputID={user}
                                                 labelContent={fn_make_label(user)}
-                                                inputPlaceholder={profileData[user]}
+                                                inputValue={profileData.user}
                                             />
                                         </fieldset>
                                     ))}
