@@ -27,6 +27,7 @@ import { connectToDatabase } from "@/pages/api/database";
         tiktok: DataTypes.STRING,
         twitter: DataTypes.STRING,
         youtube: DataTypes.STRING,
+        user_id: DataTypes.INTEGER
     }, {
         tableName: 'users_social_media',
         timestamps: false, // createdAt ve updatedAt sütunlarını devre dışı bırak

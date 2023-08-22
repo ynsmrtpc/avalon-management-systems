@@ -1,7 +1,7 @@
-import initialize from "@/pages/api/Models/PortfolioModel";
+import init_portfolio from "@/pages/api/Models/PortfolioModel";
 
 export default async function handler(req, res) {
-    const {ProjectsModel} = await initialize();
+    const {ProjectsModel} = await init_portfolio();
     let {id, process, data} = req.body;
     data = data !== undefined ? JSON.parse(data) : "";
 
@@ -63,5 +63,4 @@ export default async function handler(req, res) {
                 });
             break;
     }
-
 }

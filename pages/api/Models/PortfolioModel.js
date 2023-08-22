@@ -1,5 +1,5 @@
-import { DataTypes } from "sequelize";
-import { connectToDatabase } from "@/pages/api/database";
+import {DataTypes} from "sequelize";
+import {connectToDatabase} from "@/pages/api/database";
 
 async function init_portfolio() {
     const db = await connectToDatabase();
@@ -13,18 +13,18 @@ async function init_portfolio() {
         timestamps: false, // createdAt ve updatedAt sütunlarını devre dışı bırak
     });
 
-    const ProjectsModel = db.define("projects", {
+    const ProjectsModel = db.define("portfolio_projects", {
         title: DataTypes.STRING,
         description: DataTypes.STRING,
         image_url: DataTypes.STRING,
         link: DataTypes.STRING,
         status: DataTypes.INTEGER
     }, {
-        tableName: 'projects',
+        tableName: 'portfolio_projects',
         timestamps: false, // createdAt ve updatedAt sütunlarını devre dışı bırak
     });
 
-    const BlogsModel = db.define("medium_blogs", {
+    const BlogsModel = db.define("portfolio_blogs", {
         title: DataTypes.STRING,
         readTime: DataTypes.STRING,
         imageURL: DataTypes.STRING,
@@ -33,14 +33,41 @@ async function init_portfolio() {
         user_id: DataTypes.INTEGER,
         status: DataTypes.INTEGER
     }, {
-        tableName: 'medium_blogs',
+        tableName: 'portfolio_blogs',
+        timestamps: false, // createdAt ve updatedAt sütunlarını devre dışı bırak
+    });
+
+    const GeneralInfoModel = db.define("portfolio_general_information", {
+        user_id: DataTypes.INTEGER,
+        about: DataTypes.TEXT,
+        interests: DataTypes.STRING,
+        mail_address: DataTypes.STRING
+    }, {
+        tableName: 'portfolio_general_information',
+        timestamps: false, // createdAt ve updatedAt sütunlarını devre dışı bırak
+    });
+
+    const SocialMediaModel = db.define('portfolio_social_media', {
+        facebook: DataTypes.STRING,
+        github: DataTypes.STRING,
+        instagram: DataTypes.STRING,
+        linkedin: DataTypes.STRING,
+        tiktok: DataTypes.STRING,
+        twitter: DataTypes.STRING,
+        youtube: DataTypes.STRING,
+        user_id: DataTypes.INTEGER
+    }, {
+        tableName: 'portfolio_social_media',
         timestamps: false, // createdAt ve updatedAt sütunlarını devre dışı bırak
     });
 
     return {
         CertificateModel,
         ProjectsModel,
-        BlogsModel
+        BlogsModel,
+        GeneralInfoModel,
+        SocialMediaModel
     };
 }
+
 export default init_portfolio;

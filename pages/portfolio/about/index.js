@@ -13,45 +13,54 @@ import Alert from "@/components/Alert/Alert";
 
 export default function About() {
     const router = useRouter()
-    const [socialMediaNames, setSocialMediaNames] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [socialMediaNames, setSocialMediaNames] = useState([]);
     const [socialMedia, setSocialMedia] = useState("");
-    const [socialMediaSelected, setSocialMediaSelected] = useState("github");
-    const [socialData, setSocialData] = useState("github");
+    const [socialMediaSelected, setSocialMediaSelected] = useState("");
+    const [socialData, setSocialData] = useState("");
     const [loadingSocial, setLoadingSocial] = useState(false);
     const [resultPackage, setResultPackage] = useState({error: 0, message: ""})
-    const [aboutText, setAboutText] = useState("");
+    const [aboutData, setAboutData] = useState(null);
 
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const formData = new FormData();
-                formData.append("process", "all_social_media");
+                formData.append("action", "getSocial")
+                const formDataAbout = new FormData();
+                formDataAbout.append("action", "getAbout");
 
-                const [socialData] = await Promise.all([
-                    axios.post("/api/profile/social_media", formData,
+                const [socialData, fetchAbout] = await Promise.all([
+                    axios.post("/api/portfolio/about", formData,
                         {
                             headers: {
                                 "Content-Type": "application/json"
                             }
                         }),
+                    axios.post("/api/portfolio/about", formDataAbout, {
+                        headers: {
+                            "Content-Type": "application/json"
+                        }
+                    })
                 ]);
-                const updatedResult = {socialData: socialData.data[0]};
+                const updatedResult = {socialData: socialData.data[0], fetchAbout: fetchAbout.data[0]};
 
                 setLoading(false);
 
                 // Sosyal medya isimlerini almak için "data" objesini dolaşıyoruz
                 const names = Object.keys(updatedResult.socialData)
-                    .filter(key => key !== "id");
+                    .filter(key => key !== "id" && key !== "user_id");
                 setSocialMediaNames(names);
                 setSocialData(updatedResult.socialData);
+
+                setAboutData(updatedResult.fetchAbout);
+                console.log(aboutData)
             } catch (error) {
                 console.error('Hata:', error);
             }
         };
         fetchData();
     }, []);
-
     const handleAbout = () => {
         const formDataAbout = new FormData();
         formDataAbout.append("content", aboutText);
@@ -66,24 +75,27 @@ export default function About() {
             .catch(err => setResultPackage({error: 1, message: err}))
             .finally(() => setLoadingSocial(false));
     }
-
-    const addSocialMedia = () => {
+    const addSocialMedia = async () => {
         const foundSocialMedia = socialMediaNames.find(social => socialMedia.includes(social));
         if (foundSocialMedia) {
             setLoadingSocial(true);
             const formDataSocial = new FormData();
-            formDataSocial.append("process", "social_media_add");
-            formDataSocial.append("url", socialMedia);
-            formDataSocial.append("socialMedia", socialMediaSelected);
-            axios
-                .post("/api/profile/social_media", formDataSocial, {
+            formDataSocial.append("action", "addSocial");
+            formDataSocial.append("data", JSON.stringify({
+                socialMediaName: socialMediaSelected,
+                socialMediaURL: socialMedia
+            }))
+
+            const socialMediaResult = await axios
+                .post("/api/portfolio/about", formDataSocial, {
                     "headers": {
                         "Content-Type": "application/json",
                     }
                 })
-                .then(res => setResultPackage({error: 0, message: res.data}))
-                .catch(err => setResultPackage({error: 1, message: err}))
                 .finally(() => setLoadingSocial(false));
+
+            const resultPackage = socialMediaResult.data;
+            setResultPackage({error: resultPackage.error, message: resultPackage.message});
         } else {
             setResultPackage({error: 1, message: "Hatalı bir adres girdiniz..."})
         }
@@ -102,39 +114,40 @@ export default function About() {
                         <BreadCrumb path={router.pathname}/>
                     </div>
 
-                    <div className="grid grid-cols-2 gap-5">
-                        <div className="grid-cols-12">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                        <div className="grid-cols-12 md:grid-cols-6">
                             <Card cardTitle="Hakkında">
-
-                      <textarea name="hakkinda"
-                                id="hakkinda"
-                                rows="7"
-                                onChange={(e) => setAboutText(e.target.value)}
-                                className="block mt-4 rounded py-1.5 w-full bg-[#f1f1f1f1] dark:bg-[#394051] px-3 focus:bg-white dark:focus:bg-card_bg_dark transition-[background-color] outline-[#4b5563]"
-                      >
-                      </textarea>
+                              <textarea name="about"
+                                        id="about"
+                                        rows="7"
+                                        placeholder={aboutData.about}
+                                        onChange={(e) => setAboutData((prevState) => ({
+                                            ...prevState,
+                                            about: e.target.value
+                                        }))}
+                                        className="block mt-4 rounded py-1.5 w-full bg-[#f1f1f1f1] dark:bg-[#394051] px-3 focus:bg-white dark:focus:bg-card_bg_dark transition-[background-color] outline-[#4b5563]"
+                              >
+                              </textarea>
 
                                 <button
-                                    className="grid ml-auto mt-5 mb-2 my-auto text-xs p-2 rounded text-white bg-green-500 hover:bg-green-400"
+                                    className="grid ml-auto mt-5 mb-2 my-auto text-xs p-2 rounded text-white dark:bg-green-800 dark:hover:bg-green-700 bg-green-500 hover:bg-green-400"
                                     onClick={handleAbout}>
                                     Kaydet
                                 </button>
                             </Card>
                         </div>
-
                         <div className="grid-cols-12 md:grid-cols-6">
                             <Card cardTitle={(
                                 <>
-                     <span className="flex justify-between">
-
-                         <span>Sosyal Medya</span>
-                     </span>
+                                 <span className="flex justify-between">
+                                     <span>Sosyal Medya</span>
+                                 </span>
                                 </>
                             )}>
                                 <CustomInput
                                     className="mt-3"
                                     inputID="social_media"
-                                    inputPlaceholder={`${fn_make_label(socialMediaSelected)} Linkinizi Buraya Girin ve 'Enter' Basın`}
+                                    inputPlaceholder={socialMediaSelected === "" ? "Aşağıdan eklemek istediğiniz sosyal medya linkinizi seçiniz..." : `${fn_make_label(socialMediaSelected)} linkinizi buraya girin ve 'Enter' basın`}
                                     onInputChange={(e) => setSocialMedia(e.target.value)}
                                     handleSubmit={(event) => event.key === 'Enter' ? addSocialMedia() : null}
                                     inputValue={socialMedia}
@@ -150,12 +163,18 @@ export default function About() {
                                                 setSocialMediaSelected(social_media)
                                             }}
                                             className={classNames(
-                                                "py-3 px-4 hover:bg-primary_logo_light rounded dark:hover:bg-primary_logo_dark mx-auto",
+                                                "relative py-3 px-4 hover:bg-primary_logo_light rounded dark:hover:bg-primary_logo_dark mx-auto",
                                                 {
                                                     "dark:bg-primary_logo_dark": socialMediaSelected === social_media,
+                                                    "border-2 border-gray-600": socialData[social_media]
                                                 }
                                             )}
                                         >
+                                            {socialData[social_media] && (
+                                                <>
+                                                    <span className="bg-green-500 rounded-full p-1 absolute top-1 right-1"></span>
+                                                </>
+                                            )}
                                             {(loadingSocial && social_media === socialMediaSelected) ? (
                                                     <>
                                                         <div role="status">
@@ -184,12 +203,60 @@ export default function About() {
                                     ))}
                                 </div>
                                 {resultPackage.message && (
-                                    <>
+                                    <div className="my-2">
                                         <Alert error={resultPackage.error} message={resultPackage.message}></Alert>
-                                    </>
+                                    </div>
                                 )}
                             </Card>
+
+                            <div className="mt-3">
+                                <Card cardTitle={(
+                                    <>
+                                        <div className="flex justify-between">
+                                            <span>Mail Adresi</span>
+                                            <span className="text-xs">
+                                                <Alert/>
+                                            </span>
+                                        </div>
+                                    </>
+                                )}>
+                                    <div className="relative">
+                                        <CustomInput className="my-2"
+                                                     inputID="email"
+                                                     type="email"
+                                                     inputPlaceholder={aboutData.mail_address}
+                                                     onInputChange={e => setAboutData((prevState) => ({
+                                                         ...prevState,
+                                                         mail: e.target.value
+                                                     }))}
+                                        />
+                                        <button
+                                            className="absolute top-0 right-0 text-xs p-2.5 rounded text-white dark:bg-green-800 dark:hover:bg-green-700 bg-green-500 hover:bg-green-400"
+                                            // onClick={handleMail}>
+                                        >Kaydet
+                                        </button>
+                                    </div>
+                                </Card>
+                            </div>
                         </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 gap-5 mt-5">
+                        <div className="grid-cols-12 md:grid-cols-6">
+                            <Card cardTitle={
+                                <div className="flex justify-between">
+                                    <span>İlgi Alanları</span>
+                                    <button
+                                        className="text-xs p-2.5 rounded text-white dark:bg-green-800 dark:hover:bg-green-700 bg-green-500 hover:bg-green-400"
+                                    >
+                                        Yeni Ekle
+                                    </button>
+                                </div>
+                            }>
+                                as
+                            </Card>
+                        </div>
+
                     </div>
                 </>
             )}

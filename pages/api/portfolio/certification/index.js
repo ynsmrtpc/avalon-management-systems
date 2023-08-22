@@ -1,6 +1,6 @@
-import initialize from "@/pages/api/Models/PortfolioModel";
+import init_portfolio from "@/pages/api/Models/PortfolioModel";
 export default async function handler(req, res) {
-    const {CertificateModel} = await initialize();
+    const {CertificateModel} = await init_portfolio();
     CertificateModel.findAll({
         order: [['certification_name', 'ASC']],
     })

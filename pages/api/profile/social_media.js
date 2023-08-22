@@ -26,19 +26,23 @@ export default async function handler(req, res) {
 
         case "social_media_get":
             try {
-                const data = await UsersSocialMedia.findOne({
+                let socialMedias = await UsersSocialMedia.findAll({
                     attributes: attributes,
                     where: {
                         user_id: user_id
                     }
                 });
-                if (data) {
-                    res.status(200).json(data);
-                } else {
-                    res.status(404).json({message: 'Veri bulunamadı'});
+
+                if (socialMedias.length === 0) {
+                    const newSocialMedia = await UsersSocialMedia.create({
+                        user_id: user_id,
+                    });
+                    socialMedias = [newSocialMedia]; // Yeni kaydı dizinin içine ekleyerek güncelliyoruz
                 }
+
+                res.status(200).json(socialMedias[0], user_id);
             } catch (error) {
-                res.status(500).json({message: 'Veri çekme hatası:' + error});
+                res.status(500).json({error: 0, message: `Kayıt getirilirken hata oluştu! ${error}`});
             }
             break;
 

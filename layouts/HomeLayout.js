@@ -166,7 +166,7 @@ export default function HomeLayout({children}) {
                                           />
                                       </>
                                   )]}
-                                  labels={["","logout"]}
+                                  labels={["", "logout"]}
                         />
                     </div>
                 </div>

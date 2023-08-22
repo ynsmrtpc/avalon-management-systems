@@ -1,9 +1,10 @@
 import {Op} from "sequelize";
 import init_profile from "@/pages/api/Models/ProfileModel";
-import init_yet from "@/pages/api/Models/PortfolioModel";
+import init_portfolio from "@/pages/api/Models/PortfolioModel";
+import {getUserInfo} from "@/utils/getUserInfo";
 
 export default async function handler(req, res) {
-    const {BlogsModel} = await init_yet();
+    const {BlogsModel} = await init_portfolio();
     const {UserInfo} = await init_profile();
 
     let {id, process, data} = req.body;
@@ -60,6 +61,7 @@ export default async function handler(req, res) {
 
         case "get":
             BlogsModel.belongsTo(UserInfo, {foreignKey: 'user_id', as: 'user'});
+            const user_id = await getUserInfo(req, res);
 
             await BlogsModel.findAll({
                 attributes: ['id', 'title', 'readTime', 'imageURL', 'spot', 'url', 'user_id', 'status'],
@@ -69,9 +71,12 @@ export default async function handler(req, res) {
                     as: 'user',
                     attributes: ['name_surname'],
                     where: {
-                        id: {[Op.col]: 'medium_blogs.user_id'} // ilişki koşulunu belirtiyoruz
+                        id: {[Op.col]: 'portfolio_blogs.user_id'} // ilişki koşulunu belirtiyoruz
                     }
                 }],
+                where:{
+                    user_id: user_id
+                },
                 order: [['title', 'ASC']]
             })
                 .then(data => {
@@ -95,5 +100,4 @@ export default async function handler(req, res) {
                 });
             break;
     }
-
 }
