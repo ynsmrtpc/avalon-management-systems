@@ -20,60 +20,61 @@ export default function About() {
     const [socialData, setSocialData] = useState("");
     const [loadingSocial, setLoadingSocial] = useState(false);
     const [resultPackage, setResultPackage] = useState({error: 0, message: ""})
-    const [aboutData, setAboutData] = useState(null);
+    const [aboutData, setAboutData] = useState({});
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const formData = new FormData();
-                formData.append("action", "getSocial")
-                const formDataAbout = new FormData();
-                formDataAbout.append("action", "getAbout");
+    const fetchData = async () => {
+        try {
+            const formData = new FormData();
+            formData.append("action", "getSocial")
+            const formDataAbout = new FormData();
+            formDataAbout.append("action", "getAbout");
 
-                const [socialData, fetchAbout] = await Promise.all([
-                    axios.post("/api/portfolio/about", formData,
-                        {
-                            headers: {
-                                "Content-Type": "application/json"
-                            }
-                        }),
-                    axios.post("/api/portfolio/about", formDataAbout, {
+            const [socialData, fetchAbout] = await Promise.all([
+                axios.post("/api/portfolio/about", formData,
+                    {
                         headers: {
                             "Content-Type": "application/json"
                         }
-                    })
-                ]);
-                const updatedResult = {socialData: socialData.data[0], fetchAbout: fetchAbout.data[0]};
+                    }),
+                axios.post("/api/portfolio/about", formDataAbout, {
+                    headers: {
+                        "Content-Type": "application/json"
+                    }
+                })
+            ]);
+            const updatedResult = {socialData: socialData.data[0], fetchAbout: fetchAbout.data[0]};
 
-                setLoading(false);
+            setLoading(false);
 
-                // Sosyal medya isimlerini almak için "data" objesini dolaşıyoruz
-                const names = Object.keys(updatedResult.socialData)
-                    .filter(key => key !== "id" && key !== "user_id");
-                setSocialMediaNames(names);
-                setSocialData(updatedResult.socialData);
+            // Sosyal medya isimlerini almak için "data" objesini dolaşıyoruz
+            const names = Object.keys(updatedResult.socialData)
+                .filter(key => key !== "id" && key !== "user_id");
+            setSocialMediaNames(names);
+            setSocialData(updatedResult.socialData);
 
-                setAboutData(updatedResult.fetchAbout);
-                console.log(aboutData)
-            } catch (error) {
-                console.error('Hata:', error);
-            }
-        };
+            setAboutData(updatedResult.fetchAbout);
+        } catch (error) {
+            console.error('Hata:', error);
+        }
+    };
+
+    useEffect(() => {
         fetchData();
     }, []);
+
     const handleAbout = () => {
         const formDataAbout = new FormData();
-        formDataAbout.append("content", aboutText);
+        formDataAbout.append("data", JSON.stringify(aboutData));
+        formDataAbout.append("action", "addAbout");
 
         axios
-            .post("/api/profile/about", formDataAbout, {
+            .post("/api/portfolio/about", formDataAbout, {
                 "headers": {
                     "Content-Type": "application/json",
                 }
             })
             .then(res => setResultPackage({error: 0, message: res.data}))
             .catch(err => setResultPackage({error: 1, message: err}))
-            .finally(() => setLoadingSocial(false));
     }
     const addSocialMedia = async () => {
         const foundSocialMedia = socialMediaNames.find(social => socialMedia.includes(social));
@@ -115,6 +116,7 @@ export default function About() {
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+
                         <div className="grid-cols-12 md:grid-cols-6">
                             <Card cardTitle="Hakkında">
                               <textarea name="about"
@@ -136,6 +138,7 @@ export default function About() {
                                 </button>
                             </Card>
                         </div>
+
                         <div className="grid-cols-12 md:grid-cols-6">
                             <Card cardTitle={(
                                 <>
@@ -172,7 +175,8 @@ export default function About() {
                                         >
                                             {socialData[social_media] && (
                                                 <>
-                                                    <span className="bg-green-500 rounded-full p-1 absolute top-1 right-1"></span>
+                                                    <span
+                                                        className="bg-green-500 rounded-full p-1 absolute top-1 right-1"></span>
                                                 </>
                                             )}
                                             {(loadingSocial && social_media === socialMediaSelected) ? (
@@ -215,7 +219,7 @@ export default function About() {
                                         <div className="flex justify-between">
                                             <span>Mail Adresi</span>
                                             <span className="text-xs">
-                                                <Alert/>
+                                                {/*<Alert/>*/}
                                             </span>
                                         </div>
                                     </>

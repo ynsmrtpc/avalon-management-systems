@@ -4,7 +4,7 @@ import {getUserInfo} from "@/utils/getUserInfo";
 export default async function handler(req, res) {
     const {GeneralInfoModel, SocialMediaModel} = await init_portfolio();
 
-    const {action} = req.body;
+    let {data, action, issue} = req.body;
 
     const user_id = await getUserInfo(req, res);
 
@@ -30,7 +30,6 @@ export default async function handler(req, res) {
             }
             break;
         case "addSocial":
-            let {data} = req.body;
             data = data !== undefined ? JSON.parse(data) : "";
 
             const isData = await SocialMediaModel.findOne({where: {user_id: user_id}});
@@ -51,7 +50,6 @@ export default async function handler(req, res) {
                 .then(() => res.status(200).json({error: 0, message: `Güncelleme işlemi başarılı`}))
                 .catch(err => res.status(500).json({error: 1, message: `Güncelleme hatası: ${err}`}))
             break;
-
         case "getAbout":
             await GeneralInfoModel.findAll({
                 order: [['id', 'ASC']],
@@ -67,7 +65,34 @@ export default async function handler(req, res) {
                 });
             break;
         case "addAbout":
+            try {
+                data = JSON.parse(data);
+                let about = await GeneralInfoModel.findAll({
+                    where: {
+                        user_id: user_id
+                    }
+                });
 
+                if (about.length === 0) {
+                    const newAboutData = await GeneralInfoModel.create({
+                        user_id: user_id,
+                    });
+                    about = [newAboutData]; // Yeni kaydı dizinin içine ekleyerek güncelliyoruz
+                }
+                // eğer kayıt varsa update yapıyoruz
+                await GeneralInfoModel.update({
+                    about: data.about,
+                    interests: data.interests,
+                    mail_address: data.mail_address
+                }, {
+                    where: {user_id: user_id},
+                })
+                    .then(() => res.status(200).json({error: 0, message: `Güncelleme işlemi başarılı`}))
+                    .catch(err => res.status(500).json({error: 1, message: `Güncelleme hatası: ${err}`}))
+
+            } catch (error) {
+                res.status(500).json({error: 0, message: `Kayıt getirilirken hata oluştu! ${error}`});
+            }
             break;
     }
 }
