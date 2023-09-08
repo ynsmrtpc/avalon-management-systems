@@ -1,7 +1,7 @@
 import init_portfolio from "@/pages/api/Models/PortfolioModel";
 
 export default async function handler(req, res) {
-    const {GeneralInfoModel, SocialMediaModel} = await init_portfolio();
+    const {GeneralInfoModel} = await init_portfolio();
 
     let {user_id} = req.body;
 
