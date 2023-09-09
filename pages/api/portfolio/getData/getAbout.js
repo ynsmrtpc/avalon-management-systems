@@ -10,21 +10,40 @@ export default async function handler(req, res) {
         optionsSuccessStatus: 200 || 204,
     });
 
-    const {GeneralInfoModel} = await init_portfolio();
+    const {GeneralInfoModel, PortfolioSkillsModel} = await init_portfolio();
 
-    let {user_id} = req.body;
+    let {user_id, action} = req.body;
 
-    await GeneralInfoModel.findAll({
-        order: [['id', 'ASC']],
-        where: {
-            user_id: user_id
-        }
-    })
-        .then(data => {
-            res.status(200).json(data);
-        })
-        .catch(error => {
-            res.status(500).json({error: 0, message: `Kayıt getirilirken hata oluştu! ${error}`});
-        });
+    switch (action) {
+        case "getAbout":
+            await GeneralInfoModel.findAll({
+                order: [['id', 'ASC']],
+                where: {
+                    user_id: user_id
+                }
+            })
+                .then(data => {
+                    res.status(200).json(data);
+                })
+                .catch(error => {
+                    res.status(500).json({error: 0, message: `Kayıt getirilirken hata oluştu! ${error}`});
+                });
+            break;
+
+        case "getSkills":
+            await PortfolioSkillsModel.findAll({
+                order: [['id', 'ASC']],
+                where: {
+                    user_id: user_id
+                }
+            })
+                .then(data => {
+                    res.status(200).json(data);
+                })
+                .catch(error => {
+                    res.status(500).json({error: 0, message: `Kayıt getirilirken hata oluştu! ${error}`});
+                });
+            break;
+    }
 
 }

@@ -61,12 +61,23 @@ async function init_portfolio() {
         timestamps: false, // createdAt ve updatedAt sütunlarını devre dışı bırak
     });
 
+    const PortfolioSkillsModel = db.define("portfolio_skills",{
+        skill: DataTypes.STRING,
+        stars: DataTypes.INTEGER,
+        status: DataTypes.INTEGER,
+        user_id: DataTypes.INTEGER
+    },{
+        tableName: 'portfolio_skills',
+        timestamps: false,
+    })
+
     return {
         CertificateModel,
         ProjectsModel,
         BlogsModel,
         GeneralInfoModel,
-        SocialMediaModel
+        SocialMediaModel,
+        PortfolioSkillsModel
     };
 }
 
