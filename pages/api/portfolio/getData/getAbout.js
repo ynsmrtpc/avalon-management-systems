@@ -1,6 +1,15 @@
 import init_portfolio from "@/pages/api/Models/PortfolioModel";
+import NextCors from "nextjs-cors";
 
 export default async function handler(req, res) {
+
+    await NextCors(req, res, {
+        // Options
+        methods: ['GET'],
+        origin: '*',
+        optionsSuccessStatus: 200 || 204,
+    });
+
     const {GeneralInfoModel} = await init_portfolio();
 
     let {user_id} = req.body;
