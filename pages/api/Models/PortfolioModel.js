@@ -26,8 +26,8 @@ async function init_portfolio() {
 
     const BlogsModel = db.define("portfolio_blogs", {
         title: DataTypes.STRING,
-        readTime: DataTypes.STRING,
-        imageURL: DataTypes.STRING,
+        read_time: DataTypes.STRING,
+        image_url: DataTypes.STRING,
         spot: DataTypes.STRING,
         url: DataTypes.STRING,
         user_id: DataTypes.INTEGER,
