@@ -19,8 +19,8 @@ export default async function handler(req, res) {
         case "insert":
             await BlogsModel.create({
                 title: data.title,
-                readTime: data.readTime,
-                imageURL: data.imageURL,
+                read_time: data.read_time,
+                image_url: data.image_url,
                 spot: data.spot,
                 url: data.url,
                 user_id: data.user_id,
@@ -33,8 +33,8 @@ export default async function handler(req, res) {
         case "update":
             await BlogsModel.update({
                     title: data.title,
-                    readTime: data.readTime,
-                    imageURL: data.imageURL,
+                    read_time: data.read_time,
+                    image_url: data.image_url,
                     spot: data.spot,
                     url: data.url,
                     user_id: data.user_id,
@@ -64,7 +64,7 @@ export default async function handler(req, res) {
             const user_id = await getUserInfo(req, res);
 
             await BlogsModel.findAll({
-                attributes: ['id', 'title', 'readTime', 'imageURL', 'spot', 'url', 'user_id', 'status'],
+                attributes: ['id', 'title', 'read_time', 'image_url', 'spot', 'url', 'user_id', 'status'],
                 include: [{
                     // model: UserInfo yerine model: UserInfo, as: 'user' yazın
                     model: UserInfo,

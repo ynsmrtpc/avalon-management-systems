@@ -152,11 +152,11 @@ export default function Blogs() {
                                 <tr key={key} className="hover:bg-card_bg_dark">
                                     <td className="p-4 text-left">{++key}</td>
                                     <td className="p-4 text-center">
-                                        <img className="w-12 rounded-lg" src={blog.imageURL}
+                                        <img className="w-12 rounded-lg" src={blog.image_url}
                                              alt={`project-resim-${blog.id}`}/>
                                     </td>
                                     <td className="p-4 ">{blog.title}</td>
-                                    <td className="p-4">{blog.readTime}</td>
+                                    <td className="p-4">{blog.read_time}</td>
                                     <td className="p-4 text-center">{blog.user.name_surname}</td>
                                     <td className="p-4 text-center">
                                         <i className={`text-xl fa-solid ${blog.status ? `fa-heart text-green-500` : `fa-heart-crack text-red-500`}`}></i>
@@ -213,10 +213,10 @@ export default function Blogs() {
                                             <CustomInput
                                                 labelContent="Resim URL"
                                                 inputID="image"
-                                                inputPlaceholder={modalData.imageURL}
+                                                inputPlaceholder={modalData.image_url}
                                                 onInputChange={(e) => setModalData((prevState) => ({
                                                     ...prevState,
-                                                    imageURL: e.target.value
+                                                    image_url: e.target.value
                                                 }))}
                                             />
                                         </div>
@@ -237,10 +237,10 @@ export default function Blogs() {
                                             <CustomInput
                                                 labelContent="Okuma Süresi"
                                                 inputID="read_time"
-                                                inputPlaceholder={modalData.readTime}
+                                                inputPlaceholder={modalData.read_time}
                                                 onInputChange={(e) => setModalData((prevState) => ({
                                                     ...prevState,
-                                                    readTime: e.target.value
+                                                    read_time: e.target.value
                                                 }))}
                                             />
                                         </div>
