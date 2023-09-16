@@ -121,7 +121,7 @@ export default function Blogs() {
         <HomeLayout>
             {loading ? (
                 <>
-                    <Loading />
+                    <Loading/>
                 </>
             ) : (
                 <>
@@ -138,30 +138,37 @@ export default function Blogs() {
                     <Table
                         theadContent={(
                             <>
-                                <th className="border-b-2 pb-2 text-left">#</th>
-                                <th className="border-b-2 pb-2 text-center">Resim</th>
-                                <th className="border-b-2 pb-2 ">Başlık</th>
-                                <th className="border-b-2 pb-2">Okuma Süresi</th>
-                                <th className="border-b-2 pb-2 text-center">Yazar</th>
-                                <th className="border-b-2 pb-2 text-center">Durum</th>
-                                <th className="text-right pr-4 border-b-2 pb-2">İşlem</th>
+                                <th className="border-b-2 py-3">#</th>
+                                <th className="border-b-2 py-3">Resim</th>
+                                <th className="border-b-2 py-3">Başlık</th>
+                                <th className="border-b-2 py-3">Okuma Süresi</th>
+                                <th className="border-b-2 py-3">Yazar</th>
+                                <th className="border-b-2 py-3">Durum</th>
+                                <th className="border-b-2 py-3">İşlem</th>
                             </>
                         )}
                         tbodyContent={(
                             blogs.map((blog, key) => (
                                 <tr key={key} className="hover:bg-card_bg_dark">
-                                    <td className="p-4 text-left">{++key}</td>
-                                    <td className="p-4 text-center">
-                                        <img className="w-12 rounded-lg" src={blog.image_url}
-                                             alt={`project-resim-${blog.id}`}/>
+                                    <td className="">{++key}</td>
+                                    <td className="">
+                                        {blog.image_url !== 'null' ? (
+                                            <>
+                                                <img className="w-12" src={blog.image_url}
+                                                     alt={`project-resim-${blog.id}`}/>
+                                            </>
+                                        ) : (
+                                            <>
+                                            </>
+                                        )}
                                     </td>
-                                    <td className="p-4 ">{blog.title}</td>
-                                    <td className="p-4">{blog.read_time}</td>
-                                    <td className="p-4 text-center">{blog.user.name_surname}</td>
-                                    <td className="p-4 text-center">
+                                    <td className="">{blog.title}</td>
+                                    <td className="">{blog.read_time}</td>
+                                    <td className="">{blog.user.name_surname}</td>
+                                    <td className="">
                                         <i className={`text-xl fa-solid ${blog.status ? `fa-heart text-green-500` : `fa-heart-crack text-red-500`}`}></i>
                                     </td>
-                                    <td className="text-right pt-3">
+                                    <td className="pt-3">
                                         <button
                                             type="button"
                                             title="Edit"

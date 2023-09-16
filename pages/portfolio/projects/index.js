@@ -109,7 +109,7 @@ export default function Projects() {
 
             {loading ? (
                     <>
-                        <Loading />
+                        <Loading/>
                     </>
                 ) :
                 (
@@ -126,12 +126,12 @@ export default function Projects() {
                         <Table
                             theadContent={(
                                 <>
-                                    <th className="border-b-2 pb-2 text-left">#</th>
-                                    <th className="border-b-2 pb-2 text-center">Resim</th>
-                                    <th className="border-b-2 pb-2 text-center">Proje Adı</th>
-                                    <th className="border-b-2 hidden sm:block pb-2">Açıklama</th>
-                                    <th className="border-b-2 pb-2 text-center">Durum</th>
-                                    <th className="text-right pr-4 border-b-2 pb-2">İşlem</th>
+                                    <th className="border-b-2 p-4 text-left">#</th>
+                                    <th className="border-b-2 p-4 text-center">Resim</th>
+                                    <th className="border-b-2 p-4 text-center">Proje Adı</th>
+                                    <th className="border-b-2 p-4 sm:table-cell hidden">Açıklama</th>
+                                    <th className="border-b-2 p-4 text-center">Durum</th>
+                                    <th className="text-right md:pr-8 border-b-2">İşlem</th>
                                 </>
                             )}
                             tbodyContent={(
@@ -147,7 +147,7 @@ export default function Projects() {
                                         <td className="p-4 text-center"><i
                                             className={`text-xl fa-solid ${project.status ? `fa-heart text-green-500` : `fa-heart-crack text-red-500`}`}></i>
                                         </td>
-                                        <td className="text-right pt-3">
+                                        <td className="text-right pt-3 pr-4">
                                             <button
                                                 type="button"
                                                 title="Edit"

@@ -1,16 +1,27 @@
+import React from "react";
+
 export default function Table({theadContent, tbodyContent}) {
-    return (<>
-        <div className="relative max-h-full overflow-auto shadow-md sm:rounded-sm p-3">
-            <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-                <thead className="text-xs text-gray-700 uppercase dark:text-gray-400">
-                <tr>
-                    {theadContent}
-                </tr>
-                </thead>
-                <tbody>
-                    {tbodyContent}
-                </tbody>
-            </table>
-        </div>
-    </>)
+    return (
+        <>
+            <div className="flex flex-col">
+                <div className="-m-1.5 overflow-x-auto">
+                    <div className="p-1.5 min-w-full inline-block align-middle">
+                        <div
+                            className="border rounded-lg shadow overflow-hidden dark:border-gray-700 dark:shadow-gray-900">
+                            <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+                                <thead className="bg-gray-50 dark:bg-gray-700">
+                                <tr>
+                                    {theadContent}
+                                </tr>
+                                </thead>
+                                <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
+                                {tbodyContent}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </>
+    )
 }

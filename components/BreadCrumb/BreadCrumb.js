@@ -5,7 +5,6 @@ import {fn_make_label} from "@/utils/functions";
 export default function BreadCrumb({path}) {
     const [breadcrumbs, setBreadcrumbs] = useState([]);
 
-
     // Path'i parçalayarak breadcrumb öğelerini oluştur
     const generateBreadcrumbs = (path) => {
         const parts = path.split("/").filter((part) => part !== "");
@@ -19,7 +18,6 @@ export default function BreadCrumb({path}) {
     useEffect(() => {
         generateBreadcrumbs(path);
     }, [path]);
-
 
     return (
         <nav
