@@ -1,9 +1,9 @@
 import initialize from "@/pages/api/Models/ProfileModel";
-import {authenticateUser, generateToken} from "@/utils/auth";
+import { authenticateUser, generateToken } from "@/utils/auth";
 import { serialize } from 'cookie';
 export default async function login(req, res) {
-    const {username, password} = req.body;
-    const {UserInfo} = await initialize();
+    const { username, password } = req.body;
+    const { UserInfo } = await initialize();
 
     let token = "";
 
@@ -13,14 +13,12 @@ export default async function login(req, res) {
         token = await generateToken(result.username, "superadmin");
 
         UserInfo.update({
-                login_token: token
-            },
-            {
-                where: {
-                    id: result.id
-                }
+            login_token: token
+        }, {
+            where: {
+                id: result.id
             }
-        );
+        });
 
         // Cookie'yi oluşturuyoruz
         const cookie = serialize('login_token', token, {
@@ -33,5 +31,5 @@ export default async function login(req, res) {
         res.setHeader('Set-Cookie', cookie);
     }
     // oluşturduğumuz token'ı veritabanında kişiye basacağız ve aynı zamanda cookie'ye ekleyeceğiz.
-    res.status(200).json({error: result.error, message: result.message});
+    res.status(200).json({ error: result.error, message: result.message });
 }

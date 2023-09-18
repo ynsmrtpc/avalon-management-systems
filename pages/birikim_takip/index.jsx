@@ -3,9 +3,8 @@ import BreadCrumb from "@/components/BreadCrumb/BreadCrumb";
 import {useRouter} from "next/router";
 import React from "react";
 import Table from "@/components/Table/Table";
-import serverLayer from "next/dist/server/typescript/rules/server";
 
-export default function AltinTakip() {
+export default function BirikimTakip() {
     const router = useRouter()
     const years = Array.from({length: 2030 - 2022 + 1}, (_, index) => 2022 + index);
     const today = new Date();
