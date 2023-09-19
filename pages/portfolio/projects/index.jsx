@@ -39,21 +39,9 @@ export default function Projects() {
     }
     const handleOpenModal = (id) => {
         if (id !== undefined) {
-            const formData = new FormData();
-            formData.append("id", id);
-            formData.append("process", "get");
-
-            axios
-                .post(`/api/portfolio/projects`, formData, {
-                    headers: {
-                        "Content-Type": "application/json"
-                    }
-                })
-                .then(res => setModalData(res.data[0]))
-                .catch(err => console.log("error: " + err))
+            setModalData(projects.filter(project => project.id === id)[0]);
         }
         setShowModal(true);
-
     };
     const handleCloseModal = () => {
         setShowModal(false);
@@ -74,7 +62,7 @@ export default function Projects() {
                 .then(res => console.log(res))
                 .catch(err => console.log(err))
                 .finally(() => {
-                    getProjects();
+                    setProjects(projects.filter(project => project.id !== id))
                 })
         }
     }
@@ -128,8 +116,8 @@ export default function Projects() {
                                 <>
                                     <th className="border-b-2 p-4 text-left">#</th>
                                     <th className="border-b-2 p-4 text-center">Resim</th>
-                                    <th className="border-b-2 p-4 text-center">Proje Adı</th>
-                                    <th className="border-b-2 p-4 sm:table-cell hidden">Açıklama</th>
+                                    <th className="border-b-2 p-4 text-left">Proje Adı</th>
+                                    <th className="border-b-2 p-4 text-left sm:table-cell hidden">Açıklama</th>
                                     <th className="border-b-2 p-4 text-center">Durum</th>
                                     <th className="text-right md:pr-8 border-b-2">İşlem</th>
                                 </>
@@ -139,10 +127,13 @@ export default function Projects() {
                                     <tr key={project.id} className="hover:bg-card_bg_dark">
                                         <td className="p-4 text-left">{++key}</td>
                                         <td className="p-4 text-center">
-                                            <img className="w-12 rounded-lg" src={project.image_url}
-                                                 alt={`project-resim-${project.id}`}/>
+                                            <div className="avatar">
+                                                <div className="w-16 rounded">
+                                                    <img src={project.image_url} alt={`project-resim-${project.id}`}/>
+                                                </div>
+                                            </div>
                                         </td>
-                                        <td className="p-4 text-center">{project.title}</td>
+                                        <td className="p-4 text-left">{project.title}</td>
                                         <td className="p-4 hidden sm:block max-w-4xl ">{project.description}</td>
                                         <td className="p-4 text-center"><i
                                             className={`text-xl fa-solid ${project.status ? `fa-heart text-green-500` : `fa-heart-crack text-red-500`}`}></i>
@@ -187,7 +178,7 @@ export default function Projects() {
                                             <CustomInput
                                                 labelContent="Proje Adı"
                                                 inputID="project_name"
-                                                inputPlaceholder={modalData.title}
+                                                inputValue={modalData.title}
                                                 onInputChange={(e) => setModalData((prevState) => ({
                                                     ...prevState,
                                                     title: e.target.value
@@ -199,7 +190,7 @@ export default function Projects() {
                                             <CustomInput
                                                 labelContent="Resim URL"
                                                 inputID="image"
-                                                inputPlaceholder={modalData.image_url}
+                                                inputValue={modalData.image_url}
                                                 onInputChange={(e) => setModalData((prevState) => ({
                                                     ...prevState,
                                                     image_url: e.target.value
@@ -211,7 +202,7 @@ export default function Projects() {
                                             <CustomInput
                                                 labelContent="Link"
                                                 inputID="link"
-                                                inputPlaceholder={modalData.link}
+                                                inputValue={modalData.link}
                                                 onInputChange={(e) => setModalData((prevState) => ({
                                                     ...prevState,
                                                     link: e.target.value
@@ -228,18 +219,15 @@ export default function Projects() {
                                         </div>
 
                                         <div className="col-span-2">
-                                <textarea
-                                    className={"block rounded py-1.5 w-full bg-[#f1f1f1f1] dark:bg-[#394051] px-3 focus:bg-white dark:focus:bg-card_bg_dark transition-[background-color] outline-[#4b5563]"}
-                                    rows="4"
-                                    placeholder={modalData.description}
-                                    onChange={(e) => setModalData((prevState) => ({
-                                        ...prevState,
-                                        description: e.target.value
-                                    }))}
-                                ></textarea>
+                                            <textarea
+                                                className={"block rounded py-1.5 w-full bg-[#f1f1f1f1] dark:bg-[#394051] px-3 focus:bg-white dark:focus:bg-card_bg_dark transition-[background-color] outline-[#4b5563]"}
+                                                rows="4"
+                                                onChange={(e) => setModalData((prevState) => ({
+                                                    ...prevState,
+                                                    description: e.target.value
+                                                }))}
+                                            >{modalData.description}</textarea>
                                         </div>
-
-
                                     </div>
                                 </Modal>
                             </>

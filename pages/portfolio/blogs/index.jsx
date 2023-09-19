@@ -41,18 +41,7 @@ export default function Blogs() {
     }
     const handleOpenModal = async (id) => {
         if (id !== undefined) {
-            const formData = new FormData();
-            formData.append("id", id);
-            formData.append("process", "get");
-
-            axios
-                .post(`/api/portfolio/blogs`, formData, {
-                    headers: {
-                        "Content-Type": "application/json"
-                    }
-                })
-                .then(res => setModalData(res.data[0]))
-                .catch(err => console.log("error: " + err))
+            setModalData(blogs.filter(blog => blog.id === id)[0])
         }
         setShowModal(true);
         await getAuthors();
@@ -76,7 +65,7 @@ export default function Blogs() {
                 .then(res => console.log(res))
                 .catch(err => console.log(err))
                 .finally(() => {
-                    getBlogs();
+                    setBlogs(blogs.filter(blog => blog.id !== id))
                 })
         }
     }
@@ -138,34 +127,37 @@ export default function Blogs() {
                     <Table
                         theadContent={(
                             <>
-                                <th className="border-b-2 py-3">#</th>
-                                <th className="border-b-2 py-3">Resim</th>
-                                <th className="border-b-2 py-3">Başlık</th>
-                                <th className="border-b-2 py-3">Okuma Süresi</th>
-                                <th className="border-b-2 py-3">Yazar</th>
-                                <th className="border-b-2 py-3">Durum</th>
-                                <th className="border-b-2 py-3">İşlem</th>
+                                <th className="border-b-2 p-3">#</th>
+                                <th className="border-b-2 p-3">Resim</th>
+                                <th className="border-b-2 p-3 text-start">Başlık</th>
+                                <th className="border-b-2 p-3">Okuma Süresi</th>
+                                <th className="border-b-2 p-3">Yazar</th>
+                                <th className="border-b-2 p-3">Durum</th>
+                                <th className="border-b-2 p-3">İşlem</th>
                             </>
                         )}
                         tbodyContent={(
                             blogs.map((blog, key) => (
-                                <tr key={key} className="hover:bg-card_bg_dark">
-                                    <td className="">{++key}</td>
-                                    <td className="">
+                                <tr key={key} className="hover:bg-card_bg_dark text-center">
+                                    <td>{++key}</td>
+                                    <td>
                                         {blog.image_url !== 'null' ? (
                                             <>
-                                                <img className="w-12" src={blog.image_url}
-                                                     alt={`project-resim-${blog.id}`}/>
+                                                <div className="avatar">
+                                                    <div className="w-16 rounded">
+                                                        <img src={blog.image_url} alt={`project-resim-${blog.id}`}/>
+                                                    </div>
+                                                </div>
                                             </>
                                         ) : (
                                             <>
                                             </>
                                         )}
                                     </td>
-                                    <td className="">{blog.title}</td>
-                                    <td className="">{blog.read_time}</td>
-                                    <td className="">{blog.user.name_surname}</td>
-                                    <td className="">
+                                    <td className="text-start">{blog.title}</td>
+                                    <td>{blog.read_time}</td>
+                                    <td>{blog.user.name_surname}</td>
+                                    <td>
                                         <i className={`text-xl fa-solid ${blog.status ? `fa-heart text-green-500` : `fa-heart-crack text-red-500`}`}></i>
                                     </td>
                                     <td className="pt-3">
@@ -208,7 +200,7 @@ export default function Blogs() {
                                             <CustomInput
                                                 labelContent="Proje Adı"
                                                 inputID="project_name"
-                                                inputPlaceholder={modalData.title}
+                                                inputValue={modalData.title}
                                                 onInputChange={(e) => setModalData((prevState) => ({
                                                     ...prevState,
                                                     title: e.target.value
@@ -220,7 +212,7 @@ export default function Blogs() {
                                             <CustomInput
                                                 labelContent="Resim URL"
                                                 inputID="image"
-                                                inputPlaceholder={modalData.image_url}
+                                                inputValue={modalData.image_url}
                                                 onInputChange={(e) => setModalData((prevState) => ({
                                                     ...prevState,
                                                     image_url: e.target.value
@@ -232,7 +224,7 @@ export default function Blogs() {
                                             <CustomInput
                                                 labelContent="Link"
                                                 inputID="link"
-                                                inputPlaceholder={modalData.url}
+                                                inputValue={modalData.url}
                                                 onInputChange={(e) => setModalData((prevState) => ({
                                                     ...prevState,
                                                     url: e.target.value
@@ -244,7 +236,7 @@ export default function Blogs() {
                                             <CustomInput
                                                 labelContent="Okuma Süresi"
                                                 inputID="read_time"
-                                                inputPlaceholder={modalData.read_time}
+                                                inputValue={modalData.read_time}
                                                 onInputChange={(e) => setModalData((prevState) => ({
                                                     ...prevState,
                                                     read_time: e.target.value
@@ -257,7 +249,7 @@ export default function Blogs() {
                                             <select name="authors"
                                                     id="authors"
                                                     className="block rounded py-1.5 w-full bg-[#f1f1f1f1] dark:bg-[#394051] px-3 focus:bg-white
-                dark:focus:bg-card_bg_dark transition-[background-color] outline-[#4b5563]"
+                                                                dark:focus:bg-card_bg_dark transition-[background-color] outline-[#4b5563]"
                                                     onChange={(e) => setModalData((prevState) => ({
                                                         ...prevState,
                                                         user_id: e.target.value
@@ -285,12 +277,11 @@ export default function Blogs() {
                                 <textarea
                                     className={"block rounded py-1.5 w-full bg-[#f1f1f1f1] dark:bg-[#394051] px-3 focus:bg-white dark:focus:bg-card_bg_dark transition-[background-color] outline-[#4b5563]"}
                                     rows="7"
-                                    placeholder={modalData.spot}
                                     onChange={(e) => setModalData((prevState) => ({
                                         ...prevState,
                                         spot: e.target.value
                                     }))}
-                                ></textarea>
+                                >{modalData.spot}</textarea>
                                         </div>
                                     </div>
                                 </Modal>

@@ -54,10 +54,10 @@ export default function Login() {
             <Head>
                 <title>Avalon | Login</title>
             </Head>
-            <div className="grid mt-12"
+            <div className="grid h-screen"
             >
                 <div
-                    className="m-auto border-2 px-16 pt-8 pb-20 rounded-lg shadow-primary_logo_dark/30 dark:shadow-primary_logo_dark/30 shadow-2xl  max-w-sm">
+                    className="m-auto border-2 px-16 pt-8 pb-20 rounded-lg shadow-primary_logo_dark/30 dark:shadow-primary_logo_dark/30 shadow-2xl max-w-sm">
                     <div className="mb-10 pb-10 border-b-2 ">
                         <img src="https://wxpbrdtmrnvqglioltbm.supabase.co/storage/v1/object/public/avalon/logo.png"
                              className={classNames("w-12 mx-auto", {
@@ -100,7 +100,6 @@ export default function Login() {
                         </div>
                     </div>
                     <div className="my-2">
-                        {/*<CustomInput  inputID="remember_me" type="checkbox"/>*/}
                         <input type="checkbox" id="remember_me" className="mr-3"/>
                         <label htmlFor="remember_me">Remember Me</label>
                     </div>
@@ -115,7 +114,7 @@ export default function Login() {
                     <div className="mt-6 grid mx-auto">
                         <button
                             onClick={handleSubmit}
-                            className="border-2 p-2 rounded-lg hover:bg-primary_logo_light dark:hover:bg-primary_logo_dark transition-all duration-500 disabled:bg-zinc-400 disabled:cursor-not-allowed"
+                            className="btn btn-wide btn-neutral disabled:bg-zinc-400 disabled:cursor-not-allowed"
                             disabled={loading ?? true}
                         >
                             Giriş Yap

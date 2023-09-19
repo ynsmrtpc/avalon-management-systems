@@ -1,6 +1,6 @@
 # Birikim Takip Modülü Projesi
 
-## GÖsterim Ekranı
+## Gösterim Ekranı
 - Ekran açıldığında aylık olarak ne kadar birikim eklenmiş bu gözükecek (Bu ay ... ₺ biriktirdin!).
 - Onun yan tarafına bugüne kadarki tüm birikimler olacak. (Bugüne kadar toplam .... ₺ biriktirdim!).
 - Altında bir tablo olacak ve bu tabloda tüm işlemler sondan başa doğru sıralacak. (yeniden eskiye)

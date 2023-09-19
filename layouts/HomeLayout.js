@@ -20,9 +20,6 @@ export default function HomeLayout({children}) {
     const themeToggle = () => {
         isDarkMode === "dark" ? setIsDarkMode("light") : setIsDarkMode("dark");
     }
-    // const profileHandle = () => {
-    //     setProfileToggle(!profileToggle);
-    // }
     const sidebarHandle = () => {
         setSidebarToggle(!sidebarToggle);
     }
@@ -80,7 +77,7 @@ export default function HomeLayout({children}) {
                       content="Avalon Admin Panel, güçlü ve kullanıcı dostu bir yönetim panelidir. Projenizi kolayca yönetebilir, kullanıcıları yönetebilir, veri tabanınızı yönetebilir ve daha fazlasını yapabilirsiniz. Deneyimli bir ekip tarafından geliştirilmiş olan Avalon, size işinizi büyütmeniz ve verimliliğinizi artırmanız için gereken araçları sağlar."/>
             </Head>
             <nav
-                className="fixed top-0 z-50 w-full border-b dark:border-gray-700 dark:bg-gray-800 bg-white border-gray-200">
+                className="fixed top-0 z-50 w-full border-b dark:border-gray-700 border-gray-200">
                 <div className="px-3 py-3 lg:px-5 lg:pl-3">
                     <div className="flex items-center justify-between">
                         <div className="flex items-center justify-center sm:justify-start">
@@ -104,49 +101,6 @@ export default function HomeLayout({children}) {
                                     className="self-center text-xl  font-semibold  hidden sm:block whitespace-nowrap dark:text-white">Avalon Management Systems</span>
                             </Link>
                         </div>
-                        {/*<div className="flex items-center">*/}
-                        {/*    <div className="flex items-center ml-3">*/}
-                        {/*        <div>*/}
-                        {/*            <button type="button"*/}
-                        {/*                    onClick={profileHandle}*/}
-                        {/*                    className="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"*/}
-                        {/*                    aria-expanded="false" data-dropdown-toggle="dropdown-user">*/}
-                        {/*                <span className="sr-only">Open user menu</span>*/}
-                        {/*                <img className="w-8 h-8 rounded-full"*/}
-                        {/*                     src={profileData.profile_photo}*/}
-                        {/*                     alt="user photo"/>*/}
-                        {/*            </button>*/}
-                        {/*        </div>*/}
-                        {/*        <div*/}
-                        {/*            className={classNames("z-50 text-base list-none bg-white divide-y divide-gray-100 rounded shadow dark:bg-gray-700 dark:divide-gray-600", {*/}
-                        {/*                "hidden": !profileToggle,*/}
-                        {/*                "fixed top-12 right-0": profileToggle*/}
-                        {/*            })}*/}
-                        {/*            id="dropdown-user">*/}
-                        {/*            <div className="px-4 py-3" role="none">*/}
-                        {/*                <p className="text-sm text-gray-900 dark:text-white" role="none">*/}
-                        {/*                    {profileData.name_surname}*/}
-                        {/*                </p>*/}
-                        {/*                <p className="text-sm font-medium text-gray-900 truncate dark:text-gray-300"*/}
-                        {/*                   role="none">*/}
-                        {/*                    {profileData.email}*/}
-                        {/*                </p>*/}
-                        {/*            </div>*/}
-                        {/*            <ul className="py-1" role="none">*/}
-                        {/*                <li>*/}
-                        {/*                    <Link href="/profile"*/}
-                        {/*                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"*/}
-                        {/*                          role="menuitem">Profile</Link>*/}
-                        {/*                </li>*/}
-                        {/*                <li>*/}
-                        {/*                    <Link href="#"*/}
-                        {/*                          className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white"*/}
-                        {/*                          role="menuitem" onClick={handleLogout}>Sign out</Link>*/}
-                        {/*                </li>*/}
-                        {/*            </ul>*/}
-                        {/*        </div>*/}
-                        {/*    </div>*/}
-                        {/*</div>*/}
 
                         <Dropdown buttonText={(
                             <span className="flex text-center">
@@ -186,9 +140,8 @@ export default function HomeLayout({children}) {
             >
                 <div className="h-full px-3 pb-4 bg-white dark:bg-gray-800 ">
                     <ul className="space-y-2 font-medium">
-
                         {parentItems.map((parentItem, index) => (
-                            <details key={parentItem.id}
+                            <details key={index}
                                      className={`${index > 0 ? ' space-y-4 ' : ''}`}>
                                 <summary
                                     className={classNames("flex items-center relative mb-2 cursor-pointer select-none hover:bg-gray-200 dark:hover:bg-gray-600 rounded-lg",
@@ -239,43 +192,42 @@ export default function HomeLayout({children}) {
                             </details>
                         ))}
 
-                        <li className="mt-auto grid absolute bottom-4 w-[90%]">
-                            <button
-                                onClick={themeToggle}
-                                className="flex items-center pl-3 p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-200 dark:hover:bg-gray-600">
-                                {isDarkMode === "dark" && (
-                                    <>
-                                        <i className="fa fa-moon text-zinc-300"></i>
-                                        <span className={classNames("ml-5", {
-                                            'hidden': !showTitle
-                                        })}>
-                                            Dark
-                                        </span>
-                                    </>
-                                )}
-                                {isDarkMode === "light" && (
-                                    <>
-                                        <i className="fa fa-sun text-amber-300"></i>
-                                        <span className={classNames("ml-5", {
-                                            'hidden': !showTitle
-                                        })}>
-                                            Light
-                                        </span>
-                                    </>
-                                )}
-                            </button>
-                        </li>
+                        {/*<li className="mt-auto grid absolute bottom-4 w-[90%]">*/}
+                        {/*    <button*/}
+                        {/*        onClick={themeToggle}*/}
+                        {/*        className="flex items-center pl-3 p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-200 dark:hover:bg-gray-600">*/}
+                        {/*        {isDarkMode === "dark" && (*/}
+                        {/*            <>*/}
+                        {/*                <i className="fa fa-moon text-zinc-300"></i>*/}
+                        {/*                <span className={classNames("ml-5", {*/}
+                        {/*                    'hidden': !showTitle*/}
+                        {/*                })}>*/}
+                        {/*                    Dark*/}
+                        {/*                </span>*/}
+                        {/*            </>*/}
+                        {/*        )}*/}
+                        {/*        {isDarkMode === "light" && (*/}
+                        {/*            <>*/}
+                        {/*                <i className="fa fa-sun text-amber-300"></i>*/}
+                        {/*                <span className={classNames("ml-5", {*/}
+                        {/*                    'hidden': !showTitle*/}
+                        {/*                })}>*/}
+                        {/*                    Light*/}
+                        {/*                </span>*/}
+                        {/*            </>*/}
+                        {/*        )}*/}
+                        {/*    </button>*/}
+                        {/*</li>*/}
                     </ul>
                 </div>
             </aside>
 
-            <div className={classNames("p-4 bg-primary_bg_light dark:bg-primary_bg_dark min-h-screen transition-all", {
+            <div className={classNames("p-4 min-h-screen transition-all", {
                 "sm:ml-64": contentMargin,
                 "ml-16": !contentMargin,
                 "!ml-0": sidebarToggle,
             })}>
                 <div className="p-4 rounded-lg dark:border-gray-700 mt-14 mx-auto md:mx-24"
-                    // onClick={() => setProfileToggle(false)}
                 >
                     {children}
                 </div>

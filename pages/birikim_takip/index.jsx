@@ -68,7 +68,7 @@ export default function BirikimTakip() {
                 </>
             )} tbodyContent={(
                 <>
-                    <tr className="hover:bg-card_bg_dark text-center">
+                    <tr className="hover:bg-card_bg_light dark:hover:bg-card_bg_dark text-center">
                         <td className="py-3">1</td>
                         <td>12-12-2022</td>
                         <td>3 gr</td>

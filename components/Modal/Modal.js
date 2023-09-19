@@ -45,13 +45,13 @@ export default function Modal({title, children, onClose, size, handleModalSubmit
                     <div className="p-4 overflow-y-auto">{children}</div>
                     <div className="flex items-center justify-end p-4 border-t border-gray-200">
                         <button
-                            className="mr-4 px-4 py-2 bg-gray-100 hover:bg-gray-200 dark:bg-gray-600 dark:text-white dark:hover:bg-gray-700 rounded-lg"
+                            className="btn btn-ghost mr-2"
                             onClick={handleCloseModal}
                         >
                             Kapat
                         </button>
                         <button
-                            className="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-lg"
+                            className="btn"
                             onClick={handleModalSubmit}
                         >
                             {buttonText}
