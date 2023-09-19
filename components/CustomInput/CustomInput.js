@@ -1,50 +1,77 @@
 import PropTypes from "prop-types";
 
 export default function CustomInput({
-                                        children,
-                                        labelContent,
-                                        inputID,
-                                        inputPlaceholder,
-                                        inputValue,
-                                        onInputChange,
-                                        type,
-                                        isRequired,
-                                        className,
-                                        handleSubmit
-                                    }) {
-    return (
+  children,
+  labelContent,
+  inputID,
+  inputPlaceholder,
+  inputValue,
+  onInputChange,
+  type,
+  isRequired,
+  className,
+  handleSubmit,
+  rows,
+  cols,
+}) {
+  switch (type) {
+    case "textarea":
+      return (
         <>
-            <label htmlFor={inputID}>{labelContent}</label>
-            <input
-                className={`block rounded py-1.5 w-full bg-[#f1f1f1f1] dark:bg-[#394051] px-3 focus:bg-white
-                dark:focus:bg-card_bg_dark transition-[background-color] outline-[#4b5563] ${className}`}
-                type={type}
-                id={inputID}
-                placeholder={inputPlaceholder}
-                value={inputValue}
-                onChange={onInputChange}
-                required={isRequired}
-                onKeyDown={handleSubmit}
-            />
-            {children}
+          <div className="form-control">
+            <textarea
+              className="textarea textarea-bordered h-full"
+              id={inputID}
+              placeholder={inputPlaceholder}
+              onChange={onInputChange}
+              required={isRequired}
+              rows={rows}
+              cols={cols}
+            >
+              {inputValue}
+            </textarea>
+          </div>
         </>
-    )
+      );
+      break;
+    default:
+      return (
+        <>
+          <div className="form-control w-full max-w-xs">
+            <label htmlFor={inputID} className="label">
+              <span className="label-text">{labelContent}</span>
+            </label>
+            <input
+              type={type}
+              id={inputID}
+              placeholder={inputPlaceholder}
+              value={inputValue}
+              onChange={onInputChange}
+              required={isRequired}
+              onKeyDown={handleSubmit}
+              className={`input input-bordered w-full max-w-xs ${className}`}
+            />
+          </div>
+        </>
+      );
+      break;
+  }
 }
 
 CustomInput.propTypes = {
-    labelContent: PropTypes.string,
-    inputID: PropTypes.string,
-    inputPlaceholder: PropTypes.any,
-    children: PropTypes.element,
-    type: PropTypes.string,
-    className: PropTypes.string
-}
+  labelContent: PropTypes.string,
+  inputID: PropTypes.string,
+  inputPlaceholder: PropTypes.any,
+  children: PropTypes.element,
+  type: PropTypes.string,
+  className: PropTypes.string,
+};
 
 CustomInput.default = {
-    labelContent: 'Name Surname',
-    inputID: 'name_surname',
-    placeholder: 'Yunus Emre Topçu',
-    children: "",
-    type: "text",
-    className: "",
-}
+  labelContent: "Name Surname",
+  inputID: "name_surname",
+  placeholder: "Yunus Emre Topçu",
+  children: "",
+  type: "text",
+  className: "",
+};

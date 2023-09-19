@@ -12,15 +12,5 @@
 }
 
 .active {
-    @apply bg-primary_logo_light  dark:bg-primary_logo_dark;
-}
-
-body {
-    color: black;
-    /*color: rgb(var(--foreground-rgb));*/
-    /*background: linear-gradient(*/
-    /*        to bottom,*/
-    /*        transparent,*/
-    /*        rgba(var(--background-end-rgb))*/
-    /*) rgba(var(--background-start-rgb));*/
+    @apply bg-base-300;
 }
