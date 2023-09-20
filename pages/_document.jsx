@@ -2,7 +2,7 @@ import { Html, Head, Main, NextScript } from "next/document";
 
 export default function Document() {
   return (
-    <Html lang="en" data-theme="cupcake">
+    <Html lang="en">
       <Head />
       <link
         rel="stylesheet"
@@ -11,7 +11,7 @@ export default function Document() {
         crossOrigin="anonymous"
         referrerPolicy="no-referrer"
       />
-      <body>
+      <body data-theme="dark">
         <Main />
         <NextScript />
       </body>

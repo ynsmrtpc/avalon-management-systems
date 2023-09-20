@@ -102,11 +102,11 @@ export default function Profile() {
                 ) :
                 (
                     <>
-                        <div className="block md:flex justify-between items-center mb-10">
+                        <div className="block md:flex justify-between items-center mb-2">
                             <BreadCrumb path={router.pathname}/>
                         </div>
 
-                        <div className="grid grid-cols-12 gap-5">
+                        <div className="grid grid-cols-12 gap-x-5">
                             <div className="col-span-12 md:col-span-6">
                                 <Card cardTitle="Profile Information">
 
@@ -210,10 +210,7 @@ export default function Profile() {
                                                     <CustomInput
                                                         inputID={value}
                                                         labelContent={fn_make_label(key)}
-                                                        inputValue={value}
-                                                        type={
-                                                            key === "password" ? "password" : "text"
-                                                        }
+                                                        inputValue={key === "password" ? "" : value}
 
                                                     />
                                                 </fieldset>

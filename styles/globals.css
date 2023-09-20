@@ -9,6 +9,10 @@
     @apply bg-base-300;
 }
 
+textarea::-webkit-scrollbar {
+    display: none;
+}
+
 * {
     font-family: 'Chakra Petch', sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     @apply antialiased;

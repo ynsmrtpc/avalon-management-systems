@@ -10,6 +10,7 @@ import CustomInput from "@/components/CustomInput/CustomInput";
 import ToggleInput from "@/components/ToggleInput/ToggleInput";
 import {fn_delete} from "@/utils/functions";
 import Loading from "@/components/Loading/Loading";
+import Avatar from "@/components/Avatar/Avatar";
 
 export default function Blogs() {
     const router = useRouter()
@@ -127,40 +128,37 @@ export default function Blogs() {
                     <Table
                         theadContent={(
                             <>
-                                <th className="border-b-2 p-3">#</th>
-                                <th className="border-b-2 p-3">Resim</th>
-                                <th className="border-b-2 p-3 text-start">Başlık</th>
-                                <th className="border-b-2 p-3">Okuma Süresi</th>
-                                <th className="border-b-2 p-3">Yazar</th>
-                                <th className="border-b-2 p-3">Durum</th>
-                                <th className="border-b-2 p-3">İşlem</th>
+                                <th className="border-b-2">#</th>
+                                <th className="border-b-2">Resim</th>
+                                <th className="border-b-2">Başlık</th>
+                                <th className="border-b-2">Okuma Süresi</th>
+                                <th className="border-b-2">Yazar</th>
+                                <th className="border-b-2">Durum</th>
+                                <th className="border-b-2">İşlem</th>
                             </>
                         )}
                         tbodyContent={(
                             blogs.map((blog, key) => (
-                                <tr key={key} className="hover:bg-card_bg_dark text-center">
+                                <tr key={key} className="hover:bg-base-200">
                                     <td>{++key}</td>
                                     <td>
                                         {blog.image_url !== 'null' ? (
                                             <>
-                                                <div className="avatar">
-                                                    <div className="w-16 rounded">
-                                                        <img src={blog.image_url} alt={`project-resim-${blog.id}`}/>
-                                                    </div>
-                                                </div>
+                                                <Avatar imageURL={blog.image_url}
+                                                        altContent={`project-resim-${blog.id}`} size={8} rounded="md"/>
                                             </>
                                         ) : (
                                             <>
                                             </>
                                         )}
                                     </td>
-                                    <td className="text-start">{blog.title}</td>
+                                    <td className="">{blog.title}</td>
                                     <td>{blog.read_time}</td>
                                     <td>{blog.user.name_surname}</td>
                                     <td>
                                         <i className={`text-xl fa-solid ${blog.status ? `fa-heart text-green-500` : `fa-heart-crack text-red-500`}`}></i>
                                     </td>
-                                    <td className="pt-3">
+                                    <td className="">
                                         <button
                                             type="button"
                                             title="Edit"
@@ -245,43 +243,41 @@ export default function Blogs() {
                                         </div>
 
                                         <div className="col-span-1">
-                                            <label htmlFor="authors">Yazar Seçin </label>
-                                            <select name="authors"
-                                                    id="authors"
-                                                    className="block rounded py-1.5 w-full bg-[#f1f1f1f1] dark:bg-[#394051] px-3 focus:bg-white
-                                                                dark:focus:bg-card_bg_dark transition-[background-color] outline-[#4b5563]"
-                                                    onChange={(e) => setModalData((prevState) => ({
-                                                        ...prevState,
-                                                        user_id: e.target.value
-                                                    }))}
-                                            >
-                                                <option value="-1">Seçiniz</option>
-                                                {authors.map(author => (
-                                                    <>
-                                                        <option selected={modalData.user_id === author.id}
-                                                                value={author.id}>{author.name_surname}</option>
-                                                    </>
-                                                ))}
-                                            </select>
-                                        </div>
-
-                                        <div className="col-span-1 mx-auto">
-                                            <ToggleInput
-                                                labelContent="Status"
-                                                isChecked={modalData.status}
-                                                onChange={handleToggleChange}
+                                            <CustomInput type="select" inputValue={(
+                                                <>
+                                                    <option value="-1">Seçiniz</option>
+                                                    {authors.map(author => (
+                                                        <>
+                                                            <option selected={modalData.user_id === author.id}
+                                                                    value={author.id}>{author.name_surname}</option>
+                                                        </>
+                                                    ))}
+                                                </>
+                                            )}
+                                                         labelContent="Yazar Seçin"
+                                                         inputID="authors"
+                                                         onInputChange={(e) => setModalData((prevState) => ({
+                                                             ...prevState,
+                                                             user_id: e.target.value
+                                                         }))}
                                             />
                                         </div>
 
+                                        <div className="col-span-1 mx-auto">
+                                            <CustomInput labelContent="Status" inputValue={modalData.status} onInputChange={handleToggleChange} type="radio"/>
+                                        </div>
+
                                         <div className="col-span-2">
-                                <textarea
-                                    className={"block rounded py-1.5 w-full bg-[#f1f1f1f1] dark:bg-[#394051] px-3 focus:bg-white dark:focus:bg-card_bg_dark transition-[background-color] outline-[#4b5563]"}
-                                    rows="7"
-                                    onChange={(e) => setModalData((prevState) => ({
-                                        ...prevState,
-                                        spot: e.target.value
-                                    }))}
-                                >{modalData.spot}</textarea>
+                                            <CustomInput
+                                                className={"block rounded py-1.5 w-full bg-[#f1f1f1f1] dark:bg-[#394051] px-3 focus:bg-white dark:focus:bg-card_bg_dark transition-[background-color] outline-[#4b5563]"}
+                                                rows="7"
+                                                onChange={(e) => setModalData((prevState) => ({
+                                                    ...prevState,
+                                                    spot: e.target.value
+                                                }))}
+                                                inputValue={modalData.spot}
+                                                type="textarea"
+                                            />
                                         </div>
                                     </div>
                                 </Modal>

@@ -24,7 +24,7 @@ export default function Modal({title, children, onClose, size, handleModalSubmit
             <div className="fixed inset-0 z-50 flex items-center justify-center ">
                 <div
                     className={classNames(
-                        "rounded-lg shadow-lg h-fit transform transition-all duration-300 bg-primary_bg_light text-zinc-900 dark:text-white dark:bg-card_bg_dark",
+                        "rounded-lg shadow-lg h-fit transform transition-all duration-300 bg-base-200",
                         {
                             "opacity-0 translate-y-8": !modalVisible,
                             "opacity-100 translate-y-0": modalVisible,

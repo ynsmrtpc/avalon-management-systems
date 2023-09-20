@@ -10,6 +10,7 @@ import CustomInput from "@/components/CustomInput/CustomInput";
 import ToggleInput from "@/components/ToggleInput/ToggleInput";
 import {fn_delete} from "@/utils/functions";
 import Loading from "@/components/Loading/Loading";
+import Avatar from "@/components/Avatar/Avatar";
 
 export default function Projects() {
     const router = useRouter()
@@ -124,14 +125,11 @@ export default function Projects() {
                             )}
                             tbodyContent={(
                                 projects.map((project, key) => (
-                                    <tr key={project.id} className="hover:bg-card_bg_dark">
-                                        <td className="p-4 text-left">{++key}</td>
-                                        <td className="p-4 text-center">
-                                            <div className="avatar">
-                                                <div className="w-16 rounded">
-                                                    <img src={project.image_url} alt={`project-resim-${project.id}`}/>
-                                                </div>
-                                            </div>
+                                    <tr key={project.id} className="hover:bg-base-200">
+                                        <td>{++key}</td>
+                                        <td>
+                                            <Avatar imageURL={project.image_url} size={8} rounded="md"
+                                                    altContent={`project-resim-${project.id}`}/>
                                         </td>
                                         <td className="p-4 text-left">{project.title}</td>
                                         <td className="p-4 hidden sm:block max-w-4xl ">{project.description}</td>
@@ -211,22 +209,35 @@ export default function Projects() {
                                         </div>
 
                                         <div className="col-span-1 mx-auto">
-                                            <ToggleInput
+                                            <CustomInput
                                                 labelContent="Status"
-                                                isChecked={modalData.status}
-                                                onChange={handleToggleChange}
+                                                inputValue={modalData.status}
+                                                onInputChange={handleToggleChange}
+                                                type="radio"
                                             />
+
                                         </div>
 
                                         <div className="col-span-2">
-                                            <textarea
+                                            {/*<textarea*/}
+                                            {/*    className={"block rounded py-1.5 w-full bg-[#f1f1f1f1] dark:bg-[#394051] px-3 focus:bg-white dark:focus:bg-card_bg_dark transition-[background-color] outline-[#4b5563]"}*/}
+                                            {/*    rows="4"*/}
+                                            {/*    onChange={(e) => setModalData((prevState) => ({*/}
+                                            {/*        ...prevState,*/}
+                                            {/*        description: e.target.value*/}
+                                            {/*    }))}*/}
+                                            {/*>{modalData.description}</textarea>*/}
+
+                                            <CustomInput
                                                 className={"block rounded py-1.5 w-full bg-[#f1f1f1f1] dark:bg-[#394051] px-3 focus:bg-white dark:focus:bg-card_bg_dark transition-[background-color] outline-[#4b5563]"}
-                                                rows="4"
+                                                rows="5"
                                                 onChange={(e) => setModalData((prevState) => ({
                                                     ...prevState,
                                                     description: e.target.value
                                                 }))}
-                                            >{modalData.description}</textarea>
+                                                inputValue={modalData.description}
+                                                type="textarea"
+                                            />
                                         </div>
                                     </div>
                                 </Modal>
