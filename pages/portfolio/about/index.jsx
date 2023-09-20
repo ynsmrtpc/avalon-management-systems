@@ -128,20 +128,6 @@ export default function About() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
             <div className="grid-cols-12 md:grid-cols-6">
               <Card cardTitle="Hakkında">
-                {/* <textarea
-                  name="about"
-                  id="about"
-                  rows="7"
-                  placeholder={aboutData.about}
-                  onChange={(e) =>
-                    setAboutData((prevState) => ({
-                      ...prevState,
-                      about: e.target.value,
-                    }))
-                  }
-                  className="block mt-4 rounded py-1.5 w-full bg-[#f1f1f1f1] dark:bg-[#394051] px-3 focus:bg-white dark:focus:bg-card_bg_dark transition-[background-color] outline-[#4b5563]"
-                ></textarea> */}
-
                 <CustomInput
                   type="textarea"
                   inputID="about"
@@ -165,15 +151,7 @@ export default function About() {
             </div>
 
             <div className="grid-cols-12 md:grid-cols-6">
-              <Card
-                cardTitle={
-                  <>
-                    <span className="flex justify-between">
-                      <span>Sosyal Medya</span>
-                    </span>
-                  </>
-                }
-              >
+              <Card cardTitle="Sosyal Medya">
                 <CustomInput
                   className="mt-3"
                   inputID="social_media"
@@ -204,11 +182,9 @@ export default function About() {
                         setSocialMediaSelected(social_media);
                       }}
                       className={classNames(
-                        "relative py-3 px-4 hover:bg-primary_logo_light rounded dark:hover:bg-primary_logo_dark mx-auto",
+                        "btn hover:bg-base-200 mx-auto relative",
                         {
-                          "dark:bg-primary_logo_dark":
-                            socialMediaSelected === social_media,
-                          "border-2 border-gray-600": socialData[social_media],
+                          "btn-neutral": socialMediaSelected === social_media
                         }
                       )}
                     >

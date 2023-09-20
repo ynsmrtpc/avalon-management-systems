@@ -4,13 +4,13 @@
 @tailwind components;
 @tailwind utilities;
 
+.card.image-full:before{
+    border-radius: unset !important;
+    @apply bg-base-300;
+}
 
 * {
     font-family: 'Chakra Petch', sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     @apply antialiased;
     scroll-behavior: smooth;
-}
-
-.active {
-    @apply bg-base-300;
 }
