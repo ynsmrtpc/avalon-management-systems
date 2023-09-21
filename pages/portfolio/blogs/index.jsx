@@ -145,7 +145,7 @@ export default function Blogs() {
                                         {blog.image_url !== 'null' ? (
                                             <>
                                                 <Avatar imageURL={blog.image_url}
-                                                        altContent={`project-resim-${blog.id}`} size={8} rounded="md"/>
+                                                        altContent={`project-resim-${blog.id}`} size="xs" rounded="md"/>
                                             </>
                                         ) : (
                                             <>
