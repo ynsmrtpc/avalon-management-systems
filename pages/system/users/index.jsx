@@ -8,8 +8,7 @@ import { useEffect, useState } from "react";
 
 export default function Users() {
   const router = useRouter();
-  const [users, setUSers] = useState([]);
-
+  const [users, setUsers] = useState([]);
   async function fetchData() {
     const formData = new FormData();
     formData.append("action", "get");
@@ -21,14 +20,13 @@ export default function Users() {
     });
 
     if (result) {
-      setUSers(result.data);
-      //   console.log(result.data);
+      setUsers(result.data);
     }
   }
 
   useEffect(() => {
     fetchData();
-  });
+  },[]);
 
   return (
     <HomeLayout>
