@@ -128,7 +128,7 @@ export default function Projects() {
                                     <tr key={project.id} className="hover:bg-base-200">
                                         <td>{++key}</td>
                                         <td>
-                                            <Avatar imageURL={project.image_url} size={8} rounded="md"
+                                            <Avatar imageURL={project.image_url} size="xs" rounded="md"
                                                     altContent={`project-resim-${project.id}`}/>
                                         </td>
                                         <td className="p-4 text-left">{project.title}</td>
