@@ -18,7 +18,8 @@ async function init_portfolio() {
         description: DataTypes.STRING,
         image_url: DataTypes.STRING,
         link: DataTypes.STRING,
-        status: DataTypes.INTEGER
+        status: DataTypes.INTEGER,
+        user_id: DataTypes.INTEGER
     }, {
         tableName: 'portfolio_projects',
         timestamps: false, // createdAt ve updatedAt sütunlarını devre dışı bırak

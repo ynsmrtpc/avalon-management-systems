@@ -1,4 +1,5 @@
 import init_portfolio from "@/pages/api/Models/PortfolioModel";
+import {getUserInfo} from "@/utils/getUserInfo";
 
 export default async function handler(req, res) {
     const {ProjectsModel} = await init_portfolio();
@@ -10,8 +11,8 @@ export default async function handler(req, res) {
         whereConditions.id = id;
     }
 
-const user_id = await getUserInfo(req, res);
-    
+    const userID = await getUserInfo(req);
+
     switch (process) {
         case "insert":
             await ProjectsModel.create({
@@ -20,7 +21,7 @@ const user_id = await getUserInfo(req, res);
                 description: data.description,
                 status: data.status,
                 link: data.link,
-                user_id: user_id
+                user_id: userID
             })
                 .then(() => res.status(200).json({error: 0, message: "Kayıt Başarılı"}))
                 .catch(err => res.status(500).json({error: 1, message: `Kayıt hatası: ${err}`}))
@@ -32,7 +33,8 @@ const user_id = await getUserInfo(req, res);
                     image_url: data.image_url,
                     description: data.description,
                     status: data.status,
-                    link: data.link
+                    link: data.link,
+                    user_id: userID
                 },
                 {
                     where: {
@@ -56,7 +58,9 @@ const user_id = await getUserInfo(req, res);
         case "get":
             ProjectsModel.findAll({
                 order: [['title', 'ASC']],
-                where: [whereConditions]
+                where: {
+                    user_id: userID
+                }
             })
                 .then(data => {
                     res.status(200).json(data);
