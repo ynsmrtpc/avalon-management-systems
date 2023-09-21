@@ -6,6 +6,8 @@ import axios from "axios";
 import {useRouter} from "next/router";
 import {useEffect, useState} from "react";
 import Loading from "@/components/Loading/Loading";
+import StatusControl from "@/components/StatusControl";
+import ActionButtons from "@/components/ActionButtons";
 
 export default function Users() {
     const router = useRouter();
@@ -53,7 +55,7 @@ export default function Users() {
                                 <th>Kullanıcı Adı</th>
                                 <th>E-posta</th>
                                 <th className="text-center">Durum</th>
-                                <th className="text-right">İşlem</th>
+                                <th className="text-center">İşlem</th>
                             </>
                         }
                         tbodyContent={users.map((user, key) => (
@@ -65,25 +67,8 @@ export default function Users() {
                                 <td>{user.name_surname}</td>
                                 <td>{user.username}</td>
                                 <td>{user.email}</td>
-                                <td className="text-center">
-                                    <i
-                                        className={`fa fa-${
-                                            user.status === 1
-                                                ? "heart text-success"
-                                                : "heart-crack text-error"
-                                        }`}
-                                    ></i>
-                                </td>
-                                <td className="flex justify-end">
-                                    <div className="grid grid-cols-2  gap-x-2">
-                                        <button className="btn btn-outline btn-success btn-xs col-span-1">
-                                            <i className="fa fa-edit"></i>
-                                        </button>
-                                        <button className="btn btn-outline btn-error btn-xs col-span-1">
-                                            <i className="fa fa-trash"></i>
-                                        </button>
-                                    </div>
-                                </td>
+                                <td className="text-center"><StatusControl status={user.status}/></td>
+                                <td className="w-24"> <ActionButtons deleteHandle="" editHandle="" /> </td>
                             </tr>
                         ))}
                     />

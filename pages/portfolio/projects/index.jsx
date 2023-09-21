@@ -11,6 +11,8 @@ import ToggleInput from "@/components/ToggleInput/ToggleInput";
 import {fn_delete} from "@/utils/functions";
 import Loading from "@/components/Loading/Loading";
 import Avatar from "@/components/Avatar/Avatar";
+import StatusControl from "@/components/StatusControl";
+import ActionButtons from "@/components/ActionButtons";
 
 export default function Projects() {
     const router = useRouter()
@@ -133,28 +135,12 @@ export default function Projects() {
                                         </td>
                                         <td className="p-4 text-left">{project.title}</td>
                                         <td className="p-4 hidden sm:block max-w-4xl ">{project.description}</td>
-                                        <td className="p-4 text-center"><i
-                                            className={`text-xl fa-solid ${project.status ? `fa-heart text-green-500` : `fa-heart-crack text-red-500`}`}></i>
-                                        </td>
-                                        <td className="text-right pt-3 pr-4">
-                                            <button
-                                                type="button"
-                                                title="Edit"
-                                                className="ml-2 border px-1.5 py-0.5 rounded hover:bg-gray-200"
-                                                onClick={() => {
-                                                    handleOpenModal(project.id)
-                                                }}
-                                            ><i
-                                                className="fa fa-edit text-green-500"></i>
-                                            </button>
-                                            <button
-                                                type="button"
-                                                title="Delete"
-                                                className="ml-2 border px-1.5 py-0.5 rounded hover:bg-gray-200"
-                                                onClick={() => handleDelete(project.id)}
-                                            >
-                                                <i className="fa fa-trash text-red-500"></i>
-                                            </button>
+                                        <td> <StatusControl status={project.status} /> </td>
+                                        <td className="w-24">
+                                            <ActionButtons
+                                                deleteHandle={() => handleDelete(project.id)}
+                                                editHandle={() => handleOpenModal(project.id)}
+                                            />
                                         </td>
                                     </tr>
                                 )))}
@@ -215,23 +201,13 @@ export default function Projects() {
                                                 onInputChange={handleToggleChange}
                                                 type="radio"
                                             />
-
                                         </div>
 
                                         <div className="col-span-2">
-                                            {/*<textarea*/}
-                                            {/*    className={"block rounded py-1.5 w-full bg-[#f1f1f1f1] dark:bg-[#394051] px-3 focus:bg-white dark:focus:bg-card_bg_dark transition-[background-color] outline-[#4b5563]"}*/}
-                                            {/*    rows="4"*/}
-                                            {/*    onChange={(e) => setModalData((prevState) => ({*/}
-                                            {/*        ...prevState,*/}
-                                            {/*        description: e.target.value*/}
-                                            {/*    }))}*/}
-                                            {/*>{modalData.description}</textarea>*/}
-
                                             <CustomInput
                                                 className={"block rounded py-1.5 w-full bg-[#f1f1f1f1] dark:bg-[#394051] px-3 focus:bg-white dark:focus:bg-card_bg_dark transition-[background-color] outline-[#4b5563]"}
                                                 rows="5"
-                                                onChange={(e) => setModalData((prevState) => ({
+                                                onInputChange={(e) => setModalData((prevState) => ({
                                                     ...prevState,
                                                     description: e.target.value
                                                 }))}

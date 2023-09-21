@@ -11,6 +11,8 @@ import ToggleInput from "@/components/ToggleInput/ToggleInput";
 import {fn_delete} from "@/utils/functions";
 import Loading from "@/components/Loading/Loading";
 import Avatar from "@/components/Avatar/Avatar";
+import ActionButtons from "@/components/ActionButtons";
+import StatusControl from "@/components/StatusControl";
 
 export default function Blogs() {
     const router = useRouter()
@@ -155,28 +157,12 @@ export default function Blogs() {
                                     <td className="">{blog.title}</td>
                                     <td>{blog.read_time}</td>
                                     <td>{blog.user.name_surname}</td>
-                                    <td>
-                                        <i className={`text-xl fa-solid ${blog.status ? `fa-heart text-green-500` : `fa-heart-crack text-red-500`}`}></i>
-                                    </td>
-                                    <td className="">
-                                        <button
-                                            type="button"
-                                            title="Edit"
-                                            className="ml-2 border px-1.5 py-0.5 rounded hover:bg-gray-200"
-                                            onClick={() => {
-                                                handleOpenModal(blog.id)
-                                            }}
-                                        ><i
-                                            className="fa fa-edit text-green-500"></i>
-                                        </button>
-                                        <button
-                                            type="button"
-                                            title="Delete"
-                                            className="ml-2 border px-1.5 py-0.5 rounded hover:bg-gray-200"
-                                            onClick={() => handleDelete(blog.id)}
-                                        >
-                                            <i className="fa fa-trash text-red-500"></i>
-                                        </button>
+                                    <td> <StatusControl status={blog.status} /> </td>
+                                    <td className="w-24">
+                                        <ActionButtons
+                                            deleteHandle={() => handleDelete(blog.id)}
+                                            editHandle={() => handleOpenModal(blog.id)}
+                                        />
                                     </td>
                                 </tr>
                             )))}
@@ -264,14 +250,15 @@ export default function Blogs() {
                                         </div>
 
                                         <div className="col-span-1 mx-auto">
-                                            <CustomInput labelContent="Status" inputValue={modalData.status} onInputChange={handleToggleChange} type="radio"/>
+                                            <CustomInput labelContent="Status" inputValue={modalData.status}
+                                                         onInputChange={handleToggleChange} type="radio"/>
                                         </div>
 
                                         <div className="col-span-2">
                                             <CustomInput
                                                 className={"block rounded py-1.5 w-full bg-[#f1f1f1f1] dark:bg-[#394051] px-3 focus:bg-white dark:focus:bg-card_bg_dark transition-[background-color] outline-[#4b5563]"}
                                                 rows="7"
-                                                onChange={(e) => setModalData((prevState) => ({
+                                                onInputChange={(e) => setModalData((prevState) => ({
                                                     ...prevState,
                                                     spot: e.target.value
                                                 }))}
