@@ -10,6 +10,8 @@ export default async function handler(req, res) {
         whereConditions.id = id;
     }
 
+const user_id = await getUserInfo(req, res);
+    
     switch (process) {
         case "insert":
             await ProjectsModel.create({
@@ -17,7 +19,8 @@ export default async function handler(req, res) {
                 image_url: data.image_url,
                 description: data.description,
                 status: data.status,
-                link: data.link
+                link: data.link,
+                user_id: user_id
             })
                 .then(() => res.status(200).json({error: 0, message: "Kayıt Başarılı"}))
                 .catch(err => res.status(500).json({error: 1, message: `Kayıt hatası: ${err}`}))
