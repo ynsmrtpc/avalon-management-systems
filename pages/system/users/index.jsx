@@ -5,10 +5,12 @@ import HomeLayout from "@/layouts/HomeLayout";
 import axios from "axios";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import Loading from "@/components/Loading/Loading";
 
 export default function Users() {
   const router = useRouter();
   const [users, setUsers] = useState([]);
+  const [loading,setLoading ] = useState(true);
   async function fetchData() {
     const formData = new FormData();
     formData.append("action", "get");
@@ -21,6 +23,7 @@ export default function Users() {
 
     if (result) {
       setUsers(result.data);
+      setLoading(false);
     }
   }
 
@@ -30,6 +33,10 @@ export default function Users() {
 
   return (
     <HomeLayout>
+        {loading && (
+            <Loading />
+        )}
+
       <div className="block md:flex justify-between items-center mb-10">
         <BreadCrumb path={router.pathname} />
         <button className="btn btn-success">Yeni Ekle</button>
