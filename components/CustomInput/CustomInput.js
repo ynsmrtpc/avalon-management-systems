@@ -27,8 +27,8 @@ export default function CustomInput({
                 required={isRequired}
                 rows={rows}
                 cols={cols}
+                value={inputValue}
             >
-              {inputValue}
             </textarea>
                     </div>
                 </>
@@ -50,7 +50,7 @@ export default function CustomInput({
             const [checked, setChecked] = useState(null);
             useEffect(() => {
                 setChecked(inputValue)
-            },[inputValue])
+            }, [inputValue])
             const handleToggleChange = () => {
                 const newChecked = !checked;
                 setChecked(newChecked);
@@ -62,7 +62,8 @@ export default function CustomInput({
                         <label className="label cursor-pointer mb-2.5" htmlFor={inputID}>
                             <span className="label-text">{labelContent}</span>
                         </label>
-                        <input type="checkbox" className="toggle" checked={inputValue} id={inputID}  onChange={handleToggleChange}/>
+                        <input type="checkbox" className="toggle" checked={inputValue} id={inputID}
+                               onChange={handleToggleChange}/>
                     </div>
                 </>
             )
@@ -86,7 +87,8 @@ export default function CustomInput({
                     <label className="label" htmlFor={inputID}>
                         <span className="label-text">{labelContent}</span>
                     </label>
-                    <select className={`select select-bordered ${className} text-base-content`} id={inputID}>
+                    <select onChange={onInputChange} className={`select select-bordered ${className} text-base-content`}
+                            id={inputID}>
                         {inputValue}
                     </select>
                 </div>

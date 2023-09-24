@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import Loading from "@/components/Loading/Loading";
 import StatusControl from "@/components/StatusControl";
 import ActionButtons from "@/components/ActionButtons";
+import getUserData from "@/utils/getUserData";
 
 export default function Users() {
   const router = useRouter();
@@ -84,4 +85,19 @@ export default function Users() {
       )}
     </HomeLayout>
   );
+}
+
+export async function getServerSideProps(context) {
+  const userData = await getUserData(context.req);
+  if (!userData) {
+    return {
+      redirect: {
+        destination: "/login",
+        permanent: false,
+      },
+    };
+  }
+  return {
+    props: {userData},
+  };
 }
