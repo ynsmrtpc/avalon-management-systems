@@ -1,12 +1,11 @@
-import Modal from "@/components/Modal/Modal";
 import CustomInput from "@/components/CustomInput/CustomInput";
 import {useState} from "react";
 import axios from "axios";
 import {destroyModal} from "@/utils/modal";
+import ModalSubmit from "@/components/Modal/ModalSubmit";
 
-export default function ProjectModal({content, info}) {
+export default function ProjectModal({content}) {
     const [modalData, setModalData] = useState([content][0]);
-
     const handleModalSubmit = () => {
         const formData = new FormData();
 
@@ -22,7 +21,6 @@ export default function ProjectModal({content, info}) {
             .catch(err => console.log(err))
             .finally(destroyModal)
     }
-
     const handleToggleChange = (newStatus) => {
         setModalData((prevState) => ({
             ...prevState,
@@ -31,14 +29,7 @@ export default function ProjectModal({content, info}) {
     };
 
     return (
-        <Modal
-            title={info.title}
-            onClose={destroyModal}
-            overlayBlur={true}
-            size={info.size}
-            buttonText={info.buttonText}
-            handleModalSubmit={handleModalSubmit}
-        >
+        <>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-5">
                 <div className="col-span-1">
                     <CustomInput
@@ -98,6 +89,7 @@ export default function ProjectModal({content, info}) {
                     />
                 </div>
             </div>
-        </Modal>
+            <ModalSubmit text="Kaydet" modalSubmit={handleModalSubmit}/>
+        </>
     )
 }

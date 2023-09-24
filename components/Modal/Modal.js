@@ -2,9 +2,8 @@ import React, {useEffect, useState} from "react";
 import classNames from "classnames";
 import {motion} from "framer-motion";
 
-export default function Modal({title, children, onClose, size, handleModalSubmit, buttonText}) {
+export default function Modal({title, children, onClose, size}) {
     const [modalVisible, setModalVisible] = useState(false);
-    const [textButton, setTextButton] = useState(buttonText);
 
     useEffect(() => {
         setModalVisible(true);
@@ -46,20 +45,12 @@ export default function Modal({title, children, onClose, size, handleModalSubmit
                     <div className="p-4 overflow-y-auto">{children}</div>
                     <div className="flex items-center justify-end p-4 border-t border-gray-200">
                         <button
-                            className="btn btn-outline w-24 mr-2"
+                            className="btn btn-outline w-24 mr-28"
                             onClick={handleCloseModal}
                         >
                             Kapat
                         </button>
-                        <button
-                            className="btn btn-success w-24"
-                            onClick={async () => {
-                                await setTextButton(<span className=" loading loading-spinner loading-xs"></span>);
-                                await handleModalSubmit();
-                            }}
-                        >
-                            {textButton}
-                        </button>
+
                     </div>
                 </div>
             </div>

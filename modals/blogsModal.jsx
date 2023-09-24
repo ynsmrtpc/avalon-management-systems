@@ -3,6 +3,7 @@ import CustomInput from "@/components/CustomInput/CustomInput";
 import React, {useEffect, useState} from "react";
 import axios from "axios";
 import {destroyModal} from "@/utils/modal";
+import ModalSubmit from "@/components/Modal/ModalSubmit";
 
 export default function BlogsModal({content, info}) {
     const [authors, setAuthors] = useState([]);
@@ -45,14 +46,7 @@ export default function BlogsModal({content, info}) {
     }
 
     return (
-        <Modal
-            title={info.title}
-            onClose={destroyModal}
-            overlayBlur={true}
-            size={info.size}
-            buttonText={info.buttonText}
-            handleModalSubmit={handleModalSubmit}
-        >
+        <>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-5">
                 <div className="col-span-1">
                     <CustomInput
@@ -141,6 +135,7 @@ export default function BlogsModal({content, info}) {
                     />
                 </div>
             </div>
-        </Modal>
+            <ModalSubmit text="Kaydet" modalSubmit={handleModalSubmit}/>
+        </>
     )
 }

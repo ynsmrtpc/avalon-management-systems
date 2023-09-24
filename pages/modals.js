@@ -2,6 +2,7 @@ import ExerciseModal from "@/modals/exercise/exerciseModal";
 import ExerciseModal2 from "@/modals/exercise/exerciseModal2";
 import BlogsModals from "@/modals/blogsModal";
 import ProjectModal from "@/modals/projectModal";
+import UsersModal from "@/modals/usersModal";
 
 const modals = [
     {
@@ -25,6 +26,13 @@ const modals = [
         size: "lg",
         buttonText: "Kaydet",
         element: ProjectModal,
+    },
+    {
+        name: "usersModal",
+        title: "Kullanıcı Ekle / Düzenle",
+        size: "lg",
+        buttonText: "Kaydet",
+        element: UsersModal,
     },
 ];
 
