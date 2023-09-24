@@ -1,11 +1,10 @@
-import Modal from "@/components/Modal/Modal";
 import CustomInput from "@/components/CustomInput/CustomInput";
 import React, {useEffect, useState} from "react";
 import axios from "axios";
 import {destroyModal} from "@/utils/modal";
 import ModalSubmit from "@/components/Modal/ModalSubmit";
 
-export default function BlogsModal({content, info}) {
+export default function BlogsModal({content}) {
     const [authors, setAuthors] = useState([]);
     const [modalData, setModalData] = useState([content][0]);
 
