@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from "react";
 import classNames from "classnames";
 import {motion} from "framer-motion";
-import Loading from "@/components/Loading/Loading";
 
 export default function Modal({title, children, onClose, size, handleModalSubmit, buttonText}) {
     const [modalVisible, setModalVisible] = useState(false);

@@ -1,6 +1,6 @@
 import Modal from "@/components/Modal/Modal";
 import CustomInput from "@/components/CustomInput/CustomInput";
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import axios from "axios";
 import {destroyModal} from "@/utils/modal";
 

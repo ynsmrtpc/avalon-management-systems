@@ -33,7 +33,6 @@ export default function CustomInput({
                     </div>
                 </>
             );
-            break;
 
         case "checkbox":
             return (
@@ -44,7 +43,6 @@ export default function CustomInput({
                     </label>
                 </div>
             )
-            break;
 
         case "radio":
             const [checked, setChecked] = useState(null);
@@ -67,7 +65,6 @@ export default function CustomInput({
                     </div>
                 </>
             )
-            break;
 
         case "file":
             return (
@@ -78,8 +75,7 @@ export default function CustomInput({
                     <input type="file"
                            className={`file-input file-input-bordered text-base-content file-input-${className} w-full max-w-xs`}/>
                 </div>
-            );
-            break;
+            )
 
         case "select":
             return (
@@ -93,7 +89,6 @@ export default function CustomInput({
                     </select>
                 </div>
             )
-            break;
 
         default:
             return (
@@ -115,7 +110,6 @@ export default function CustomInput({
                     </div>
                 </>
             );
-            break;
     }
 }
 
