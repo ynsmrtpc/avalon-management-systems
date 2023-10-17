@@ -1,7 +1,0 @@
-[[headers]]
-for = "/*"
-[headers.values]
-Access-Control-Allow-Origin = "*"
-
-[dev]
-targetPort = 3000

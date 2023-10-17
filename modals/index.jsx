@@ -1,5 +1,5 @@
-import modalData from "@/pages/modals";
-import {destroyModal, useModals} from "@/utils/modal";
+import modalData from "@/utils/modals";
+import { destroyModal, useModals } from "@/utils/modal";
 import ModalComponent from "@/components/Modal/Modal";
 
 export default function Modal() {
@@ -14,7 +14,7 @@ export default function Modal() {
                     overlayBlur={true}
                     size={m.size}
                 >
-                    <m.element content={modal.data}/>
+                    <m.element content={modal.data} />
                 </ModalComponent>
             )
         })

@@ -4,7 +4,7 @@ import BlogsModals from "@/modals/blogsModal";
 import ProjectModal from "@/modals/projectModal";
 import UsersModal from "@/modals/usersModal";
 
-const modals = [
+const modalData = [
     {
         name: "exerciseModal",
         element: ExerciseModal,
@@ -36,4 +36,4 @@ const modals = [
     },
 ];
 
-export default modals;
+export default modalData;
